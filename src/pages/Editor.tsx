@@ -8,6 +8,8 @@ import {
   Download,
   Maximize2,
 } from "lucide-react"
+import SlideCanvas from "@/components/slideCanvas"
+import { testExport } from "@/scratch/testExport"
 
 const MOCK_SLIDES = Array.from({ length: 12 }, (_, i) => i + 1)
 
@@ -44,6 +46,7 @@ export default function Editor() {
             </button>
             <button
               type="button"
+              onClick={testExport}
               className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 font-sans text-[0.75rem] font-medium text-primary-foreground shadow-[0_0_0_1px_var(--primary)] transition-all duration-200 hover:bg-primary/90 hover:shadow-cta"
             >
               <Download className="size-3" />
@@ -86,24 +89,7 @@ export default function Editor() {
           {/* Slide canvas */}
           <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
             <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[960px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
-              {/* Subtle grid pattern on canvas */}
-              <div
-                className="pointer-events-none absolute inset-0 rounded-2xl opacity-[0.025]"
-                style={{
-                  backgroundImage: 'linear-gradient(rgba(20,20,19,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(20,20,19,0.3) 1px, transparent 1px)',
-                  backgroundSize: '24px 24px',
-                }}
-              />
-
-              <div className="relative mb-4 flex size-16 items-center justify-center rounded-2xl bg-background ring-1 ring-border-warm">
-                <Monitor className="size-7 text-ring-deep" />
-              </div>
-              <p className="font-sans text-[0.9375rem] text-stone-gray">
-                幻灯片预览区域
-              </p>
-              <p className="mt-1.5 font-sans text-[0.75rem] text-ring-deep">
-                PPT 内容将在此处展示
-              </p>
+              <SlideCanvas/>
             </div>
           </div>
 
