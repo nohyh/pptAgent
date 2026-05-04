@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import{useState}from 'react'
 import {
   ArrowLeft,
   ChevronLeft,
@@ -8,13 +9,15 @@ import {
   Download,
   Maximize2,
 } from "lucide-react"
+import {usePresentationStore} from "@/stores/presentationStore"
 import SlideCanvas from "@/components/slideCanvas"
-import { testExport } from "@/scratch/testExport"
-
-const MOCK_SLIDES = Array.from({ length: 12 }, (_, i) => i + 1)
-
+import { exportPresentation } from "@/scratch/exportPresentation"
 export default function Editor() {
-  const navigate = useNavigate()
+  const [slidesIndex, setSlideIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const presentation = usePresentationStore((state) => state.presentation);
+  const slides = presentation?.slides || [];
 
   return (
     <main className="flex h-screen flex-col bg-background text-foreground">
@@ -46,7 +49,7 @@ export default function Editor() {
             </button>
             <button
               type="button"
-              onClick={testExport}
+              onClick={exportPresentation}
               className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 font-sans text-[0.75rem] font-medium text-primary-foreground shadow-[0_0_0_1px_var(--primary)] transition-all duration-200 hover:bg-primary/90 hover:shadow-cta"
             >
               <Download className="size-3" />
@@ -59,24 +62,22 @@ export default function Editor() {
       {/* Main content: Thumbnails + PPT area + Chat panel */}
       <div className="flex min-h-0 flex-1">
         {/* Left: Slide thumbnail strip */}
-        <nav className="hidden w-[88px] shrink-0 flex-col border-r border-border bg-ivory/50 lg:flex">
-          <div className="flex-1 overflow-y-auto px-2.5 py-3">
+        <nav className="hidden w-52 shrink-0 flex-col border-r border-border bg-ivory/50 lg:flex">
+          <div className="flex-1 overflow-y-auto px-4 py-4">
             <div className="space-y-2">
-              {MOCK_SLIDES.map((n) => (
+              {slides.map((slide, index) => (
                 <button
-                  key={n}
+                  key={slide.id}
                   type="button"
-                  className={`group relative w-full rounded-lg transition-all duration-200 ${
-                    n === 1
+                  onClick={() => setSlideIndex(index)}
+                  className={`group relative w-full overflow-hidden rounded-lg transition-all duration-200 ${
+                    slidesIndex === index
                       ? "shadow-[0_0_0_2px_var(--primary)]"
                       : "shadow-[0_0_0_1px_rgba(209,207,197,0.35)] hover:shadow-[0_0_0_1px_rgba(209,207,197,0.7)]"
                   }`}
                 >
-                  {/* Slide thumbnail placeholder */}
-                  <div className="flex aspect-[16/9] w-full items-center justify-center rounded-lg bg-ivory">
-                    <span className={`font-sans text-[0.5625rem] tabular-nums ${n === 1 ? 'font-semibold text-primary' : 'text-warm-silver'}`}>
-                      {n}
-                    </span>
+                  <div className="pointer-events-none flex aspect-[16/9] w-full items-center justify-center bg-ivory">
+                    <SlideCanvas slide={slide}/>
                   </div>
                 </button>
               ))}
@@ -86,10 +87,11 @@ export default function Editor() {
 
         {/* Center: PPT display area */}
         <section className="relative flex min-w-0 flex-1 flex-col">
+          {selectedId}
           {/* Slide canvas */}
           <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
             <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[960px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
-              <SlideCanvas/>
+              <SlideCanvas slide={slides[slidesIndex]}  setSelectedId={setSelectedId} selectedId = {selectedId} />
             </div>
           </div>
 
@@ -99,21 +101,23 @@ export default function Editor() {
               <button
                 type="button"
                 className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
-                disabled
+                onClick={()=>setSlideIndex((pre)=>pre-1)}
+                disabled = {slidesIndex===0}
               >
                 <ChevronLeft className="size-4" />
               </button>
 
               <span className="min-w-[64px] text-center font-sans text-[0.75rem] tabular-nums text-stone-gray">
-                <span className="font-medium text-foreground">1</span>
+                <span className="font-medium text-foreground">{slidesIndex+1}</span>
                 <span className="mx-1 text-ring">/</span>
-                <span>12</span>
+                <span>{slides.length}</span>
               </span>
 
               <button
                 type="button"
                 className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
-                disabled
+                onClick={()=>setSlideIndex((pre)=>pre+1)}
+                disabled ={slidesIndex ===slides.length-1}
               >
                 <ChevronRight className="size-4" />
               </button>
@@ -123,19 +127,6 @@ export default function Editor() {
 
         {/* Right: AI Chat panel */}
         <aside className="flex w-[340px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[380px]">
-          {/* Chat header */}
-          <div className="shrink-0 border-b border-border px-5 py-3.5">
-            <div className="flex items-center gap-2.5">
-              <div>
-                <p className="font-heading text-[0.875rem] font-medium leading-tight text-foreground">
-                  AI 助手
-                </p>
-                <p className="font-sans text-[0.6875rem] text-warm-silver">
-                  协作编辑 PPT
-                </p>
-              </div>
-            </div>
-          </div>
 
           {/* Chat messages area */}
           <div className="flex-1 overflow-y-auto px-5 py-6">
