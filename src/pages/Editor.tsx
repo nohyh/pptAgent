@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom"
-import{useState}from 'react'
+import{useEffect, useState}from 'react'
 import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
-  Monitor,
   Send,
   Download,
   Maximize2,
@@ -12,13 +11,17 @@ import {
 import {usePresentationStore} from "@/stores/presentationStore"
 import SlideCanvas from "@/components/slideCanvas"
 import { exportPresentation } from "@/scratch/exportPresentation"
+import {EditorDialog} from "@/pages/EditorDialog"
 export default function Editor() {
   const [slidesIndex, setSlideIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
   const presentation = usePresentationStore((state) => state.presentation);
   const slides = presentation?.slides || [];
-
+  const selectedElement = slides?.[slidesIndex].elements.find(e=>e.id===selectedId)
+  useEffect(()=>{
+    setSelectedId(null);
+  },[slidesIndex])//在切换幻灯片时取消选定
   return (
     <main className="flex h-screen flex-col bg-background text-foreground">
       {/* Top bar */}
@@ -87,7 +90,6 @@ export default function Editor() {
 
         {/* Center: PPT display area */}
         <section className="relative flex min-w-0 flex-1 flex-col">
-          {selectedId}
           {/* Slide canvas */}
           <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
             <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[960px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
@@ -125,42 +127,14 @@ export default function Editor() {
           </div>
         </section>
 
-        {/* Right: AI Chat panel */}
+        {/* Right: Properties panel */}
         <aside className="flex w-[340px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[380px]">
-
-          {/* Chat messages area */}
-          <div className="flex-1 overflow-y-auto px-5 py-6">
-            <div className="flex flex-col items-center justify-center pt-16">
-              {/* Empty state illustration */}
-              <div className="mb-5 flex size-14 items-center justify-center rounded-2xl bg-background ring-1 ring-border-warm">
-                <Send className="size-5 -rotate-45 text-ring" />
-              </div>
-              <p className="font-heading text-[0.9375rem] font-medium text-charcoal-warm">
-                开始协作
-              </p>
-              <p className="mt-1.5 max-w-[200px] text-center font-sans text-[0.8125rem] leading-relaxed text-warm-silver">
-                发送消息，让 AI 帮你修改和完善幻灯片
-              </p>
-
-              {/* Quick action chips */}
-              <div className="mt-6 flex flex-wrap justify-center gap-1.5">
-                {["优化排版", "精简文字", "添加数据图", "调整配色"].map(
-                  (label) => (
-                    <button
-                      key={label}
-                      type="button"
-                      className="rounded-lg border border-border bg-ivory px-2.5 py-1 font-sans text-[0.6875rem] text-stone-gray shadow-[0px_0px_0px_1px_rgba(209,207,197,0.15)] transition-all duration-200 hover:border-border-warm hover:text-olive-gray hover:shadow-[0px_0px_0px_1px_rgba(209,207,197,0.4)]"
-                      disabled
-                    >
-                      {label}
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
+          {/* Properties area */}
+          <div className="flex-1 overflow-y-auto px-5 py-5">
+            <EditorDialog selectedElement={selectedElement} slideId={slides[slidesIndex].id} />
           </div>
 
-          {/* Chat input bar */}
+          {/* AI Chat input bar (bottom) */}
           <div className="shrink-0 border-t border-border p-4">
             <div className="flex items-center gap-2 rounded-xl border border-border bg-background p-2 shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-shadow duration-200 focus-within:border-border-warm focus-within:shadow-[0px_0px_0px_1px_rgba(209,207,197,0.5)]">
               <input
