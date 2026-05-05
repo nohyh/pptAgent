@@ -3,12 +3,14 @@ import { create } from "zustand";
 import { mockPresentation} from  "@/mock/presentationData"
 interface PresentationState {
   presentation: Presentation | null;
-  
+
   setPresentation: (data: Presentation) => void;
-  
+
   setTitle: (newTitle: string) => void;
 
   updateElement :(slideId:string,elementId:string,updates:any)=>void;
+  deleteElement: (slideId: string, elementId: string) => void;
+  moveElement: (slideId: string, elementId: string, direction: "up" | "down") => void;
 }
 const usePresentationStore =  create<PresentationState>((set)=>({
     presentation :mockPresentation,
@@ -27,7 +29,7 @@ const usePresentationStore =  create<PresentationState>((set)=>({
     }),
 
     updateElement:(slideId,elementId,updates)=>set((state)=>{
-        if (!state.presentation) return state; 
+        if (!state.presentation) return state;
         return{
             presentation:{
                 ...state.presentation,
@@ -42,7 +44,43 @@ const usePresentationStore =  create<PresentationState>((set)=>({
                 }})
             }
         }
-    })
+    }),
+
+    deleteElement:(slideId,elementId)=>set((state)=>{
+        if (!state.presentation) return state;
+        return{
+            presentation:{
+                ...state.presentation,
+                slides: state.presentation.slides.map((slide)=>{
+                    if(slide.id!==slideId) return slide;
+                return {
+                    ...slide,
+                    elements:slide.elements.filter((el)=>el.id!==elementId)
+                }})
+            }
+        }
+    }),
+
+    moveElement:(slideId,elementId,direction)=>set((state)=>{
+        if (!state.presentation) return state;
+        return{
+            presentation:{
+                ...state.presentation,
+                slides: state.presentation.slides.map((slide)=>{
+                    if(slide.id!==slideId) return slide;
+                const idx = slide.elements.findIndex((el)=>el.id===elementId);
+                if (idx === -1) return slide;
+                const newIdx = direction === "up" ? idx + 1 : idx - 1;
+                if (newIdx < 0 || newIdx >= slide.elements.length) return slide;
+                const elements = [...slide.elements];
+                [elements[idx], elements[newIdx]] = [elements[newIdx], elements[idx]];
+                return {
+                    ...slide,
+                    elements
+                }})
+            }
+        }
+    }),
 }))
 
-export{usePresentationStore} 
+export{usePresentationStore}

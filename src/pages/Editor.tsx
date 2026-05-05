@@ -89,7 +89,7 @@ export default function Editor() {
         </nav>
 
         {/* Center: PPT display area */}
-        <section className="relative flex min-w-0 flex-1 flex-col">
+        <section onClick={() => setSelectedId?.(null)}  className="relative flex min-w-0 flex-1 flex-col">
           {/* Slide canvas */}
           <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
             <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[960px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">

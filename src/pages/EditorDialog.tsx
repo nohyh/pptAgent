@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import { usePresentationStore } from "@/stores/presentationStore"
 import type { SlideElement, TextElement, ImageElement, BlockElement } from "@/types/presentation"
 import {
@@ -11,6 +12,11 @@ import {
   Palette,
   Move,
   Maximize2,
+  Upload,
+  ArrowUp,
+  ArrowDown,
+  Trash2,
+  Layers,
 } from "lucide-react"
 
 interface EditorDialogProps {
@@ -190,53 +196,61 @@ const ImagePanel = ({
   element: ImageElement
   slideId: string
   updateElement: (slideId: string, elementId: string, updates: any) => void
-}) => (
-  <div className="space-y-5">
-    <div className="space-y-2">
-      <div className="flex items-center gap-2 text-stone-gray">
-        <Image className="size-3.5" />
-        <span className="font-sans text-[0.6875rem] font-medium uppercase tracking-wide">
-          图片
-        </span>
-      </div>
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-      {/* 预览 */}
-      <div className="overflow-hidden rounded-lg border border-border">
-        <img
-          src={element.src}
-          alt={element.alt || ""}
-          className="aspect-video w-full object-cover"
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        updateElement(slideId, element.id, { src: reader.result })
+      }
+    }
+    reader.readAsDataURL(file)
+    // 清空 value 以便重复选择同一文件
+    e.target.value = ''
+  }
+
+  return (
+    <div className="space-y-5">
+      {/* 替换图片按钮 */}
+      <div className="space-y-1">
+        <span className="font-sans text-[0.6875rem] text-warm-silver">替换图片</span>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          className="hidden"
         />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-background px-3 py-2 font-sans text-[0.8125rem] text-olive-gray transition-all duration-200 hover:border-border-warm hover:bg-border-warm hover:text-foreground"
+        >
+          <Upload className="size-3.5" />
+          从本地选择图片
+        </button>
       </div>
+
+      {/* Alt 文本 */}
+      <label className="flex flex-col gap-1">
+        <span className="font-sans text-[0.6875rem] text-warm-silver">替代文本</span>
+        <input
+          type="text"
+          value={element.alt || ""}
+          onChange={(e) =>
+            updateElement(slideId, element.id, { alt: e.target.value || undefined })
+          }
+          className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
+          placeholder="图片描述..."
+        />
+      </label>
     </div>
-
-    {/* 图片地址 */}
-    <label className="flex flex-col gap-1">
-      <span className="font-sans text-[0.6875rem] text-warm-silver">图片地址</span>
-      <input
-        type="text"
-        value={element.src}
-        onChange={(e) => updateElement(slideId, element.id, { src: e.target.value })}
-        className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
-        placeholder="https://..."
-      />
-    </label>
-
-    {/* Alt 文本 */}
-    <label className="flex flex-col gap-1">
-      <span className="font-sans text-[0.6875rem] text-warm-silver">替代文本</span>
-      <input
-        type="text"
-        value={element.alt || ""}
-        onChange={(e) =>
-          updateElement(slideId, element.id, { alt: e.target.value || undefined })
-        }
-        className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
-        placeholder="图片描述..."
-      />
-    </label>
-  </div>
-)
+  )
+}
 
 // ─── 形状属性面板 ───────────────────────────────────
 const BlockPanel = ({
@@ -341,6 +355,8 @@ const BlockPanel = ({
 // ─── 主组件 ─────────────────────────────────────────
 const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
   const updateElement = usePresentationStore((state) => state.updateElement);
+  const deleteElement = usePresentationStore((state) => state.deleteElement);
+  const moveElement = usePresentationStore((state) => state.moveElement);
 
   if (!selectedElement) {
     return (
@@ -388,6 +404,37 @@ const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
       {/* 分隔线 */}
       <div className="border-t border-border" />
 
+      {/* 层级控制 */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-2 text-stone-gray">
+          <Layers className="size-3.5" />
+          <span className="font-sans text-[0.6875rem] font-medium uppercase tracking-wide">
+            层级
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => moveElement(slideId, selectedElement.id, "up")}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 font-sans text-[0.75rem] text-olive-gray transition-all duration-200 hover:border-border-warm hover:bg-border-warm hover:text-foreground"
+          >
+            <ArrowUp className="size-3.5" />
+            上移一层
+          </button>
+          <button
+            type="button"
+            onClick={() => moveElement(slideId, selectedElement.id, "down")}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 font-sans text-[0.75rem] text-olive-gray transition-all duration-200 hover:border-border-warm hover:bg-border-warm hover:text-foreground"
+          >
+            <ArrowDown className="size-3.5" />
+            下移一层
+          </button>
+        </div>
+      </div>
+
+      {/* 分隔线 */}
+      <div className="border-t border-border" />
+
       {/* 类型专属面板 */}
       {selectedElement.type === "text" && (
         <TextPanel element={selectedElement} slideId={slideId} updateElement={updateElement} />
@@ -398,6 +445,21 @@ const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
       {selectedElement.type === "block" && (
         <BlockPanel element={selectedElement} slideId={slideId} updateElement={updateElement} />
       )}
+
+      {/* 分隔线 */}
+      <div className="border-t border-border" />
+
+      {/* 删除元素 */}
+      <button
+        type="button"
+        onClick={() => {
+          deleteElement(slideId, selectedElement.id)
+        }}
+        className="flex w-full items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 font-sans text-[0.8125rem] text-red-600 transition-all duration-200 hover:bg-red-100 hover:border-red-300"
+      >
+        <Trash2 className="size-3.5" />
+        删除元素
+      </button>
     </div>
   )
 }

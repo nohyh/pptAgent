@@ -96,6 +96,7 @@ These rules apply to Codex, Claude Code, and other AI coding agents working on t
 - Match the existing project style.
 - Remove only unused code created by your own changes.
 - Do not treat draft schema fields as final unless the task explicitly says the schema is finalized.
+- **Strictly limit changes to what was requested.** Do not rename variables, extract helper functions, add CSS classes, change indentation, or make any other "cleanup" changes unless they are directly required by the requested feature. Every extra change makes code review harder — the reviewer cannot distinguish intentional changes from accidental ones.
 
 ### Goal-Driven Execution
 
