@@ -28,7 +28,7 @@ Before coding, read only the docs relevant to the task.
 
 - Product roadmap or phase planning: read `docs/roadmap.md`.
 - Overall architecture decisions: read `docs/architecture.md`.
-- UI or styling work: read `docs/design.md` if it exists; otherwise follow the Design Direction below.
+- UI or styling work: read `design` if it exists; otherwise follow the Design Direction below.
 Always follow this `AGENTS.md` first. Detailed docs provide context, but current phase boundaries still apply.
 
 ## Architecture Rules
