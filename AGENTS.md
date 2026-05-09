@@ -93,18 +93,20 @@ Example:
 - You can check the progress of your last task by viewing the git commit history.
 ## Commands
 
-Frontend:
+Frontend (run from `frontend/`):
 
 ```bash
+cd frontend
 npm install
 npm run dev
 npm run build
 npm run lint
 ```
 
-Backend,
+Backend (run from `backend/`):
 
 ```bash
+cd backend
 uvicorn app.main:app --reload
 pytest
 alembic upgrade head

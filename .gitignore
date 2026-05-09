@@ -36,6 +36,13 @@ tmp/
 temp/
 *.local
 
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
 # Editor and OS files
 .vscode/*
 !.vscode/extensions.json
