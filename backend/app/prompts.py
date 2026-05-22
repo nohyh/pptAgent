@@ -1,0 +1,6 @@
+
+outlinePrompt = """
+   xxxx
+   xxx
+   xxx
+"""
