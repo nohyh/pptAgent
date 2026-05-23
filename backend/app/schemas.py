@@ -54,9 +54,15 @@ class Presentation(BaseModel):
     theme: str
     slides: List[Slide]
 
+class OutlineSection(BaseModel):
+    id: str
+    title: str
+    content: str
+
+
 class OutlineResponse(BaseModel):
     title: str = Field(min_length=1,max_length=20)
-    sections: List[str] = Field(min_length=1,max_length=50)
+    sections: List[OutlineSection] = Field(min_length=1,max_length=50)
 
 
 class PptRequest(BaseModel):

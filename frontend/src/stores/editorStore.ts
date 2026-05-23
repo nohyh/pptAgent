@@ -1,5 +1,7 @@
 import { create } from "zustand"
 import  { DEFAULT_SECTIONS } from "@/data/mockOutline"
+import  apiClient from "@/api/apiClient"
+
 export interface OutlineSection {
   id: string
   title: string
@@ -68,11 +70,12 @@ export const useEditorStore = create<EditorState>((set) => ({
   setPageCount: (count) => set({ pageCount: count }),
   setVerbosity: (v) => set({ verbosity: v }),
 
-  generateOutline: (prompt) => {
+  generateOutline: async (prompt) => {
+    const res = await apiClient.post("/generateOutline",{prompt})
     set({
       prompt,
-      title: prompt || "未命名演示文稿",
-      sections: DEFAULT_SECTIONS.map((s) => ({ ...s, id: uid() })),
+      title: res.data.title || "未命名演示文稿",
+      sections: res.data.sections
     })
   },
 }))
