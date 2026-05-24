@@ -70,10 +70,9 @@ class PptRequest(BaseModel):
     title: str
     layout: Literal["16x9", "4x3"]
     theme: str 
-    sections: List[str]
+    sections: List[OutlineSection]
     pageCount: int
-    verbosity: int
+    verbosity: str
 
 class PptResponse(BaseModel):
     presentation: Presentation
-    

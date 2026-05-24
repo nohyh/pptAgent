@@ -71,11 +71,17 @@ export const useEditorStore = create<EditorState>((set) => ({
   setVerbosity: (v) => set({ verbosity: v }),
 
   generateOutline: async (prompt) => {
-    const res = await apiClient.post("/generateOutline",{prompt})
+    /*const res = await apiClient.post("/generateOutline",{prompt})
     set({
       prompt,
       title: res.data.title || "未命名演示文稿",
       sections: res.data.sections
+    })
+    */
+    set({
+      prompt,
+      title: "未命名演示文稿",
+      sections: DEFAULT_SECTIONS.map((s)=>({...s,id:uid()}))
     })
   },
 }))

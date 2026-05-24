@@ -7,7 +7,9 @@ import {
   GripVertical,
 } from "lucide-react"
 import { useEditorStore, type Verbosity } from "@/stores/editorStore"
+import { usePresentationStore } from "@/stores/presentationStore"
 
+const generatePresentation = usePresentationStore.getState().generatePresentation
 const STYLES = [
   {
     id: "warm-editorial",
@@ -48,6 +50,11 @@ export default function Outline() {
 
   const handlePageChange = (delta: number) => {
     setPageCount(clampPageCount(pageCount + delta, minPages))
+  }
+
+  const handleGenerate = async () => {
+    await generatePresentation()
+    navigate('/editor')
   }
 
   return (
@@ -94,7 +101,7 @@ export default function Outline() {
             {sections.map((section, i) => (
               <li
                 key={section.id}
-                className="group relative rounded-2xl border border-border bg-ivory p-5 shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-all duration-300 hover:border-border-warm hover:shadow-card"
+                className="group relative rounded-2xl border border-border bg-ivory py-8 px-5 shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-all duration-300 hover:border-border-warm hover:shadow-card"
                 style={{ animationDelay: `${i * 0.04}s` }}
               >
                 {/* Drag handle hint */}
@@ -137,7 +144,7 @@ export default function Outline() {
                     onChange={(e) =>
                       updateSection(section.id, { content: e.target.value })
                     }
-                    rows={2}
+                    rows={4}
                     placeholder="章节描述"
                   />
                 </div>
@@ -342,7 +349,7 @@ export default function Outline() {
             <button
               type="button"
               className="group flex w-full items-center justify-center gap-2.5 rounded-full bg-neutral-900 px-6 py-3.5 font-sans text-[0.9375rem] font-medium text-[#F5F0E8] shadow-lg transition-all duration-300 hover:bg-neutral-800 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 active:translate-y-px"
-              onClick={() => navigate("/editor")}
+              onClick={handleGenerate}
             >
               生成 PPT
             </button>
@@ -355,7 +362,7 @@ export default function Outline() {
         <button
           type="button"
           className="flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 font-sans text-[0.9375rem] font-medium text-[#F5F0E8] shadow-lg transition-all hover:bg-neutral-800"
-          onClick={() => navigate("/editor")}
+          onClick={handleGenerate}
         >
           生成 PPT
         </button>

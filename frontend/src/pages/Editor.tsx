@@ -81,7 +81,7 @@ export default function Editor() {
                 >
                   <div className="pointer-events-none flex aspect-[16/9] w-full items-center justify-center bg-ivory">
                     <SlideCanvas slide={slide}/>
-                  </div>
+                  </div>  
                 </button>
               ))}
             </div>

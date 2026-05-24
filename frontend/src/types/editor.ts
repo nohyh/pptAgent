@@ -1,4 +1,4 @@
-import {Slide} from "@/types/presentation"
+import type  {Slide} from "@/types/presentation"
 export interface SlideCanvasProps{
     slide: Slide;
     selectedId?:string|null;

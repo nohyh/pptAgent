@@ -1,6 +1,8 @@
 import type { Presentation } from "@/types/presentation";
 import { create } from "zustand";
 import { mockPresentation} from  "@/mock/presentationData"
+import { useEditorStore, type EditorState } from "./editorStore";
+import apiClient from "@/api/apiClient";
 interface PresentationState {
   presentation: Presentation | null;
 
@@ -11,6 +13,8 @@ interface PresentationState {
   updateElement :(slideId:string,elementId:string,updates:any)=>void;
   deleteElement: (slideId: string, elementId: string) => void;
   moveElement: (slideId: string, elementId: string, direction: "up" | "down") => void;
+
+  generatePresentation: () => Promise<void>
 }
 const usePresentationStore =  create<PresentationState>((set)=>({
     presentation :mockPresentation,
@@ -81,6 +85,22 @@ const usePresentationStore =  create<PresentationState>((set)=>({
             }
         }
     }),
+
+    generatePresentation: async()=>{
+        const {prompt,title,sections,style,pageCount,verbosity}=useEditorStore.getState()
+        const res = await apiClient.post("/generatePpt",{
+            prompt,
+            layout:"16x9",
+            theme:style,
+            title,
+            sections,
+            pageCount,
+            verbosity
+        })
+        set({
+            presentation: res.data
+        })
+    }
 }))
 
 export{usePresentationStore}
