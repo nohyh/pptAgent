@@ -92,14 +92,14 @@ export default function Editor() {
         <section onClick={() => setSelectedId?.(null)}  className="relative flex min-w-0 flex-1 flex-col">
           {/* Slide canvas */}
           <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
-            <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[960px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
+            <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[1120px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
               <SlideCanvas slide={slides[slidesIndex]}  setSelectedId={setSelectedId} selectedId = {selectedId} />
             </div>
           </div>
 
           {/* Bottom slide navigator */}
           <div className="shrink-0 border-t border-border bg-background">
-            <div className="mx-auto flex h-11 max-w-[960px] items-center justify-center gap-4 px-5">
+            <div className="mx-auto flex h-11 max-w-[1120px] items-center justify-center gap-4 px-5">
               <button
                 type="button"
                 className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
@@ -128,9 +128,9 @@ export default function Editor() {
         </section>
 
         {/* Right: Properties panel */}
-        <aside className="flex w-[340px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[380px]">
+        <aside className="flex w-[300px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[320px]">
           {/* Properties area */}
-          <div className="flex-1 overflow-y-auto px-5 py-5">
+          <div className="flex-1 overflow-y-auto px-4 py-5">
             <EditorDialog selectedElement={selectedElement} slideId={slides[slidesIndex].id} />
           </div>
 

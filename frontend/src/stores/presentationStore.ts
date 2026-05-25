@@ -1,7 +1,6 @@
 import type { Presentation } from "@/types/presentation";
 import { create } from "zustand";
-import { mockPresentation} from  "@/mock/presentationData"
-import { useEditorStore, type EditorState } from "./editorStore";
+import { useEditorStore } from "./editorStore";
 import apiClient from "@/api/apiClient";
 interface PresentationState {
   presentation: Presentation | null;
@@ -12,12 +11,11 @@ interface PresentationState {
 
   updateElement :(slideId:string,elementId:string,updates:any)=>void;
   deleteElement: (slideId: string, elementId: string) => void;
-  moveElement: (slideId: string, elementId: string, direction: "up" | "down") => void;
 
   generatePresentation: () => Promise<void>
 }
 const usePresentationStore =  create<PresentationState>((set)=>({
-    presentation :mockPresentation,
+    presentation :null,
     setPresentation :(newPresentation)=>set({
         presentation: newPresentation
     }),
@@ -65,26 +63,6 @@ const usePresentationStore =  create<PresentationState>((set)=>({
         }
     }),
 
-    moveElement:(slideId,elementId,direction)=>set((state)=>{
-        if (!state.presentation) return state;
-        return{
-            presentation:{
-                ...state.presentation,
-                slides: state.presentation.slides.map((slide)=>{
-                    if(slide.id!==slideId) return slide;
-                const idx = slide.elements.findIndex((el)=>el.id===elementId);
-                if (idx === -1) return slide;
-                const newIdx = direction === "up" ? idx + 1 : idx - 1;
-                if (newIdx < 0 || newIdx >= slide.elements.length) return slide;
-                const elements = [...slide.elements];
-                [elements[idx], elements[newIdx]] = [elements[newIdx], elements[idx]];
-                return {
-                    ...slide,
-                    elements
-                }})
-            }
-        }
-    }),
 
     generatePresentation: async()=>{
         const {prompt,title,sections,style,pageCount,verbosity}=useEditorStore.getState()

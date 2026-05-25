@@ -55,19 +55,40 @@ Scope:
 - save projects
 - read projects
 
-## V3: Element-Level AI Editing and Images
+## V3: Images, Templates, and Normalization
 
-Goal: add element-level AI editing and image generation/regeneration.
+Goal: improve visual quality and reliability through better templates, controlled image generation, and stricter Presentation JSON normalization.
 
 Scope:
 
-- text element rewrite
+- template library expansion
+- template metadata and slot rules
 - image prompt generation
 - image generation
 - image regeneration
-- JSON Patch updates
+- Presentation JSON schema normalization
+- preview/export consistency checks
+- layout safety checks
 
-## V4: Lightweight Model Router
+Do not add:
+
+- post-generation AI chat editing
+- element-level AI editing
+- JSON Patch edit flows
+
+## V4: Productization
+
+Goal: make the product easier to use beyond the prototype flow.
+
+Scope:
+
+- project management polish
+- import/export workflow polish
+- template selection and management polish
+- user-facing error states
+- basic product analytics if needed
+
+## V5: Lightweight Model Router
 
 Goal: add lightweight Model Router and model call logs.
 
@@ -76,7 +97,7 @@ Scope:
 - lightweight model router
 - model request logging
 
-## V5: Async Tasks and Progress
+## V6: Async Tasks and Progress
 
 Goal: add Redis, RQ, task status, and generation progress.
 

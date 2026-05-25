@@ -7,7 +7,7 @@ This project is an AI-powered PPT editor and generator.
 High-level product flow is documented in `docs/architecture.md`.
 
 ```text
-User input -> Presentation JSON -> React editor -> JSON Patch edits -> PPTX export
+User input -> Presentation JSON -> React editor -> manual editor edits -> PPTX export
 ```
 
 The most important architectural rule:
@@ -16,7 +16,7 @@ The most important architectural rule:
 Presentation JSON is the single source of truth. C:\CODE\web_code\pptAgent\src\types\presentation.ts 
 ```
 
-The app should not let AI directly generate final HTML, PPTX, SVG, or arbitrary page code as the primary product data. AI should generate or modify structured JSON that follows the project schema.
+The app should not let AI directly generate final HTML, PPTX, SVG, or arbitrary page code as the primary product data. In the current V1 direction, AI generates structured Presentation JSON from user input; post-generation AI chat editing is intentionally out of scope.
 
 ## Current Phase
 
@@ -35,10 +35,9 @@ Always follow this `AGENTS.md` first. Detailed docs provide context, but current
 
 - Keep Presentation JSON as the central data model.
 - React preview and PPTX export must both read from the same Presentation JSON.
-- For AI edits after user changes, AI should return JSON Patch and the application should apply it.
-  - patch format is not finalized yet
-  - target only the affected slide or element according to the current schema draft
-  - apply the patch in application code after validation
+- Post-generation AI chat editing is not part of the current scope.
+  - Do not add or revive AI chat-based slide editing unless explicitly requested.
+  - If this capability is reintroduced later, AI edits must modify structured Presentation JSON only, preferably through validated JSON Patch or another schema-checked operation.
 - Use templates and template slots to control visual output.
 - Add checks for schema correctness and basic layout safety before saving or exporting.
 - Template rules should live with the template files. When working on templates or layouts, inspect the template directory README/metadata once that directory exists.
@@ -107,7 +106,12 @@ Backend (run from `backend/`):
 
 ```bash
 cd backend
-uvicorn app.main:app --reload
+# 激活虚拟环境 (Activate virtual environment)
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+# Windows CMD: .venv\Scripts\activate.bat
+# Linux/macOS: source .venv/bin/activate
+
+uvicorn main:app --reload
 pytest
 alembic upgrade head
 ```

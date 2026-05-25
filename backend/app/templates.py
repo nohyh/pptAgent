@@ -1,28 +1,209 @@
+from doctest import Example
 
 
-Template  = [
-    claude:[
+Template = {
+    "claude": [
         {
-            ...
-        }
+            "id": "claude-cover-01",
+            "background": "#f5f4ed",
+            "elements": [
+                {"id": "claude-cover-01-band", "type": "block", "shapeType": "rect", "x": 0, "y": 0, "width": 31, "height": 100, "backgroundColor": "#e8e6dc"},
+                {"id": "claude-cover-01-mark", "type": "block", "shapeType": "rect", "x": 8, "y": 15, "width": 3.8, "height": 1, "backgroundColor": "#c96442"},
+                {"id": "claude-cover-01-kicker", "type": "text", "content": "", "x": 8, "y": 19, "width": 17, "height": 5, "fontSize": 12, "color": "#c96442", "bold": True, "align": "left"},
+                {"id": "claude-cover-01-title", "type": "text", "content": "", "x": 38, "y": 17, "width": 52, "height": 22, "font": "Georgia, serif", "fontSize": 58, "color": "#141413", "align": "left"},
+                {"id": "claude-cover-01-subtitle", "type": "text", "content": "", "x": 39, "y": 43, "width": 42, "height": 13, "fontSize": 21, "color": "#5e5d59", "align": "left"},
+                {"id": "claude-cover-01-image", "type": "block", "shapeType": "roundRect", "x": 38, "y": 62, "width": 48, "height": 24, "backgroundColor": "#faf9f5", "borderColor": "#d1cfc5", "borderWidth": 1},
+                {"id": "claude-cover-01-footer", "type": "text", "content": "", "x": 8, "y": 82, "width": 17, "height": 8, "fontSize": 13, "color": "#87867f", "align": "left"},
+            ],
+        },
         {
-            ...
-        }
+            "id": "claude-image-text-01",
+            "background": "#faf9f5",
+            "elements": [
+                {"id": "claude-image-text-01-title", "type": "text", "content": "", "x": 8, "y": 10, "width": 50, "height": 12, "font": "Georgia, serif", "fontSize": 44, "color": "#141413", "align": "left"},
+                {"id": "claude-image-text-01-rule", "type": "block", "shapeType": "rect", "x": 8, "y": 27, "width": 38, "height": 0.4, "backgroundColor": "#c96442"},
+                {"id": "claude-image-text-01-body", "type": "text", "content": "", "x": 8, "y": 35, "width": 38, "height": 42, "fontSize": 21, "color": "#5e5d59", "align": "left"},
+                {"id": "claude-image-text-01-image", "type": "block", "shapeType": "roundRect", "x": 54, "y": 12, "width": 36, "height": 72, "backgroundColor": "#e8e6dc", "borderColor": "#d1cfc5", "borderWidth": 1},
+                {"id": "claude-image-text-01-chip", "type": "block", "shapeType": "roundRect", "x": 58, "y": 18, "width": 14, "height": 5, "backgroundColor": "#faf9f5", "borderColor": "#f0eee6", "borderWidth": 1},
+                {"id": "claude-image-text-01-caption", "type": "text", "content": "", "x": 58, "y": 77, "width": 26, "height": 5, "fontSize": 12, "color": "#87867f", "align": "left"},
+            ],
+        },
+        {
+            "id": "claude-image-text-02",
+            "background": "#f5f4ed",
+            "elements": [
+                {"id": "claude-image-text-02-image", "type": "block", "shapeType": "roundRect", "x": 7, "y": 11, "width": 42, "height": 76, "backgroundColor": "#faf9f5", "borderColor": "#e8e6dc", "borderWidth": 1},
+                {"id": "claude-image-text-02-accent", "type": "block", "shapeType": "rect", "x": 51.5, "y": 15, "width": 1, "height": 67, "backgroundColor": "#c96442"},
+                {"id": "claude-image-text-02-kicker", "type": "text", "content": "", "x": 57, "y": 17, "width": 24, "height": 4, "fontSize": 12, "color": "#c96442", "bold": True, "align": "left"},
+                {"id": "claude-image-text-02-title", "type": "text", "content": "", "x": 57, "y": 24, "width": 34, "height": 17, "font": "Georgia, serif", "fontSize": 40, "color": "#141413", "align": "left"},
+                {"id": "claude-image-text-02-body", "type": "text", "content": "", "x": 57, "y": 48, "width": 31, "height": 30, "fontSize": 18, "color": "#5e5d59", "align": "left"},
+                {"id": "claude-image-text-02-note", "type": "text", "content": "", "x": 57, "y": 82, "width": 25, "height": 5, "fontSize": 12, "color": "#87867f", "align": "left"},
+            ],
+        },
+        {
+            "id": "claude-image-text-03",
+            "background": "#141413",
+            "elements": [
+                {"id": "claude-image-text-03-card", "type": "block", "shapeType": "roundRect", "x": 7, "y": 10, "width": 86, "height": 78, "backgroundColor": "#30302e", "borderColor": "#4d4c48", "borderWidth": 1},
+                {"id": "claude-image-text-03-image", "type": "block", "shapeType": "roundRect", "x": 11, "y": 15, "width": 38, "height": 68, "backgroundColor": "#3d3d3a", "borderColor": "#4d4c48", "borderWidth": 1},
+                {"id": "claude-image-text-03-kicker", "type": "text", "content": "", "x": 56, "y": 19, "width": 24, "height": 4, "fontSize": 12, "color": "#d97757", "bold": True, "align": "left"},
+                {"id": "claude-image-text-03-title", "type": "text", "content": "", "x": 56, "y": 28, "width": 30, "height": 17, "font": "Georgia, serif", "fontSize": 38, "color": "#faf9f5", "align": "left"},
+                {"id": "claude-image-text-03-body", "type": "text", "content": "", "x": 56, "y": 52, "width": 29, "height": 24, "fontSize": 17, "color": "#b0aea5", "align": "left"},
+                {"id": "claude-image-text-03-line", "type": "block", "shapeType": "rect", "x": 56, "y": 80, "width": 19, "height": 0.5, "backgroundColor": "#d97757"},
+            ],
+        },
+        {
+            "id": "claude-text-01",
+            "background": "#faf9f5",
+            "elements": [
+                {"id": "claude-text-01-kicker", "type": "text", "content": "", "x": 10, "y": 12, "width": 18, "height": 4, "fontSize": 12, "color": "#c96442", "bold": True, "align": "left"},
+                {"id": "claude-text-01-title", "type": "text", "content": "", "x": 10, "y": 21, "width": 70, "height": 14, "font": "Georgia, serif", "fontSize": 46, "color": "#141413", "align": "left"},
+                {"id": "claude-text-01-rule", "type": "block", "shapeType": "rect", "x": 10, "y": 40, "width": 80, "height": 0.3, "backgroundColor": "#d1cfc5"},
+                {"id": "claude-text-01-body-left", "type": "text", "content": "", "x": 10, "y": 49, "width": 35, "height": 30, "fontSize": 18, "color": "#5e5d59", "align": "left"},
+                {"id": "claude-text-01-body-right", "type": "text", "content": "", "x": 55, "y": 49, "width": 35, "height": 30, "fontSize": 18, "color": "#5e5d59", "align": "left"},
+                {"id": "claude-text-01-number", "type": "text", "content": "", "x": 81, "y": 12, "width": 9, "height": 6, "font": "Georgia, serif", "fontSize": 20, "color": "#c96442", "align": "right"},
+            ],
+        },
+        {
+            "id": "claude-text-02",
+            "background": "#e8e6dc",
+            "elements": [
+                {"id": "claude-text-02-panel", "type": "block", "shapeType": "roundRect", "x": 14, "y": 15, "width": 72, "height": 68, "backgroundColor": "#faf9f5", "borderColor": "#f0eee6", "borderWidth": 1},
+                {"id": "claude-text-02-mark", "type": "block", "shapeType": "rect", "x": 22, "y": 24, "width": 4, "height": 5, "backgroundColor": "#c96442"},
+                {"id": "claude-text-02-quote", "type": "text", "content": "", "x": 22, "y": 35, "width": 56, "height": 25, "font": "Georgia, serif", "fontSize": 38, "color": "#141413", "align": "center"},
+                {"id": "claude-text-02-detail", "type": "text", "content": "", "x": 27, "y": 65, "width": 46, "height": 8, "fontSize": 16, "color": "#5e5d59", "align": "center"},
+                {"id": "claude-text-02-foot", "type": "text", "content": "", "x": 37, "y": 76, "width": 26, "height": 4, "fontSize": 12, "color": "#87867f", "align": "center"},
+            ],
+        },
+        {
+            "id": "claude-section-01",
+            "background": "#141413",
+            "elements": [
+                {"id": "claude-section-01-index", "type": "text", "content": "", "x": 10, "y": 14, "width": 18, "height": 8, "font": "Georgia, serif", "fontSize": 30, "color": "#d97757", "align": "left"},
+                {"id": "claude-section-01-line", "type": "block", "shapeType": "rect", "x": 10, "y": 29, "width": 18, "height": 0.6, "backgroundColor": "#d97757"},
+                {"id": "claude-section-01-title", "type": "text", "content": "", "x": 10, "y": 39, "width": 72, "height": 18, "font": "Georgia, serif", "fontSize": 52, "color": "#faf9f5", "align": "left"},
+                {"id": "claude-section-01-subtitle", "type": "text", "content": "", "x": 12, "y": 64, "width": 47, "height": 9, "fontSize": 18, "color": "#b0aea5", "align": "left"},
+                {"id": "claude-section-01-block", "type": "block", "shapeType": "roundRect", "x": 72, "y": 14, "width": 14, "height": 72, "backgroundColor": "#30302e", "borderColor": "#3d3d3a", "borderWidth": 1},
+            ],
+        },
     ],
-    apple:[
+    "apple": [
         {
-            ...
-        }
+            "id": "apple-cover-01",
+            "background": "#ffffff",
+            "elements": [
+                {"id": "apple-cover-01-title", "type": "text", "content": "", "x": 15, "y": 7, "width": 70, "height": 13, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 56, "color": "#1d1d1f", "bold": True, "align": "center"},
+                {"id": "apple-cover-01-tagline", "type": "text", "content": "", "x": 24, "y": 22, "width": 52, "height": 7, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 28, "color": "#1d1d1f", "align": "center"},
+                {"id": "apple-cover-01-cta-primary", "type": "block", "shapeType": "roundRect", "x": 37.5, "y": 33, "width": 11, "height": 5.4, "backgroundColor": "#0066cc"},
+                {"id": "apple-cover-01-primary-link", "type": "text", "content": "", "x": 37.5, "y": 34.1, "width": 11, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#ffffff", "align": "center"},
+                {"id": "apple-cover-01-cta-secondary", "type": "block", "shapeType": "roundRect", "x": 51.5, "y": 33, "width": 11, "height": 5.4, "borderColor": "#0066cc", "borderWidth": 1},
+                {"id": "apple-cover-01-secondary-link", "type": "text", "content": "", "x": 51.5, "y": 34.1, "width": 11, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#0066cc", "align": "center"},
+                {"id": "apple-cover-01-stage", "type": "block", "shapeType": "rect", "x": 0, "y": 48, "width": 100, "height": 52, "backgroundColor": "#f5f5f7"},
+                {"id": "apple-cover-01-product-back", "type": "block", "shapeType": "roundRect", "x": 27, "y": 57, "width": 22, "height": 34, "backgroundColor": "#1d1d1f"},
+                {"id": "apple-cover-01-product-back-screen", "type": "block", "shapeType": "roundRect", "x": 29, "y": 60, "width": 18, "height": 27, "backgroundColor": "#fafafc"},
+                {"id": "apple-cover-01-product-front", "type": "block", "shapeType": "roundRect", "x": 47, "y": 53, "width": 26, "height": 39, "backgroundColor": "#1d1d1f"},
+                {"id": "apple-cover-01-product-front-screen", "type": "block", "shapeType": "roundRect", "x": 49.2, "y": 56.2, "width": 21.6, "height": 32, "backgroundColor": "#ffffff"},
+                {"id": "apple-cover-01-product-accent", "type": "block", "shapeType": "roundRect", "x": 53, "y": 79, "width": 14, "height": 2.6, "backgroundColor": "#0066cc"},
+                {"id": "apple-cover-01-fine", "type": "text", "content": "", "x": 35, "y": 94, "width": 30, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 12, "color": "#7a7a7a", "align": "center"},
+            ],
+        },
         {
-            ...
-        }
+            "id": "apple-image-text-01",
+            "background": "#f5f5f7",
+            "elements": [
+                {"id": "apple-image-text-01-hero-tile", "type": "block", "shapeType": "rect", "x": 0, "y": 0, "width": 100, "height": 61, "backgroundColor": "#ffffff"},
+                {"id": "apple-image-text-01-screen", "type": "block", "shapeType": "roundRect", "x": 22, "y": 9, "width": 56, "height": 36, "backgroundColor": "#1d1d1f"},
+                {"id": "apple-image-text-01-screen-inner", "type": "block", "shapeType": "roundRect", "x": 24.2, "y": 12.2, "width": 51.6, "height": 29.5, "backgroundColor": "#fafafc"},
+                {"id": "apple-image-text-01-dock", "type": "block", "shapeType": "roundRect", "x": 35, "y": 36, "width": 30, "height": 3.4, "backgroundColor": "#d2d2d7"},
+                {"id": "apple-image-text-01-base", "type": "block", "shapeType": "rect", "x": 28, "y": 47, "width": 44, "height": 2.4, "backgroundColor": "#d2d2d7"},
+                {"id": "apple-image-text-01-title", "type": "text", "content": "", "x": 9, "y": 70, "width": 37, "height": 10, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 40, "color": "#1d1d1f", "bold": True, "align": "left"},
+                {"id": "apple-image-text-01-body", "type": "text", "content": "", "x": 54, "y": 69, "width": 34, "height": 13, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#1d1d1f", "align": "left"},
+                {"id": "apple-image-text-01-link", "type": "text", "content": "", "x": 54, "y": 85, "width": 18, "height": 4, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#0066cc", "align": "left"},
+            ],
+        },
+        {
+            "id": "apple-image-text-02",
+            "background": "#000000",
+            "elements": [
+                {"id": "apple-image-text-02-tile", "type": "block", "shapeType": "rect", "x": 0, "y": 0, "width": 100, "height": 100, "backgroundColor": "#272729"},
+                {"id": "apple-image-text-02-title", "type": "text", "content": "", "x": 17, "y": 8, "width": 66, "height": 8, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 40, "color": "#ffffff", "bold": True, "align": "center"},
+                {"id": "apple-image-text-02-tagline", "type": "text", "content": "", "x": 24, "y": 19, "width": 52, "height": 6, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 28, "color": "#ffffff", "align": "center"},
+                {"id": "apple-image-text-02-cta-primary", "type": "block", "shapeType": "roundRect", "x": 38, "y": 29, "width": 10.5, "height": 5.2, "backgroundColor": "#0066cc"},
+                {"id": "apple-image-text-02-primary-link", "type": "text", "content": "", "x": 38, "y": 30, "width": 10.5, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#ffffff", "align": "center"},
+                {"id": "apple-image-text-02-cta-secondary", "type": "block", "shapeType": "roundRect", "x": 51.5, "y": 29, "width": 10.5, "height": 5.2, "borderColor": "#2997ff", "borderWidth": 1},
+                {"id": "apple-image-text-02-secondary-link", "type": "text", "content": "", "x": 51.5, "y": 30, "width": 10.5, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#2997ff", "align": "center"},
+                {"id": "apple-image-text-02-product", "type": "block", "shapeType": "roundRect", "x": 30, "y": 45, "width": 40, "height": 35, "backgroundColor": "#2a2a2c", "borderColor": "#333333", "borderWidth": 1},
+                {"id": "apple-image-text-02-camera-1", "type": "block", "shapeType": "circle", "x": 36, "y": 51, "width": 9, "height": 12, "backgroundColor": "#000000", "borderColor": "#7a7a7a", "borderWidth": 1},
+                {"id": "apple-image-text-02-camera-2", "type": "block", "shapeType": "circle", "x": 52, "y": 51, "width": 9, "height": 12, "backgroundColor": "#000000", "borderColor": "#7a7a7a", "borderWidth": 1},
+                {"id": "apple-image-text-02-camera-3", "type": "block", "shapeType": "circle", "x": 44, "y": 62, "width": 9, "height": 12, "backgroundColor": "#000000", "borderColor": "#7a7a7a", "borderWidth": 1},
+                {"id": "apple-image-text-02-caption", "type": "text", "content": "", "x": 35, "y": 88, "width": 30, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 12, "color": "#cccccc", "align": "center"},
+            ],
+        },
+        {
+            "id": "apple-image-text-03",
+            "background": "#ffffff",
+            "elements": [
+                {"id": "apple-image-text-03-left-tile", "type": "block", "shapeType": "rect", "x": 0, "y": 0, "width": 50, "height": 100, "backgroundColor": "#f5f5f7"},
+                {"id": "apple-image-text-03-right-tile", "type": "block", "shapeType": "rect", "x": 50, "y": 0, "width": 50, "height": 100, "backgroundColor": "#252527"},
+                {"id": "apple-image-text-03-title", "type": "text", "content": "", "x": 7, "y": 11, "width": 36, "height": 10, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 40, "color": "#1d1d1f", "bold": True, "align": "center"},
+                {"id": "apple-image-text-03-body", "type": "text", "content": "", "x": 10, "y": 26, "width": 30, "height": 10, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#1d1d1f", "align": "center"},
+                {"id": "apple-image-text-03-left-device", "type": "block", "shapeType": "roundRect", "x": 12, "y": 52, "width": 26, "height": 32, "backgroundColor": "#ffffff", "borderColor": "#e0e0e0", "borderWidth": 1},
+                {"id": "apple-image-text-03-left-screen", "type": "block", "shapeType": "roundRect", "x": 14.5, "y": 56, "width": 21, "height": 22, "backgroundColor": "#fafafc"},
+                {"id": "apple-image-text-03-title-2", "type": "text", "content": "", "x": 57, "y": 11, "width": 36, "height": 10, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 40, "color": "#ffffff", "bold": True, "align": "center"},
+                {"id": "apple-image-text-03-body-2", "type": "text", "content": "", "x": 60, "y": 26, "width": 30, "height": 10, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#cccccc", "align": "center"},
+                {"id": "apple-image-text-03-right-device", "type": "block", "shapeType": "roundRect", "x": 62, "y": 50, "width": 26, "height": 34, "backgroundColor": "#000000", "borderColor": "#333333", "borderWidth": 1},
+                {"id": "apple-image-text-03-right-screen", "type": "block", "shapeType": "roundRect", "x": 64.5, "y": 54, "width": 21, "height": 24, "backgroundColor": "#2a2a2c"},
+                {"id": "apple-image-text-03-link", "type": "text", "content": "", "x": 16, "y": 39, "width": 18, "height": 4, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#0066cc", "align": "center"},
+                {"id": "apple-image-text-03-link-2", "type": "text", "content": "", "x": 66, "y": 39, "width": 18, "height": 4, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#2997ff", "align": "center"},
+            ],
+        },
+        {
+            "id": "apple-text-01",
+            "background": "#f5f5f7",
+            "elements": [
+                {"id": "apple-text-01-title", "type": "text", "content": "", "x": 9, "y": 9, "width": 66, "height": 14, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 52, "color": "#1d1d1f", "bold": True, "align": "left"},
+                {"id": "apple-text-01-lead", "type": "text", "content": "", "x": 10, "y": 29, "width": 48, "height": 9, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 24, "color": "#1d1d1f", "align": "left"},
+                {"id": "apple-text-01-card-1", "type": "block", "shapeType": "roundRect", "x": 8, "y": 53, "width": 25, "height": 26, "backgroundColor": "#ffffff", "borderColor": "#e0e0e0", "borderWidth": 1},
+                {"id": "apple-text-01-card-2", "type": "block", "shapeType": "roundRect", "x": 37.5, "y": 53, "width": 25, "height": 26, "backgroundColor": "#ffffff", "borderColor": "#e0e0e0", "borderWidth": 1},
+                {"id": "apple-text-01-card-3", "type": "block", "shapeType": "roundRect", "x": 67, "y": 53, "width": 25, "height": 26, "backgroundColor": "#ffffff", "borderColor": "#e0e0e0", "borderWidth": 1},
+                {"id": "apple-text-01-card-dot-1", "type": "block", "shapeType": "circle", "x": 12, "y": 59, "width": 3.4, "height": 4.5, "backgroundColor": "#0066cc"},
+                {"id": "apple-text-01-card-dot-2", "type": "block", "shapeType": "circle", "x": 41.5, "y": 59, "width": 3.4, "height": 4.5, "backgroundColor": "#0066cc"},
+                {"id": "apple-text-01-card-dot-3", "type": "block", "shapeType": "circle", "x": 71, "y": 59, "width": 3.4, "height": 4.5, "backgroundColor": "#0066cc"},
+                {"id": "apple-text-01-card-text-1", "type": "text", "content": "", "x": 12, "y": 66, "width": 17, "height": 8, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#1d1d1f", "bold": True, "align": "left"},
+                {"id": "apple-text-01-card-text-2", "type": "text", "content": "", "x": 41.5, "y": 66, "width": 17, "height": 8, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#1d1d1f", "bold": True, "align": "left"},
+                {"id": "apple-text-01-card-text-3", "type": "text", "content": "", "x": 71, "y": 66, "width": 17, "height": 8, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 17, "color": "#1d1d1f", "bold": True, "align": "left"},
+            ],
+        },
+        {
+            "id": "apple-text-02",
+            "background": "#ffffff",
+            "elements": [
+                {"id": "apple-text-02-hairline", "type": "block", "shapeType": "rect", "x": 24, "y": 16, "width": 52, "height": 0.25, "backgroundColor": "#e0e0e0"},
+                {"id": "apple-text-02-title", "type": "text", "content": "", "x": 16, "y": 24, "width": 68, "height": 18, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 56, "color": "#1d1d1f", "bold": True, "align": "center"},
+                {"id": "apple-text-02-body", "type": "text", "content": "", "x": 24, "y": 51, "width": 52, "height": 13, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 24, "color": "#1d1d1f", "align": "center"},
+                {"id": "apple-text-02-primary", "type": "block", "shapeType": "roundRect", "x": 38, "y": 73, "width": 10.5, "height": 5.2, "backgroundColor": "#0066cc"},
+                {"id": "apple-text-02-primary-link", "type": "text", "content": "", "x": 38, "y": 74, "width": 10.5, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#ffffff", "align": "center"},
+                {"id": "apple-text-02-secondary", "type": "block", "shapeType": "roundRect", "x": 51.5, "y": 73, "width": 10.5, "height": 5.2, "borderColor": "#0066cc", "borderWidth": 1},
+                {"id": "apple-text-02-secondary-link", "type": "text", "content": "", "x": 51.5, "y": 74, "width": 10.5, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#0066cc", "align": "center"},
+                {"id": "apple-text-02-fine", "type": "text", "content": "", "x": 35, "y": 87, "width": 30, "height": 4, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 12, "color": "#7a7a7a", "align": "center"},
+            ],
+        },
+        {
+            "id": "apple-section-01",
+            "background": "#000000",
+            "elements": [
+                {"id": "apple-section-01-right-tile", "type": "block", "shapeType": "rect", "x": 58, "y": 0, "width": 42, "height": 100, "backgroundColor": "#252527"},
+                {"id": "apple-section-01-product", "type": "block", "shapeType": "roundRect", "x": 66, "y": 22, "width": 22, "height": 56, "backgroundColor": "#000000", "borderColor": "#333333", "borderWidth": 1},
+                {"id": "apple-section-01-product-screen", "type": "block", "shapeType": "roundRect", "x": 68, "y": 27, "width": 18, "height": 45, "backgroundColor": "#2a2a2c"},
+                {"id": "apple-section-01-product-chip", "type": "block", "shapeType": "roundRect", "x": 72, "y": 63, "width": 10, "height": 3, "backgroundColor": "#0066cc"},
+                {"id": "apple-section-01-index", "type": "text", "content": "", "x": 9, "y": 16, "width": 15, "height": 4, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 12, "color": "#cccccc", "align": "left"},
+                {"id": "apple-section-01-title", "type": "text", "content": "", "x": 9, "y": 36, "width": 44, "height": 18, "font": "SF Pro Display, system-ui, -apple-system, sans-serif", "fontSize": 56, "color": "#ffffff", "bold": True, "align": "left"},
+                {"id": "apple-section-01-subtitle", "type": "text", "content": "", "x": 10, "y": 63, "width": 38, "height": 10, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 24, "color": "#cccccc", "align": "left"},
+                {"id": "apple-section-01-pill", "type": "block", "shapeType": "roundRect", "x": 9, "y": 81, "width": 12, "height": 5, "backgroundColor": "#0066cc"},
+                {"id": "apple-section-01-link", "type": "text", "content": "", "x": 9, "y": 82, "width": 12, "height": 3, "font": "SF Pro Text, system-ui, -apple-system, sans-serif", "fontSize": 13, "color": "#ffffff", "align": "center"},
+            ],
+        },
     ],
-    google:[
-        {
-            ...
-        }
-        {
-            ...
-        }
-    ]
-]
+}
+
+

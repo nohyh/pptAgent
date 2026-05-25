@@ -1,3 +1,5 @@
+from doctest import Example
+from pipes import Template
 from typing import Any
 from app.config import API_KEY,BASE_URL,MODEL
 from fastapi import APIRouter, Body, HTTPException
@@ -6,6 +8,7 @@ import httpx
 import json
 import uuid
 from app.schemas import OutlineResponse, PptRequest,PptResponse, Presentation
+from app.mocks import mockOutline, mock_presentation
 from pydantic import ValidationError
 
 router = APIRouter()
@@ -40,8 +43,9 @@ def handleOutlineRes(ai_res: dict):
 
 @router.post("/generateOutline")
 async def generateOutline(prompt: str = Body(...,embed=True)):
-    ai_res = call_llm(outlinePrompt,prompt)
-    return handleOutlineRes(ai_res)
+    # ai_res = call_llm(outlinePrompt,prompt)
+    # return handleOutlineRes(ai_res)
+    return mockOutline
 
 def handlePptRes(ai_res: dict):
     content =  ai_res["choices"][0]["message"]["content"]
@@ -60,7 +64,7 @@ def handlePptRes(ai_res: dict):
 
 @router.post("/generatePpt")
 async def generatePpt(request:PptRequest):
-    pptRequest_json = request.model_dump_json(by_alias=True, indent=2)
-    ai_res = call_llm(pptPrompt,pptRequest_json)
-    return handlePptRes(ai_res)
-    
+    #pptRequest_json = request.model_dump_json(by_alias=True, indent=2)
+    #ai_res = call_llm(pptPrompt,pptRequest_json)
+    #return handlePptRes(ai_res)
+    return mock_presentation

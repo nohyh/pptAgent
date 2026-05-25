@@ -13,10 +13,7 @@ import {
   Move,
   Maximize2,
   Upload,
-  ArrowUp,
-  ArrowDown,
   Trash2,
-  Layers,
 } from "lucide-react"
 
 interface EditorDialogProps {
@@ -356,7 +353,6 @@ const BlockPanel = ({
 const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
   const updateElement = usePresentationStore((state) => state.updateElement);
   const deleteElement = usePresentationStore((state) => state.deleteElement);
-  const moveElement = usePresentationStore((state) => state.moveElement);
 
   if (!selectedElement) {
     return (
@@ -400,37 +396,6 @@ const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
 
       {/* 位置 & 尺寸（所有类型共享） */}
       <PositionSection element={selectedElement} slideId={slideId} updateElement={updateElement} />
-
-      {/* 分隔线 */}
-      <div className="border-t border-border" />
-
-      {/* 层级控制 */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-2 text-stone-gray">
-          <Layers className="size-3.5" />
-          <span className="font-sans text-[0.6875rem] font-medium uppercase tracking-wide">
-            层级
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => moveElement(slideId, selectedElement.id, "up")}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 font-sans text-[0.75rem] text-olive-gray transition-all duration-200 hover:border-border-warm hover:bg-border-warm hover:text-foreground"
-          >
-            <ArrowUp className="size-3.5" />
-            上移一层
-          </button>
-          <button
-            type="button"
-            onClick={() => moveElement(slideId, selectedElement.id, "down")}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 font-sans text-[0.75rem] text-olive-gray transition-all duration-200 hover:border-border-warm hover:bg-border-warm hover:text-foreground"
-          >
-            <ArrowDown className="size-3.5" />
-            下移一层
-          </button>
-        </div>
-      </div>
 
       {/* 分隔线 */}
       <div className="border-t border-border" />

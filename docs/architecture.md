@@ -20,9 +20,8 @@ User input
 -> Presentation JSON
 -> check overflow / out-of-bounds / overlap
 -> React renders slides
--> user edits
--> AI returns JSON Patch
--> app applies JSON Patch
+-> user manually edits in the React editor
+-> app updates Presentation JSON
 -> check again
 -> PPTX export
 ```
@@ -37,31 +36,31 @@ If a value affects rendering or export, it should be represented in Presentation
 
 ## User Edits
 
-For user-requested AI edits, AI should return JSON Patch instead of rewriting the whole JSON.
+User edits are handled by the React editor and should update Presentation JSON directly.
 
-The application applies the patch and then runs checks again.
+Post-generation AI chat editing is intentionally out of the current product scope. The current priority is template quality, image generation, schema normalization, validation, and export fidelity.
 
 Confirmed edit flow:
 
 ```text
-user edit request
--> AI returns JSON Patch
--> app applies JSON Patch
+user manual edit
+-> app updates Presentation JSON
 -> app checks overflow / out-of-bounds / overlap
 -> React renders updated slides
 ```
 
+If AI editing is reintroduced later, it must not rewrite final HTML, PPTX, SVG, or arbitrary page code. It should return a schema-checked operation against Presentation JSON, such as JSON Patch, and the app should apply it only after validation.
+
 ## AI Role, High Level
 
-AI is used to help generate or modify structured presentation data.
+AI is used to help generate structured presentation data.
 
-AI may later help with:
+In the current scope, AI may help with:
 
 - generating PPT outline / per-slide text
 - classifying slide types
 - selecting matching templates
 - generating image prompts
 - filling template slots
-- returning JSON Patch for user edits
 
-AI should not replace the app's structured data model. The app remains responsible for applying JSON Patch, checking results, rendering slides, and exporting PPTX.
+AI should not replace the app's structured data model. The app remains responsible for checking results, rendering slides, supporting manual edits, and exporting PPTX.
