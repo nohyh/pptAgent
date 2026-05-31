@@ -90,8 +90,8 @@ const TextPanel = ({
       />
     </div>
 
-    {/* 字体 & 字号 */}
-    <div className="grid grid-cols-2 gap-3">
+    {/* 字体 & 字号 & 行距 */}
+    <div className="grid grid-cols-3 gap-3">
       <label className="flex flex-col gap-1">
         <span className="font-sans text-[0.6875rem] text-warm-silver">字体</span>
         <select
@@ -116,6 +116,20 @@ const TextPanel = ({
           value={element.fontSize}
           onChange={(e) =>
             updateElement(slideId, element.id, { fontSize: parseInt(e.target.value) || 16 })
+          }
+          className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
+        />
+      </label>
+      <label className="flex flex-col gap-1">
+        <span className="font-sans text-[0.6875rem] text-warm-silver">行距</span>
+        <input
+          type="number"
+          step="0.1"
+          min={0.5}
+          max={3}
+          value={element.lineHeight || 1.5}
+          onChange={(e) =>
+            updateElement(slideId, element.id, { lineHeight: parseFloat(e.target.value) || 1.5 })
           }
           className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
         />

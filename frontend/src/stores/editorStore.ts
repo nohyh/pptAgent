@@ -37,7 +37,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   prompt: "",
   title: "",
   sections: [],
-  style: "apple",
+  style: "warm-editorial",
   pageCount: 12,
   verbosity: "moderate",
 

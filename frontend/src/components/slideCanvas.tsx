@@ -137,11 +137,12 @@ const SlideCanvas = ({ slide, setSelectedId, selectedId }: SlideCanvasProps) => 
                 textAlign: element.align,
                 fontFamily: element.font,
                 fontWeight: element.bold ? 'bold' : 'normal',
+                lineHeight: element.lineHeight || 1.5,
               }}>
                 <ContentEditable
                   html={element.content}
                   disabled={!isSelected}
-                  onChange={(e) => updateElement(slide.id, element.id, { content: e.target.value })}
+                  onChange={(e: any) => updateElement(slide.id, element.id, { content: e.target.value })}
                   style={{
                     width: '100%', height: '100%',
                     outline: 'none', font: 'inherit', color: 'inherit',
@@ -154,7 +155,7 @@ const SlideCanvas = ({ slide, setSelectedId, selectedId }: SlideCanvasProps) => 
         }
 
         return (
-          <Rnd key={element.id} {...rndProps}>
+          <Rnd key={(element as any).id} {...rndProps}>
             <div style={{ width: '100%', height: '100%' }}>other</div>
           </Rnd>
         );

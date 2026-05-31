@@ -1,5 +1,3 @@
-from doctest import Example
-from pipes import Template
 from typing import Any
 from app.config import API_KEY,BASE_URL,MODEL
 from fastapi import APIRouter, Body, HTTPException

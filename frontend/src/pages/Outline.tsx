@@ -12,13 +12,6 @@ import { usePresentationStore } from "@/stores/presentationStore"
 const generatePresentation = usePresentationStore.getState().generatePresentation
 const STYLES = [
   {
-    id: "apple",
-    name: "Apple",
-    description: "留白充足 黑白产品感 蓝色动作色",
-    preview: "#f5f5f7",
-    accent: "#0066cc",
-  },
-  {
     id: "warm-editorial",
     name: "Anthropic",
     description: "温和的颜色 简单的界面 清晰的排版",
@@ -362,7 +355,7 @@ export default function Outline() {
             </button>
           </div>
         </aside>
-      </div>handleGenerate
+      </div>
 
       {/* Mobile bottom bar for generate */}
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 backdrop-blur-md md:hidden">

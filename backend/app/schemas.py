@@ -14,6 +14,7 @@ class TextElement(BaseElement):
     content: str
     font: Optional[str] = None
     fontSize: float
+    lineHeight: Optional[float] = None
     color: Optional[str] = None
     bold: Optional[bool] = False
     align: Optional[Literal["left", "center", "right"]] = "left"

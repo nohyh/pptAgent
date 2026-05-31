@@ -13,6 +13,7 @@ export interface TextElement extends BaseElement {
   content: string
   font?: string   // 可选，不传就用默认
   fontSize: number     
+  lineHeight?: number
   color?: string        
   bold?: boolean
   align?: "left" | "center" | "right"
