@@ -53,8 +53,11 @@ export default function Outline() {
   }
 
   const handleGenerate = async () => {
-    await generatePresentation()
-    navigate('/editor')
+    // 先触发生成，这会同步把 isLoading 设为 true
+    const generatePromise = generatePresentation();
+    // 然后再跳转，这样跳过去瞬间 isLoading 就已经是 true，完美无缝衔接骨架屏
+    navigate('/editor');
+    await generatePromise;
   }
 
   return (

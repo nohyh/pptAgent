@@ -13,9 +13,12 @@ interface PresentationState {
   deleteElement: (slideId: string, elementId: string) => void;
 
   generatePresentation: () => Promise<void>
+  
+  isLoading:boolean;
 }
 const usePresentationStore =  create<PresentationState>((set)=>({
     presentation :null,
+    isLoading:false,
     setPresentation :(newPresentation)=>set({
         presentation: newPresentation
     }),
@@ -66,6 +69,7 @@ const usePresentationStore =  create<PresentationState>((set)=>({
 
     generatePresentation: async()=>{
         const {prompt,title,sections,style,pageCount,verbosity}=useEditorStore.getState()
+        set({isLoading:true})
         const res = await apiClient.post("/generatePpt",{
             prompt,
             layout:"16x9",
@@ -76,7 +80,8 @@ const usePresentationStore =  create<PresentationState>((set)=>({
             verbosity
         })
         set({
-            presentation: res.data
+            presentation: res.data,
+            isLoading:false
         })
     }
 }))

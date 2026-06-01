@@ -9,7 +9,6 @@ import {
   AlignCenter,
   AlignRight,
   Bold,
-  Palette,
   Move,
   Maximize2,
   Upload,

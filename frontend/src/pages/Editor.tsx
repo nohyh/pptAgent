@@ -17,8 +17,11 @@ export default function Editor() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
   const presentation = usePresentationStore((state) => state.presentation);
+  const isLoading = usePresentationStore((state) => state.isLoading);
   const slides = presentation?.slides || [];
-  const selectedElement = slides?.[slidesIndex].elements.find(e=>e.id===selectedId)
+  const currentSlide = slides[slidesIndex];
+  const selectedElement = currentSlide?.elements?.find(e=>e.id===selectedId);
+  
   useEffect(()=>{
     setSelectedId(null);
   },[slidesIndex])//在切换幻灯片时取消选定
@@ -63,97 +66,129 @@ export default function Editor() {
       </header>
 
       {/* Main content: Thumbnails + PPT area + Chat panel */}
-      <div className="flex min-h-0 flex-1">
-        {/* Left: Slide thumbnail strip */}
-        <nav className="hidden w-52 shrink-0 flex-col border-r border-border bg-ivory/50 lg:flex">
-          <div className="flex-1 overflow-y-auto px-4 py-4">
-            <div className="space-y-2">
-              {slides.map((slide, index) => (
+      {isLoading ? (
+        <div className="flex min-h-0 flex-1">
+          {/* Left: Slide thumbnail strip skeleton */}
+          <nav className="hidden w-52 shrink-0 flex-col border-r border-border bg-ivory/50 lg:flex p-4 gap-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="aspect-[16/9] w-full rounded-lg bg-stone-gray/10 animate-pulse"></div>
+            ))}
+          </nav>
+
+          {/* Center: PPT display area skeleton */}
+          <section className="relative flex min-w-0 flex-1 flex-col items-center justify-center p-6 lg:p-8">
+            <div className="flex flex-col items-center gap-4 mb-6">
+              <div className="size-8 animate-spin rounded-full border-4 border-primary border-r-transparent border-t-transparent"></div>
+              <p className="font-sans text-[0.8125rem] text-stone-gray animate-pulse">
+                AI 正在为您排版并生成演示文稿，这可能需要几分钟...
+              </p>
+            </div>
+            <div className="aspect-[16/9] w-full max-w-[1120px] rounded-2xl border border-border bg-stone-gray/5 animate-pulse"></div>
+          </section>
+
+          {/* Right: Properties panel skeleton */}
+          <aside className="flex w-[300px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[320px] p-5 space-y-6">
+            <div className="h-6 w-32 rounded bg-stone-gray/10 animate-pulse"></div>
+            <div className="space-y-4">
+              <div className="h-24 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+              <div className="h-24 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+              <div className="h-24 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+            </div>
+          </aside>
+        </div>
+      ) : (
+        <div className="flex min-h-0 flex-1">
+          {/* Left: Slide thumbnail strip */}
+          <nav className="hidden w-52 shrink-0 flex-col border-r border-border bg-ivory/50 lg:flex">
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <div className="space-y-2">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    onClick={() => setSlideIndex(index)}
+                    className={`group relative w-full overflow-hidden rounded-lg transition-all duration-200 ${
+                      slidesIndex === index
+                        ? "shadow-[0_0_0_2px_var(--primary)]"
+                        : "shadow-[0_0_0_1px_rgba(209,207,197,0.35)] hover:shadow-[0_0_0_1px_rgba(209,207,197,0.7)]"
+                    }`}
+                  >
+                    <div className="pointer-events-none flex aspect-[16/9] w-full items-center justify-center bg-ivory">
+                      <SlideCanvas slide={slide}/>
+                    </div>  
+                  </button>
+                ))}
+              </div>
+            </div>
+          </nav>
+
+          {/* Center: PPT display area */}
+          <section onClick={() => setSelectedId?.(null)}  className="relative flex min-w-0 flex-1 flex-col">
+            {/* Slide canvas */}
+            <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
+              <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[1120px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
+                {currentSlide && <SlideCanvas slide={currentSlide} setSelectedId={setSelectedId} selectedId={selectedId} />}
+              </div>
+            </div>
+
+            {/* Bottom slide navigator */}
+            <div className="shrink-0 border-t border-border bg-background">
+              <div className="mx-auto flex h-11 max-w-[1120px] items-center justify-center gap-4 px-5">
                 <button
-                  key={slide.id}
                   type="button"
-                  onClick={() => setSlideIndex(index)}
-                  className={`group relative w-full overflow-hidden rounded-lg transition-all duration-200 ${
-                    slidesIndex === index
-                      ? "shadow-[0_0_0_2px_var(--primary)]"
-                      : "shadow-[0_0_0_1px_rgba(209,207,197,0.35)] hover:shadow-[0_0_0_1px_rgba(209,207,197,0.7)]"
-                  }`}
+                  className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
+                  onClick={()=>setSlideIndex((pre)=>pre-1)}
+                  disabled = {slidesIndex===0}
                 >
-                  <div className="pointer-events-none flex aspect-[16/9] w-full items-center justify-center bg-ivory">
-                    <SlideCanvas slide={slide}/>
-                  </div>  
+                  <ChevronLeft className="size-4" />
                 </button>
-              ))}
+
+                <span className="min-w-[64px] text-center font-sans text-[0.75rem] tabular-nums text-stone-gray">
+                  <span className="font-medium text-foreground">{slidesIndex+1}</span>
+                  <span className="mx-1 text-ring">/</span>
+                  <span>{slides.length}</span>
+                </span>
+
+                <button
+                  type="button"
+                  className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
+                  onClick={()=>setSlideIndex((pre)=>pre+1)}
+                  disabled ={slidesIndex ===slides.length-1}
+                >
+                  <ChevronRight className="size-4" />
+                </button>
+              </div>
             </div>
-          </div>
-        </nav>
+          </section>
 
-        {/* Center: PPT display area */}
-        <section onClick={() => setSelectedId?.(null)}  className="relative flex min-w-0 flex-1 flex-col">
-          {/* Slide canvas */}
-          <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
-            <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[1120px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
-              <SlideCanvas slide={slides[slidesIndex]}  setSelectedId={setSelectedId} selectedId = {selectedId} />
+          {/* Right: Properties panel */}
+          <aside className="flex w-[300px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[320px]">
+            {/* Properties area */}
+            <div className="flex-1 overflow-y-auto px-4 py-5">
+              <EditorDialog selectedElement={selectedElement} slideId={currentSlide?.id} />
             </div>
-          </div>
 
-          {/* Bottom slide navigator */}
-          <div className="shrink-0 border-t border-border bg-background">
-            <div className="mx-auto flex h-11 max-w-[1120px] items-center justify-center gap-4 px-5">
-              <button
-                type="button"
-                className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
-                onClick={()=>setSlideIndex((pre)=>pre-1)}
-                disabled = {slidesIndex===0}
-              >
-                <ChevronLeft className="size-4" />
-              </button>
-
-              <span className="min-w-[64px] text-center font-sans text-[0.75rem] tabular-nums text-stone-gray">
-                <span className="font-medium text-foreground">{slidesIndex+1}</span>
-                <span className="mx-1 text-ring">/</span>
-                <span>{slides.length}</span>
-              </span>
-
-              <button
-                type="button"
-                className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
-                onClick={()=>setSlideIndex((pre)=>pre+1)}
-                disabled ={slidesIndex ===slides.length-1}
-              >
-                <ChevronRight className="size-4" />
-              </button>
+            {/* AI Chat input bar (bottom) */}
+            <div className="shrink-0 border-t border-border p-4">
+              <div className="flex items-center gap-2 rounded-xl border border-border bg-background p-2 shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-shadow duration-200 focus-within:border-border-warm focus-within:shadow-[0px_0px_0px_1px_rgba(209,207,197,0.5)]">
+                <input
+                  type="text"
+                  className="min-w-0 flex-1 bg-transparent px-2 font-sans text-[0.8125rem] text-foreground outline-none placeholder:text-ring-deep"
+                  placeholder="输入消息..."
+                  disabled
+                />
+                <button
+                  type="button"
+                  className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-border-warm text-ring-deep transition-all duration-200 hover:bg-primary hover:text-primary-foreground disabled:hover:bg-border-warm disabled:hover:text-ring-deep"
+                  disabled
+                >
+                  <Send className="size-3.5" />
+                </button>
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* Right: Properties panel */}
-        <aside className="flex w-[300px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[320px]">
-          {/* Properties area */}
-          <div className="flex-1 overflow-y-auto px-4 py-5">
-            <EditorDialog selectedElement={selectedElement} slideId={slides[slidesIndex].id} />
-          </div>
-
-          {/* AI Chat input bar (bottom) */}
-          <div className="shrink-0 border-t border-border p-4">
-            <div className="flex items-center gap-2 rounded-xl border border-border bg-background p-2 shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-shadow duration-200 focus-within:border-border-warm focus-within:shadow-[0px_0px_0px_1px_rgba(209,207,197,0.5)]">
-              <input
-                type="text"
-                className="min-w-0 flex-1 bg-transparent px-2 font-sans text-[0.8125rem] text-foreground outline-none placeholder:text-ring-deep"
-                placeholder="输入消息..."
-                disabled
-              />
-              <button
-                type="button"
-                className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-border-warm text-ring-deep transition-all duration-200 hover:bg-primary hover:text-primary-foreground disabled:hover:bg-border-warm disabled:hover:text-ring-deep"
-                disabled
-              >
-                <Send className="size-3.5" />
-              </button>
-            </div>
-          </div>
-        </aside>
-      </div>
+          </aside>
+        </div>
+      )}
     </main>
   )
 }
