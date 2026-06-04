@@ -16,6 +16,7 @@ export interface EditorState {
   style: string
   pageCount: number
   verbosity: Verbosity
+  isGeneratingOutline: boolean
 
   setPrompt: (prompt: string) => void
   setTitle: (title: string) => void
@@ -40,6 +41,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   style: "warm-editorial",
   pageCount: 12,
   verbosity: "moderate",
+  isGeneratingOutline: false,
 
   setPrompt: (prompt) => set({ prompt }),
   setTitle: (title) => set({ title }),
@@ -70,11 +72,16 @@ export const useEditorStore = create<EditorState>((set) => ({
   setVerbosity: (v) => set({ verbosity: v }),
 
   generateOutline: async (prompt) => {
-    const res = await apiClient.post("/generateOutline",{prompt})
-    set({
-      prompt,
-      title: res.data.title || "未命名演示文稿",
-      sections: res.data.sections
-    })
+    set({ isGeneratingOutline: true })
+    try {
+      const res = await apiClient.post("/generateOutline",{prompt})
+      set({
+        prompt,
+        title: res.data.title || "未命名演示文稿",
+        sections: res.data.sections
+      })
+    } finally {
+      set({ isGeneratingOutline: false })
+    }
   },
 }))

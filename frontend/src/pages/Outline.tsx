@@ -18,6 +18,13 @@ const STYLES = [
     preview: "#f5f4ed",
     accent: "#c96442",
     icon: "/anthropic.png"
+  }, {
+    id: "minimalist",
+    name: "Minimalist",
+    description: "极简 现代 ",
+    preview: "#f5edefff",
+    accent: "#6642c9ff",
+    icon: "/minimalist.png"
   }
 ]
 
@@ -45,6 +52,7 @@ export default function Outline() {
   const setStyle = useEditorStore((s) => s.setStyle)
   const setPageCount = useEditorStore((s) => s.setPageCount)
   const setVerbosity = useEditorStore((s) => s.setVerbosity)
+  const isGeneratingOutline = useEditorStore((s) => s.isGeneratingOutline)
 
   const minPages = sections.length
 
@@ -81,8 +89,45 @@ export default function Outline() {
       </header>
 
       <div className="mx-auto flex max-w-[1280px] gap-10 px-5 py-10 sm:px-8 lg:gap-14">
-        {/* Left: Outline */}
-        <section className="animate-fade-up min-w-0 flex-1">
+        {isGeneratingOutline ? (
+          <div className="flex w-full gap-10 lg:gap-14">
+            {/* Left: Outline Skeleton */}
+            <section className="flex-1 space-y-8">
+              <div className="mb-10">
+                <div className="h-4 w-24 rounded bg-stone-gray/10 animate-pulse mb-4"></div>
+                <div className="h-12 w-3/4 rounded-xl bg-stone-gray/10 animate-pulse"></div>
+              </div>
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-40 w-full rounded-2xl border border-border bg-stone-gray/5 animate-pulse"></div>
+                ))}
+              </div>
+            </section>
+            
+            {/* Right: Settings Skeleton */}
+            <aside className="hidden w-[288px] shrink-0 md:block">
+              <div className="sticky top-[88px] space-y-8">
+                <div className="space-y-4">
+                  <div className="h-3 w-16 rounded bg-stone-gray/10 animate-pulse"></div>
+                  <div className="h-16 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+                </div>
+                <div className="h-px bg-border-warm" />
+                <div className="space-y-4">
+                  <div className="h-3 w-16 rounded bg-stone-gray/10 animate-pulse"></div>
+                  <div className="h-12 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+                </div>
+                <div className="h-px bg-border-warm" />
+                <div className="space-y-4">
+                  <div className="h-3 w-16 rounded bg-stone-gray/10 animate-pulse"></div>
+                  <div className="h-[200px] w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        ) : (
+          <>
+            {/* Left: Outline */}
+            <section className="animate-fade-up min-w-0 flex-1">
           {/* Title */}
           <div className="mb-10">
             <label className="mb-3 block font-sans text-[0.625rem] font-medium uppercase tracking-[0.5px] text-stone-gray">
@@ -358,6 +403,8 @@ export default function Outline() {
             </button>
           </div>
         </aside>
+          </>
+        )}
       </div>
 
       {/* Mobile bottom bar for generate */}

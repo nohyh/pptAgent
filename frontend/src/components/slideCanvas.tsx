@@ -2,10 +2,17 @@ import { useRef, useState, useEffect, useCallback } from "react"
 import { Rnd } from "react-rnd"
 import type { SlideCanvasProps } from "@/types/editor"
 import { usePresentationStore } from "@/stores/presentationStore"
+import {
+  getCssFontFamily,
+  getCssFontSize,
+  getLineHeight,
+  htmlToPlainText,
+  plainTextToHtml,
+} from "@/lib/presentationLayout"
 import ContentEditableModule from "react-contenteditable"
 const ContentEditable = (ContentEditableModule as any).default || ContentEditableModule;
 
-const SlideCanvas = ({ slide, setSelectedId, selectedId }: SlideCanvasProps) => {
+const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: SlideCanvasProps) => {
   const updateElement = usePresentationStore(state => state.updateElement);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 1, height: 1 });
@@ -132,17 +139,17 @@ const SlideCanvas = ({ slide, setSelectedId, selectedId }: SlideCanvasProps) => 
             <Rnd key={element.id} {...rndProps}>
               <div style={{
                 width: '100%', height: '100%',
-                fontSize: `${(element.fontSize / 960) * 100}cqi`,
+                fontSize: getCssFontSize(element.fontSize, layout),
                 color: element.color,
                 textAlign: element.align,
-                fontFamily: element.font,
+                fontFamily: getCssFontFamily(element.font),
                 fontWeight: element.bold ? 'bold' : 'normal',
-                lineHeight: element.lineHeight || 1.5,
+                lineHeight: getLineHeight(element.lineHeight),
               }}>
                 <ContentEditable
-                  html={element.content}
+                  html={plainTextToHtml(element.content)}
                   disabled={!isSelected}
-                  onChange={(e: any) => updateElement(slide.id, element.id, { content: e.target.value })}
+                  onChange={(e: any) => updateElement(slide.id, element.id, { content: htmlToPlainText(e.target.value) })}
                   style={{
                     width: '100%', height: '100%',
                     outline: 'none', font: 'inherit', color: 'inherit',

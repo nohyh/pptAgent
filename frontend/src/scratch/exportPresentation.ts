@@ -1,4 +1,10 @@
 import { usePresentationStore } from "@/stores/presentationStore"
+import {
+  getLineHeight,
+  getPptFontFace,
+  htmlToPlainText,
+  toPptxPercent,
+} from "@/lib/presentationLayout"
 import pptxgen from "pptxgenjs"
 
 export function exportPresentation() {
@@ -23,33 +29,45 @@ export function exportPresentation() {
     }
     // 3. 遍历渲染每个元素
     for (const item of slide.elements) {
-      const x = `${item.x}%`
-      const y = `${item.y}%`
-      const w = `${item.width}%`
-      const h = `${item.height}%`
+      const x = toPptxPercent(item.x)
+      const y = toPptxPercent(item.y)
+      const w = toPptxPercent(item.width)
+      const h = toPptxPercent(item.height)
 
       if (item.type === "text") {
-        newSlide.addText(item.content, {
+        newSlide.addText(htmlToPlainText(item.content), {
           x,
           y,
           w,
           h,
-          fontSize: item.fontSize, // 我们恰好用的是绝对大小，可以直接映射为字号
+          fontSize: item.fontSize * 0.75, // Web 使用 960px 宽度 (96 DPI), PPT 使用 720pt (10 inches). 转换系数为 0.75
           color: item.color ? item.color.replace("#", "") : "000000",
           bold: item.bold,
           align: item.align || "left",
           valign: "top", // 网页绝对定位的文字默认都是顶部对齐
-          // 网页常用字体族往往是 "Georgia, serif"，而 PPT 里只能接受确切的字体名 "Georgia"
-          fontFace: item.font ? item.font.split(",")[0].trim() : "Arial",
+          fontFace: getPptFontFace(item.font),
+          lineSpacing: item.fontSize * 0.75 * getLineHeight(item.lineHeight), // 使用绝对 pt 值计算行高
+          margin: 0,
+          wrap: true,
+          autoFit: false,
         })
       } 
       else if (item.type === "image") {
+        // PptxGenJS needs raw base64 data without the 'data:image/...;base64,' prefix for the data field.
+        const isBase64 = item.src.startsWith("data:");
+        let imgData = item.src;
+        if (isBase64) {
+          // PptxGenJS expects "image/png;base64,iVBORw..." (without the "data:" prefix)
+          imgData = item.src.replace(/^data:/, "");
+        }
+
         newSlide.addImage({
-          path: item.src,
+          ...(isBase64 ? { data: imgData } : { path: item.src }),
           x,
           y,
           w,
           h,
+          altText: item.alt,
           sizing: { type: "cover", w, h } // 对应我们在网页里写的 objectFit: "cover"
         })
       } 

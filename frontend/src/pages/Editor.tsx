@@ -12,6 +12,7 @@ import {usePresentationStore} from "@/stores/presentationStore"
 import SlideCanvas from "@/components/slideCanvas"
 import { exportPresentation } from "@/scratch/exportPresentation"
 import {EditorDialog} from "@/pages/EditorDialog"
+import { getSlideAspectRatio } from "@/lib/presentationLayout"
 export default function Editor() {
   const [slidesIndex, setSlideIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -21,6 +22,7 @@ export default function Editor() {
   const slides = presentation?.slides || [];
   const currentSlide = slides[slidesIndex];
   const selectedElement = currentSlide?.elements?.find(e=>e.id===selectedId);
+  const slideAspectRatio = getSlideAspectRatio(presentation?.layout || "16x9");
   
   useEffect(()=>{
     setSelectedId(null);
@@ -113,8 +115,8 @@ export default function Editor() {
                         : "shadow-[0_0_0_1px_rgba(209,207,197,0.35)] hover:shadow-[0_0_0_1px_rgba(209,207,197,0.7)]"
                     }`}
                   >
-                    <div className="pointer-events-none flex aspect-[16/9] w-full items-center justify-center bg-ivory">
-                      <SlideCanvas slide={slide}/>
+                    <div className="pointer-events-none flex w-full items-center justify-center bg-ivory" style={{ aspectRatio: slideAspectRatio }}>
+                      <SlideCanvas slide={slide} layout={presentation?.layout}/>
                     </div>  
                   </button>
                 ))}
@@ -126,8 +128,8 @@ export default function Editor() {
           <section onClick={() => setSelectedId?.(null)}  className="relative flex min-w-0 flex-1 flex-col">
             {/* Slide canvas */}
             <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
-              <div className="animate-scale-in relative flex aspect-[16/9] w-full max-w-[1120px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]">
-                {currentSlide && <SlideCanvas slide={currentSlide} setSelectedId={setSelectedId} selectedId={selectedId} />}
+              <div className="animate-scale-in relative flex w-full max-w-[1120px] flex-col items-center justify-center rounded-2xl border border-border bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]" style={{ aspectRatio: slideAspectRatio }}>
+                {currentSlide && <SlideCanvas slide={currentSlide} layout={presentation?.layout} setSelectedId={setSelectedId} selectedId={selectedId} />}
               </div>
             </div>
 
