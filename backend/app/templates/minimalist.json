@@ -18,7 +18,9 @@
         "color": "#ffffff",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "制作/汇报日期，如果用户没有提供，请留空。",
+        "recommendlength": "2-10"
       },
       {
         "id": "cover-footer-product",
@@ -33,7 +35,9 @@
         "color": "#ffffff",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "作者姓名/汇报人姓名/产品名称。如果用户没有提供，请留空。",
+        "recommendlength": "2-10"
       },
       {
         "id": "cover-footer-company",
@@ -48,7 +52,9 @@
         "color": "#ffffff",
         "bold": false,
         "align": "right",
-        "content": ""
+        "content": "",
+        "description": "公司名字/班级名字/学校名字/组织名称。如果用户没有提供，请留空。",
+        "recommendlength": "2-10"
       },
       {
         "id": "cover-title",
@@ -63,7 +69,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "主标题，用于突出核心主题。",
+        "recommendlength": "5-15"
       },
       {
         "id": "cover-subtitle",
@@ -78,14 +86,16 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "副标题，用于补充说明主标题或提供特定的上下文信息。",
+        "recommendlength": "5-20"
       }
     ]
   },
   {
     "id": "minimalist-template-contents",
     "role": "detailed-points",
-    "description": "详细多点阐述页，针对某个特定的核心内容或概念，分成多点（最多6个要点）进行并列、深度的细分描述。",
+    "description": "详细多点阐述页，针对某个特定的核心内容或概念，分成6个要点进行并列、深度的细分描述。",
     "background": "#f0f0ec",
     "elements": [
       {
@@ -97,51 +107,6 @@
         "height": 5.8,
         "shapeType": "rect",
         "backgroundColor": "#000000"
-      },
-      {
-        "id": "contents-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "contents-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "contents-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
       },
       {
         "id": "contents-title",
@@ -156,7 +121,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "该页面的主标题，是对下列内容的概述或者引子",
+        "recommendlength": "4-10"
       },
       {
         "id": "contents-note",
@@ -171,7 +138,9 @@
         "color": "#000000",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "对主标题的补充说明",
+        "recommendlength": "4-20"
       },
       {
         "id": "contents-row-1-rule",
@@ -196,7 +165,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点1的标题名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "contents-row-1-body",
@@ -211,7 +182,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点1的详细描述内容。",
+        "recommendlength": "10-30"
       },
       {
         "id": "contents-row-2-rule",
@@ -236,7 +209,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点2的标题名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "contents-row-2-body",
@@ -251,7 +226,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点2的详细描述内容。",
+        "recommendlength": "10-30"
       },
       {
         "id": "contents-row-3-rule",
@@ -276,7 +253,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点3的标题名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "contents-row-3-body",
@@ -291,7 +270,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点3的详细描述内容。",
+        "recommendlength": "10-30"
       },
       {
         "id": "contents-row-4-rule",
@@ -316,7 +297,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点4的标题名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "contents-row-4-body",
@@ -331,7 +314,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点4的详细描述内容。",
+        "recommendlength": "10-30"
       },
       {
         "id": "contents-row-5-rule",
@@ -356,7 +341,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点5的标题名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "contents-row-5-body",
@@ -371,7 +358,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点5的详细描述内容。",
+        "recommendlength": "10-30"
       },
       {
         "id": "contents-row-6-rule",
@@ -396,7 +385,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点6的标题名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "contents-row-6-body",
@@ -411,7 +402,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "要点6的详细描述内容。",
+        "recommendlength": "10-30"
       },
       {
         "id": "contents-row-last-rule",
@@ -422,36 +415,6 @@
         "height": 0.15,
         "shapeType": "rect",
         "backgroundColor": "#b8b8b0"
-      },
-      {
-        "id": "contents-more",
-        "type": "text",
-        "x": 7,
-        "y": 84,
-        "width": 36,
-        "height": 7,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 9.8,
-        "lineHeight": 1.2,
-        "color": "#111111",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "contents-projects",
-        "type": "text",
-        "x": 56,
-        "y": 84,
-        "width": 36,
-        "height": 7,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 9.8,
-        "lineHeight": 1.2,
-        "color": "#111111",
-        "bold": false,
-        "align": "left",
-        "content": ""
       }
     ]
   },
@@ -472,51 +435,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "toc-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "toc-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "toc-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "toc-title",
         "type": "text",
         "x": 7,
@@ -529,7 +447,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "目录",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-1-number",
@@ -544,7 +464,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "01",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-1-label",
@@ -559,7 +481,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "目录第1章的标题名称。",
+        "recommendlength": "4-10"
       },
       {
         "id": "toc-2-number",
@@ -574,7 +498,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "02",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-2-label",
@@ -589,7 +515,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "目录第2章的标题名称。",
+        "recommendlength": "4-10"
       },
       {
         "id": "toc-3-number",
@@ -604,7 +532,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "03",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-3-label",
@@ -619,7 +549,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "目录第3章的标题名称。",
+        "recommendlength": "4-10"
       },
       {
         "id": "toc-4-number",
@@ -634,7 +566,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "04",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-4-label",
@@ -649,7 +583,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "目录第4章的标题名称。",
+        "recommendlength": "4-10"
       },
       {
         "id": "toc-5-number",
@@ -664,7 +600,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "05",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-5-label",
@@ -679,7 +617,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "目录第5章的标题名称。",
+        "recommendlength": "4-10"
       },
       {
         "id": "toc-6-number",
@@ -694,7 +634,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "06",
+        "description": "",
+        "recommendlength": ""
       },
       {
         "id": "toc-6-label",
@@ -709,7 +651,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "目录第6章的标题名称。",
+        "recommendlength": "4-10"
       }
     ]
   },
@@ -730,51 +674,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "definition-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "definition-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "definition-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "definition-title",
         "type": "text",
         "x": 7,
@@ -787,7 +686,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "定义/介绍页面主标题，通常用于阐述一个核心概念的名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "definition-body",
@@ -802,7 +703,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "对核心概念的简要定义或首段介绍性文字。",
+        "recommendlength": "15-50"
       },
       {
         "id": "definition-bullet-1",
@@ -817,7 +720,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "关于该定义支持性/细分的第1个要点描述。",
+        "recommendlength": "10-30"
       },
       {
         "id": "definition-bullet-2",
@@ -832,7 +737,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "关于该定义支持性/细分的第2个要点描述。",
+        "recommendlength": "10-30"
       },
       {
         "id": "definition-bullet-3",
@@ -847,7 +754,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "关于该定义支持性/细分的第3个要点描述。",
+        "recommendlength": "10-30"
       },
       {
         "id": "definition-closing",
@@ -862,7 +771,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "该定义页面的总结性陈述或结论性文字。",
+        "recommendlength": "10-50"
       },
       {
         "id": "definition-image",
@@ -872,7 +783,9 @@
         "width": 35,
         "height": 76,
         "src": "",
-        "alt": ""
+        "alt": "",
+        "description": "概念相关的配合性插图或产品图。",
+        "recommendlength": ""
       }
     ]
   },
@@ -882,51 +795,6 @@
     "description": "过渡章节页，用于在切换新板块或开始新篇章时插入的大标题封面，起到演讲节奏的缓冲与视觉分段的作用。",
     "background": "#000000",
     "elements": [
-      {
-        "id": "section-overview-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "section-overview-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "section-overview-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
       {
         "id": "section-number",
         "type": "text",
@@ -940,7 +808,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "章节的大序号，例如“01”或“第一章”。",
+        "recommendlength": "2-4"
       },
       {
         "id": "section-title",
@@ -955,7 +825,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "章节的主标题名称，如“项目背景与目标”。",
+        "recommendlength": "4-15"
       },
       {
         "id": "section-subtitle",
@@ -970,7 +842,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "关于此章节内容大纲或核心内容的简短说明。",
+        "recommendlength": "6-25"
       }
     ]
   },
@@ -991,51 +865,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "long-copy-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "long-copy-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "long-copy-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "long-copy-title",
         "type": "text",
         "x": 7,
@@ -1048,7 +877,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "长文本页面主标题。",
+        "recommendlength": "4-15"
       },
       {
         "id": "long-copy-body",
@@ -1063,7 +894,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "整页的详细长篇文字正文。适用于故事描述、背景交代或整段总结。",
+        "recommendlength": "200-300"
       }
     ]
   },
@@ -1084,51 +917,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "core-idea-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "core-idea-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "core-idea-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "core-idea-title",
         "type": "text",
         "x": 7,
@@ -1141,7 +929,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "核心观点/对比页面的主标题。",
+        "recommendlength": "4-15"
       },
       {
         "id": "core-idea-kicker-1",
@@ -1156,7 +946,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个观点/分栏的小标题或标签。",
+        "recommendlength": "2-15"
       },
       {
         "id": "core-idea-body-1",
@@ -1171,7 +963,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个观点/分栏的详细观点内容阐述。",
+        "recommendlength": "150-200"
       },
       {
         "id": "core-idea-kicker-2",
@@ -1186,7 +980,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个观点/分栏的小标题或标签。",
+        "recommendlength": "2-15"
       },
       {
         "id": "core-idea-body-2",
@@ -1201,7 +997,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个观点/分栏的详细观点内容阐述。",
+        "recommendlength": "150-200"
       },
       {
         "id": "core-idea-image",
@@ -1211,7 +1009,9 @@
         "width": 29,
         "height": 48,
         "src": "",
-        "alt": ""
+        "alt": "",
+        "description": "居中或右侧的核心配图，展示观点相关的场景或流程。",
+        "recommendlength": ""
       }
     ]
   },
@@ -1232,51 +1032,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "main-ideas-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "main-ideas-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "main-ideas-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "main-ideas-title",
         "type": "text",
         "x": 7,
@@ -1289,7 +1044,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "三栏页面主标题。",
+        "recommendlength": "4-15"
       },
       {
         "id": "main-idea-1-number",
@@ -1304,7 +1061,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个想法/栏目的数字序号，如“01”。",
+        "recommendlength": "1-2"
       },
       {
         "id": "main-idea-1-title",
@@ -1319,7 +1078,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个想法/栏目的简短小标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "main-idea-1-body",
@@ -1334,7 +1095,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个想法/栏目的详细观点描述内容。",
+        "recommendlength": "100-150"
       },
       {
         "id": "main-idea-2-number",
@@ -1349,7 +1112,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个想法/栏目的数字序号，如“02”。",
+        "recommendlength": "1-2"
       },
       {
         "id": "main-idea-2-title",
@@ -1364,7 +1129,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个想法/栏目的简短小标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "main-idea-2-body",
@@ -1379,7 +1146,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个想法/栏目的详细观点描述内容。",
+        "recommendlength": "100-150"
       },
       {
         "id": "main-idea-3-number",
@@ -1394,7 +1163,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第3个想法/栏目的数字序号，如“03”。",
+        "recommendlength": "1-2"
       },
       {
         "id": "main-idea-3-title",
@@ -1409,7 +1180,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第3个想法/栏目的简短小标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "main-idea-3-body",
@@ -1424,7 +1197,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第3个想法/栏目的详细观点描述内容。",
+        "recommendlength": "100-150"
       }
     ]
   },
@@ -1445,51 +1220,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "market-opportunity-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "market-opportunity-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "market-opportunity-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "market-title",
         "type": "text",
         "x": 7,
@@ -1502,7 +1232,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "四栏机会/板块分栏页面的主标题。",
+        "recommendlength": "4-15"
       },
       {
         "id": "market-1-title",
@@ -1517,7 +1249,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个板块/要点的名称或主标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "market-1-body",
@@ -1532,7 +1266,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第1个板块/要点的详细阐释说明。",
+        "recommendlength": "80-150"
       },
       {
         "id": "market-2-title",
@@ -1547,7 +1283,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个板块/要点的名称或主标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "market-2-body",
@@ -1562,7 +1300,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第2个板块/要点的详细阐释说明。",
+        "recommendlength": "80-150"
       },
       {
         "id": "market-3-title",
@@ -1577,7 +1317,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第3个板块/要点的名称或主标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "market-3-body",
@@ -1592,7 +1334,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第3个板块/要点的详细阐释说明。",
+        "recommendlength": "80-150"
       },
       {
         "id": "market-4-title",
@@ -1607,7 +1351,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第4个板块/要点的名称或主标题。",
+        "recommendlength": "2-10"
       },
       {
         "id": "market-4-body",
@@ -1622,7 +1368,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "第4个板块/要点的详细阐释说明。",
+        "recommendlength": "80-150"
       }
     ]
   },
@@ -1632,51 +1380,6 @@
     "description": "夸张数据海报页，使用超大号字体的数字重点展示关键数据，视觉冲击力强，极适合贴出市场份额、核心参数或实验科研结果。",
     "background": "#000000",
     "elements": [
-      {
-        "id": "metrics-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": true,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "metrics-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": true,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "metrics-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": true,
-        "align": "right",
-        "content": ""
-      },
       {
         "id": "metric-users-value",
         "type": "text",
@@ -1690,7 +1393,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "展示【用户/第一】指标的核心数值，如“100k+”或“15min”。",
+        "recommendlength": "1-15"
       },
       {
         "id": "metric-users-label",
@@ -1705,7 +1410,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "【用户/第一】指标的定义或注解，如“总注册用户”或“平均响应时长”。",
+        "recommendlength": "2-10"
       },
       {
         "id": "metric-time-value",
@@ -1720,7 +1427,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "展示【时间/第二】指标的核心数值，如“100k+”或“15min”。",
+        "recommendlength": "1-15"
       },
       {
         "id": "metric-time-label",
@@ -1735,7 +1444,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "【时间/第二】指标的定义或注解，如“总注册用户”或“平均响应时长”。",
+        "recommendlength": "2-10"
       },
       {
         "id": "metric-distance-value",
@@ -1750,7 +1461,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "展示【距离/第三】指标的核心数值，如“100k+”或“15min”。",
+        "recommendlength": "1-15"
       },
       {
         "id": "metric-distance-label",
@@ -1765,7 +1478,9 @@
         "color": "#ffffff",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "【距离/第三】指标的定义或注解，如“总注册用户”或“平均响应时长”。",
+        "recommendlength": "2-10"
       }
     ]
   },
@@ -1786,51 +1501,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "product-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "product-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "product-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "product-title",
         "type": "text",
         "x": 7,
@@ -1843,7 +1513,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "产品宣传/特性页面的主标题，如“核心特色介绍”。",
+        "recommendlength": "4-15"
       },
       {
         "id": "product-left-1-title",
@@ -1858,7 +1530,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "左侧第1个特色卖点/功能名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "product-left-1-caption",
@@ -1873,7 +1547,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "左侧第1个特色卖点/功能的详细特色说明。",
+        "recommendlength": "10-30"
       },
       {
         "id": "product-left-1-rule",
@@ -1898,7 +1574,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "左侧第2个特色卖点/功能名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "product-left-2-caption",
@@ -1913,7 +1591,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "左侧第2个特色卖点/功能的详细特色说明。",
+        "recommendlength": "10-30"
       },
       {
         "id": "product-left-2-rule",
@@ -1938,7 +1618,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "左侧第3个特色卖点/功能名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "product-left-3-caption",
@@ -1953,7 +1635,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "左侧第3个特色卖点/功能的详细特色说明。",
+        "recommendlength": "10-30"
       },
       {
         "id": "product-left-3-rule",
@@ -1966,34 +1650,16 @@
         "backgroundColor": "#b8b8b0"
       },
       {
-        "id": "product-phone",
-        "type": "block",
-        "x": 43,
-        "y": 23,
-        "width": 16,
-        "height": 57,
-        "shapeType": "roundRect",
-        "backgroundColor": "#000000"
-      },
-      {
-        "id": "product-phone-image",
+        "id": "center-image",
         "type": "image",
         "x": 45.2,
         "y": 27,
         "width": 11.6,
         "height": 42,
         "src": "",
-        "alt": ""
-      },
-      {
-        "id": "product-phone-home",
-        "type": "block",
-        "x": 48.5,
-        "y": 73,
-        "width": 5,
-        "height": 1.8,
-        "shapeType": "roundRect",
-        "backgroundColor": "#ffffff"
+        "alt": "",
+        "description": "居中的核心产品展示图、宣传插图或示意图。",
+        "recommendlength": ""
       },
       {
         "id": "product-right-1-title",
@@ -2008,7 +1674,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "右侧第1个特色卖点/功能名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "product-right-1-caption",
@@ -2023,7 +1691,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "右侧第1个特色卖点/功能的详细特色说明。",
+        "recommendlength": "10-30"
       },
       {
         "id": "product-right-1-rule",
@@ -2048,7 +1718,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "右侧第2个特色卖点/功能名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "product-right-2-caption",
@@ -2063,7 +1735,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "右侧第2个特色卖点/功能的详细特色说明。",
+        "recommendlength": "10-30"
       },
       {
         "id": "product-right-2-rule",
@@ -2088,7 +1762,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "右侧第3个特色卖点/功能名称。",
+        "recommendlength": "2-8"
       },
       {
         "id": "product-right-3-caption",
@@ -2103,7 +1779,9 @@
         "color": "#111111",
         "bold": false,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "右侧第3个特色卖点/功能的详细特色说明。",
+        "recommendlength": "10-30"
       },
       {
         "id": "product-right-3-rule",
@@ -2134,51 +1812,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "org-chart-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "org-chart-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "org-chart-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": false,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "org-title",
         "type": "text",
         "x": 36,
@@ -2191,7 +1824,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "团队架构/核心成员介绍页的主标题。",
+        "recommendlength": "4-15"
       },
       {
         "id": "org-ceo-box",
@@ -2217,7 +1852,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "CEO/创始人名字以及其履历、主要成就和分工的一句话介绍。",
+        "recommendlength": "10-40"
       },
       {
         "id": "org-head-1-box",
@@ -2243,7 +1880,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "核心高管/人物1的名字以及其职位、背景履历介绍。",
+        "recommendlength": "10-40"
       },
       {
         "id": "org-head-2-box",
@@ -2269,7 +1908,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "核心高管/人物2的名字以及其职位、背景履历介绍。",
+        "recommendlength": "10-40"
       },
       {
         "id": "org-manager-1-box",
@@ -2295,7 +1936,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第1部门主管/人物的职位/姓名以及其一句话介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-manager-2-box",
@@ -2321,7 +1964,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第2部门主管/人物的职位/姓名以及其一句话介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-manager-3-box",
@@ -2347,7 +1992,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第3部门主管/人物的职位/姓名以及其一句话介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-manager-4-box",
@@ -2373,7 +2020,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第4部门主管/人物的职位/姓名以及其一句话介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-employee-1-text",
@@ -2388,7 +2037,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第1团队关键成员的职位/姓名以及其简短分工介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-employee-2-text",
@@ -2403,7 +2054,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第2团队关键成员的职位/姓名以及其简短分工介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-employee-3-text",
@@ -2418,7 +2071,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第3团队关键成员的职位/姓名以及其简短分工介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-employee-4-text",
@@ -2433,7 +2088,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第4团队关键成员的职位/姓名以及其简短分工介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-employee-5-text",
@@ -2448,7 +2105,9 @@
         "color": "#111111",
         "bold": false,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第5团队关键成员的职位/姓名以及其简短分工介绍。",
+        "recommendlength": "5-30"
       },
       {
         "id": "org-line-1",
@@ -2589,51 +2248,6 @@
         "backgroundColor": "#000000"
       },
       {
-        "id": "kpi-footer-date",
-        "type": "text",
-        "x": 0.8,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": true,
-        "align": "left",
-        "content": ""
-      },
-      {
-        "id": "kpi-footer-product",
-        "type": "text",
-        "x": 45,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": true,
-        "align": "center",
-        "content": ""
-      },
-      {
-        "id": "kpi-footer-company",
-        "type": "text",
-        "x": 84,
-        "y": 96.2,
-        "width": 15,
-        "height": 2.5,
-        "font": "Arial, Helvetica, sans-serif",
-        "fontSize": 7.7,
-        "lineHeight": 1.2,
-        "color": "#ffffff",
-        "bold": true,
-        "align": "right",
-        "content": ""
-      },
-      {
         "id": "kpi-title",
         "type": "text",
         "x": 7,
@@ -2646,7 +2260,9 @@
         "color": "#111111",
         "bold": true,
         "align": "left",
-        "content": ""
+        "content": "",
+        "description": "数据看板/核心KPI分析页的主标题。",
+        "recommendlength": "4-15"
       },
       {
         "id": "kpi-header-0",
@@ -2661,7 +2277,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第1列的表头标题。",
+        "recommendlength": "2-8"
       },
       {
         "id": "kpi-header-1",
@@ -2676,7 +2294,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第2列的表头标题。",
+        "recommendlength": "2-8"
       },
       {
         "id": "kpi-header-2",
@@ -2691,7 +2311,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第3列的表头标题。",
+        "recommendlength": "2-8"
       },
       {
         "id": "kpi-header-3",
@@ -2706,7 +2328,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第4列的表头标题。",
+        "recommendlength": "2-8"
       },
       {
         "id": "kpi-table-line-0",
@@ -2801,7 +2425,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第1行第1列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-0-1",
@@ -2816,7 +2442,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第1行第2列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-0-2",
@@ -2831,7 +2459,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第1行第3列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-0-3",
@@ -2846,7 +2476,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第1行第4列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-1-0",
@@ -2861,7 +2493,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第2行第1列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-1-1",
@@ -2876,7 +2510,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第2行第2列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-1-2",
@@ -2891,7 +2527,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第2行第3列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-1-3",
@@ -2906,7 +2544,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第2行第4列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-2-0",
@@ -2921,7 +2561,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第3行第1列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-2-1",
@@ -2936,7 +2578,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第3行第2列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-2-2",
@@ -2951,7 +2595,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第3行第3列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-2-3",
@@ -2966,7 +2612,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第3行第4列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-3-0",
@@ -2981,7 +2629,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第4行第1列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-3-1",
@@ -2996,7 +2646,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第4行第2列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-3-2",
@@ -3011,7 +2663,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第4行第3列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-3-3",
@@ -3026,7 +2680,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第4行第4列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-4-0",
@@ -3041,7 +2697,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第5行第1列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-4-1",
@@ -3056,7 +2714,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第5行第2列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-4-2",
@@ -3071,7 +2731,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第5行第3列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-4-3",
@@ -3086,7 +2748,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第5行第4列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-5-0",
@@ -3101,7 +2765,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第6行第1列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-5-1",
@@ -3116,7 +2782,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第6行第2列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-5-2",
@@ -3131,7 +2799,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第6行第3列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
         "id": "kpi-row-5-3",
@@ -3146,10 +2816,12 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "数据分析表格第6行第4列的具体数据或内容项目。",
+        "recommendlength": "2-15"
       },
       {
-        "id": "kpi-revenue",
+        "id": "kpi-card-1-value",
         "type": "text",
         "x": 55,
         "y": 18,
@@ -3161,10 +2833,12 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第一组指标/数据的数值，如“¥2,500,000”或比例。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-revenue-label",
+        "id": "kpi-card-1-label",
         "type": "text",
         "x": 55,
         "y": 24,
@@ -3176,10 +2850,12 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第一组指标/数据的名称或标签，如“总销售额”或“用户量”。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-costs",
+        "id": "kpi-card-2-value",
         "type": "text",
         "x": 70,
         "y": 18,
@@ -3191,10 +2867,12 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第二组指标/数据的数值。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-costs-label",
+        "id": "kpi-card-2-label",
         "type": "text",
         "x": 70,
         "y": 24,
@@ -3206,10 +2884,12 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第二组指标/数据的名称或标签。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-profit",
+        "id": "kpi-card-3-value",
         "type": "text",
         "x": 84,
         "y": 18,
@@ -3221,10 +2901,12 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第三组指标/数据的数值。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-profit-label",
+        "id": "kpi-card-3-label",
         "type": "text",
         "x": 84,
         "y": 24,
@@ -3236,7 +2918,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "第三组指标/数据的名称或标签。",
+        "recommendlength": "2-10"
       },
       {
         "id": "kpi-chart-grid-0",
@@ -3289,37 +2973,43 @@
         "backgroundColor": "#b8b8b0"
       },
       {
-        "id": "kpi-chart-bar-revenue",
+        "id": "kpi-chart-bar-1",
         "type": "block",
         "x": 60,
-        "y": 42,
+        "y": 68,
         "width": 7,
-        "height": 36,
+        "height": 0,
         "shapeType": "rect",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#000000",
+        "description": "图表第1个数据柱的高度数值。允许取值范围为0到32之间的整数，通过调整高度来展示对应的数据大小（0标度线在Y=68处，只允许修改height）。",
+        "recommendlength": "1-5"
       },
       {
-        "id": "kpi-chart-bar-costs",
+        "id": "kpi-chart-bar-2",
         "type": "block",
         "x": 73,
-        "y": 75,
+        "y": 68,
         "width": 7,
-        "height": 3,
+        "height": 0,
         "shapeType": "rect",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#000000",
+        "description": "图表第2个数据柱的高度数值。允许取值范围为0到32之间的整数，只允许修改height。",
+        "recommendlength": "1-5"
       },
       {
-        "id": "kpi-chart-bar-profit",
+        "id": "kpi-chart-bar-3",
         "type": "block",
         "x": 86,
-        "y": 43,
+        "y": 68,
         "width": 7,
-        "height": 35,
+        "height": 0,
         "shapeType": "rect",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#000000",
+        "description": "图表第3个数据柱的高度数值。允许取值范围为0到32之间的整数，只允许修改height。",
+        "recommendlength": "1-5"
       },
       {
-        "id": "kpi-axis-4000",
+        "id": "kpi-chart-axis-4",
         "type": "text",
         "x": 54,
         "y": 35,
@@ -3331,10 +3021,12 @@
         "color": "#111111",
         "bold": true,
         "align": "right",
-        "content": ""
+        "content": "",
+        "description": "纵坐标最顶端刻度（自下而上第5档）的数值或单位，如“100%”、“40k”等。",
+        "recommendlength": "1-6"
       },
       {
-        "id": "kpi-axis-3000",
+        "id": "kpi-chart-axis-3",
         "type": "text",
         "x": 54,
         "y": 43,
@@ -3346,10 +3038,12 @@
         "color": "#111111",
         "bold": true,
         "align": "right",
-        "content": ""
+        "content": "",
+        "description": "纵坐标自下而上第4档刻度的数值，如“75%”、“30k”等。",
+        "recommendlength": "1-6"
       },
       {
-        "id": "kpi-axis-2000",
+        "id": "kpi-chart-axis-2",
         "type": "text",
         "x": 54,
         "y": 51,
@@ -3361,10 +3055,12 @@
         "color": "#111111",
         "bold": true,
         "align": "right",
-        "content": ""
+        "content": "",
+        "description": "纵坐标自下而上第3档刻度的数值，如“50%”、“20k”等。",
+        "recommendlength": "1-6"
       },
       {
-        "id": "kpi-axis-1000",
+        "id": "kpi-chart-axis-1",
         "type": "text",
         "x": 54,
         "y": 59,
@@ -3376,13 +3072,15 @@
         "color": "#111111",
         "bold": true,
         "align": "right",
-        "content": ""
+        "content": "",
+        "description": "纵坐标自下而上第2档刻度的数值，如“25%”、“10k”等。",
+        "recommendlength": "1-6"
       },
       {
-        "id": "kpi-axis-0",
+        "id": "kpi-chart-axis-0",
         "type": "text",
         "x": 54,
-        "y": 75,
+        "y": 67,
         "width": 4,
         "height": 3,
         "font": "Arial, Helvetica, sans-serif",
@@ -3391,13 +3089,15 @@
         "color": "#111111",
         "bold": true,
         "align": "right",
-        "content": ""
+        "content": "",
+        "description": "纵坐标最底端（自下而上第1档）的数值，通常为“0”或起始基准值。",
+        "recommendlength": "1-6"
       },
       {
-        "id": "kpi-label-revenue",
+        "id": "kpi-chart-label-1",
         "type": "text",
         "x": 59,
-        "y": 80,
+        "y": 70,
         "width": 9,
         "height": 3,
         "font": "Arial, Helvetica, sans-serif",
@@ -3406,13 +3106,15 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "图表中第1根柱子对应的横轴标签名称，如季度/年份或类别。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-label-costs",
+        "id": "kpi-chart-label-2",
         "type": "text",
         "x": 71,
-        "y": 80,
+        "y": 70,
         "width": 12,
         "height": 3,
         "font": "Arial, Helvetica, sans-serif",
@@ -3421,13 +3123,15 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "图表中第2根柱子对应的横轴标签名称。",
+        "recommendlength": "2-10"
       },
       {
-        "id": "kpi-label-profit",
+        "id": "kpi-chart-label-3",
         "type": "text",
         "x": 86,
-        "y": 80,
+        "y": 70,
         "width": 9,
         "height": 3,
         "font": "Arial, Helvetica, sans-serif",
@@ -3436,7 +3140,9 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "图表中第3根柱子对应的横轴标签名称。",
+        "recommendlength": "2-10"
       },
       {
         "id": "kpi-footnote",
@@ -3451,7 +3157,32 @@
         "color": "#111111",
         "bold": true,
         "align": "center",
-        "content": ""
+        "content": "",
+        "description": "该数据面板底部的注释、数据来源说明或脚注内容。",
+        "recommendlength": "4-30"
+      }
+    ]
+  },
+  {
+    "id": "minimalist-thanks",
+    "role": "thanks",
+    "description": "固定结尾页，用于在演示文稿末尾展示感谢语。",
+    "background": "#000000",
+    "elements": [
+      {
+        "id": "thanks-title",
+        "type": "text",
+        "x": 0,
+        "y": 43,
+        "width": 100,
+        "height": 14,
+        "font": "Arial, Helvetica, sans-serif",
+        "fontSize": 72,
+        "lineHeight": 1,
+        "color": "#ffffff",
+        "bold": true,
+        "align": "center",
+        "content": "THANKS"
       }
     ]
   }

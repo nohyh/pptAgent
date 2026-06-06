@@ -31,6 +31,13 @@ def test_minimalist_pitch_deck_template_and_mock_are_registered():
         element["type"] == "text" and element["content"] == "4,498,300,000"
         for element in mock_presentation["slides"][9]["elements"]
     )
+    assert minimalist_templates[-1]["role"] == "thanks"
+    assert mock_presentation["slides"][-1]["id"] == "minimalist-thanks"
+    assert mock_presentation["slides"][-1]["background"] == "#000000"
+    assert mock_presentation["slides"][-1]["elements"][0]["y"] == 43
+    assert mock_presentation["slides"][-1]["elements"][0]["height"] == 14
+    assert mock_presentation["slides"][-1]["elements"][0]["fontSize"] == 72
+    assert mock_presentation["slides"][-1]["elements"][0]["content"] == "THANKS"
     assert not mock_presentation["slides"][0]["id"].startswith("minimalist-pitch-deck-slide")
 
     Presentation.model_validate(mock_presentation)

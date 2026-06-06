@@ -7,18 +7,21 @@ import {
   Send,
   Download,
   Maximize2,
+  AlertCircle,
 } from "lucide-react"
 import {usePresentationStore} from "@/stores/presentationStore"
 import SlideCanvas from "@/components/slideCanvas"
 import { exportPresentation } from "@/scratch/exportPresentation"
 import {EditorDialog} from "@/pages/EditorDialog"
 import { getSlideAspectRatio } from "@/lib/presentationLayout"
+
 export default function Editor() {
   const [slidesIndex, setSlideIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
   const presentation = usePresentationStore((state) => state.presentation);
   const isLoading = usePresentationStore((state) => state.isLoading);
+  const generateError = usePresentationStore((state) => state.generateError);
   const slides = presentation?.slides || [];
   const currentSlide = slides[slidesIndex];
   const selectedElement = currentSlide?.elements?.find(e=>e.id===selectedId);
@@ -69,35 +72,82 @@ export default function Editor() {
 
       {/* Main content: Thumbnails + PPT area + Chat panel */}
       {isLoading ? (
-        <div className="flex min-h-0 flex-1">
-          {/* Left: Slide thumbnail strip skeleton */}
-          <nav className="hidden w-52 shrink-0 flex-col border-r border-border bg-ivory/50 lg:flex p-4 gap-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="aspect-[16/9] w-full rounded-lg bg-stone-gray/10 animate-pulse"></div>
-            ))}
+        <div className="flex min-h-0 flex-1 animate-pulse">
+          <nav className="hidden w-52 shrink-0 border-r border-border bg-ivory/50 lg:block">
+            <div className="space-y-3 px-4 py-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="rounded-lg bg-background p-2 shadow-[0_0_0_1px_rgba(209,207,197,0.35)]">
+                  <div className="aspect-[16/9] rounded bg-stone-gray/10" />
+                  <div className="mt-2 h-2 w-8 rounded-full bg-stone-gray/10" />
+                </div>
+              ))}
+            </div>
           </nav>
 
-          {/* Center: PPT display area skeleton */}
-          <section className="relative flex min-w-0 flex-1 flex-col items-center justify-center p-6 lg:p-8">
-            <div className="flex flex-col items-center gap-4 mb-6">
-              <div className="size-8 animate-spin rounded-full border-4 border-primary border-r-transparent border-t-transparent"></div>
-              <p className="font-sans text-[0.8125rem] text-stone-gray animate-pulse">
-                AI 正在为您排版并生成演示文稿，这可能需要几分钟...
-              </p>
+          <section className="flex min-w-0 flex-1 flex-col bg-background">
+            <div className="flex flex-1 items-center justify-center p-6 lg:p-8">
+              <div className="w-full max-w-[1120px]">
+                <div className="mb-4 flex items-center justify-between">
+                  <p className="font-sans text-[0.8125rem] text-stone-gray">正在生成 PPT...</p>
+                  <div className="h-2 w-16 rounded-full bg-stone-gray/10" />
+                </div>
+                <div
+                  className="rounded-2xl border border-border bg-ivory p-8 shadow-[0px_0px_0px_1px_rgba(209,207,197,0.3),0px_12px_40px_rgba(20,20,19,0.06)]"
+                  style={{ aspectRatio: slideAspectRatio }}
+                >
+                  <div className="grid h-full grid-cols-[1fr_0.72fr] gap-8">
+                    <div className="flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <div className="h-5 w-2/3 rounded-full bg-stone-gray/15" />
+                        <div className="h-3 w-5/6 rounded-full bg-stone-gray/10" />
+                        <div className="h-3 w-3/5 rounded-full bg-stone-gray/10" />
+                      </div>
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="h-20 rounded-lg bg-background" />
+                        <div className="h-20 rounded-lg bg-background" />
+                        <div className="h-20 rounded-lg bg-background" />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="h-28 rounded-lg bg-background" />
+                      <div className="h-3 w-4/5 rounded-full bg-stone-gray/10" />
+                      <div className="h-3 w-3/5 rounded-full bg-stone-gray/10" />
+                      <div className="mt-8 h-28 rounded-lg bg-background" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="aspect-[16/9] w-full max-w-[1120px] rounded-2xl border border-border bg-stone-gray/5 animate-pulse"></div>
           </section>
 
-          {/* Right: Properties panel skeleton */}
-          <aside className="flex w-[300px] shrink-0 flex-col border-l border-border bg-ivory xl:w-[320px] p-5 space-y-6">
-            <div className="h-6 w-32 rounded bg-stone-gray/10 animate-pulse"></div>
+          <aside className="hidden w-[300px] shrink-0 border-l border-border bg-ivory px-5 py-5 xl:block xl:w-[320px]">
             <div className="space-y-4">
-              <div className="h-24 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
-              <div className="h-24 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
-              <div className="h-24 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="rounded-lg bg-background p-4">
+                  <div className="h-3 w-2/5 rounded-full bg-stone-gray/15" />
+                  <div className="mt-4 h-9 rounded bg-stone-gray/10" />
+                </div>
+              ))}
             </div>
           </aside>
         </div>
+      ) : generateError ? (
+        <section className="flex min-h-0 flex-1 items-center justify-center px-5">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-ivory px-7 py-8 text-center shadow-[0px_0px_0px_1px_rgba(209,207,197,0.25),0px_16px_44px_rgba(20,20,19,0.06)]">
+            <div className="mx-auto mb-5 flex size-11 items-center justify-center rounded-xl bg-background text-destructive shadow-[0_0_0_1px_rgba(209,207,197,0.5)]">
+              <AlertCircle className="size-5" />
+            </div>
+            <h1 className="font-heading text-[1.5rem] font-medium text-foreground">生成失败</h1>
+            <p className="mt-3 font-sans text-[0.875rem] leading-relaxed text-stone-gray">{generateError}</p>
+            <button
+              type="button"
+              className="mt-7 rounded-full bg-neutral-900 px-6 py-3 font-sans text-[0.875rem] font-medium text-[#F5F0E8] transition-all hover:bg-neutral-800"
+              onClick={() => navigate("/outline")}
+            >
+              返回大纲
+            </button>
+          </div>
+        </section>
       ) : (
         <div className="flex min-h-0 flex-1">
           {/* Left: Slide thumbnail strip */}

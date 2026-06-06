@@ -2,6 +2,7 @@ import type { Presentation } from "@/types/presentation";
 import { create } from "zustand";
 import { useEditorStore } from "./editorStore";
 import apiClient from "@/api/apiClient";
+import { getApiErrorMessage } from "@/lib/apiError";
 interface PresentationState {
   presentation: Presentation | null;
 
@@ -15,10 +16,12 @@ interface PresentationState {
   generatePresentation: () => Promise<void>
   
   isLoading:boolean;
+  generateError: string | null;
 }
 const usePresentationStore =  create<PresentationState>((set)=>({
     presentation :null,
     isLoading:false,
+    generateError:null,
     setPresentation :(newPresentation)=>set({
         presentation: newPresentation
     }),
@@ -68,21 +71,27 @@ const usePresentationStore =  create<PresentationState>((set)=>({
 
 
     generatePresentation: async()=>{
-        const {prompt,title,sections,style,pageCount,verbosity}=useEditorStore.getState()
-        set({isLoading:true})
-        const res = await apiClient.post("/generatePpt",{
-            prompt,
-            layout:"16x9",
-            theme:style,
-            title,
-            sections,
-            pageCount,
-            verbosity
-        })
-        set({
-            presentation: res.data,
-            isLoading:false
-        })
+        const {prompt,title,sections,style,pageCount}=useEditorStore.getState()
+        set({isLoading:true, generateError:null})
+        try {
+            const res = await apiClient.post("/generatePpt",{
+                prompt,
+                layout:"16x9",
+                theme:style,
+                title,
+                sections,
+                pageCount
+            })
+            set({
+                presentation: res.data
+            })
+        } catch (error) {
+            set({
+                generateError: getApiErrorMessage(error, "PPT 生成失败，请稍后重试。")
+            })
+        } finally {
+            set({isLoading:false})
+        }
     }
 }))
 

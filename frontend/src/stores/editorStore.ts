@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import  apiClient from "@/api/apiClient"
+import { getApiErrorMessage } from "@/lib/apiError"
 
 export interface OutlineSection {
   id: string
@@ -7,16 +8,14 @@ export interface OutlineSection {
   content: string
 }
 
-export type Verbosity = "detailed" | "moderate" | "brief"
-
 export interface EditorState {
   prompt: string
   title: string
   sections: OutlineSection[]
   style: string
   pageCount: number
-  verbosity: Verbosity
   isGeneratingOutline: boolean
+  outlineError: string | null
 
   setPrompt: (prompt: string) => void
   setTitle: (title: string) => void
@@ -25,8 +24,7 @@ export interface EditorState {
   removeSection: (id: string) => void
   setStyle: (style: string) => void
   setPageCount: (count: number) => void
-  setVerbosity: (v: Verbosity) => void
-  generateOutline: (prompt: string) => void
+  generateOutline: (prompt: string) => Promise<void>
 }
 
 let nextId = 0
@@ -40,8 +38,8 @@ export const useEditorStore = create<EditorState>((set) => ({
   sections: [],
   style: "warm-editorial",
   pageCount: 12,
-  verbosity: "moderate",
   isGeneratingOutline: false,
+  outlineError: null,
 
   setPrompt: (prompt) => set({ prompt }),
   setTitle: (title) => set({ title }),
@@ -69,16 +67,18 @@ export const useEditorStore = create<EditorState>((set) => ({
     }),
   setStyle: (style) => set({ style }),
   setPageCount: (count) => set({ pageCount: count }),
-  setVerbosity: (v) => set({ verbosity: v }),
 
   generateOutline: async (prompt) => {
-    set({ isGeneratingOutline: true })
+    set({ isGeneratingOutline: true, outlineError: null, prompt })
     try {
       const res = await apiClient.post("/generateOutline",{prompt})
       set({
-        prompt,
         title: res.data.title || "未命名演示文稿",
-        sections: res.data.sections
+        sections: res.data.sections,
+      })
+    } catch (error) {
+      set({
+        outlineError: getApiErrorMessage(error, "大纲生成失败，请稍后重试。"),
       })
     } finally {
       set({ isGeneratingOutline: false })

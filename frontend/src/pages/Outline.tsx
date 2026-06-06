@@ -5,8 +5,9 @@ import {
   Trash2,
   Minus,
   GripVertical,
+  AlertCircle,
 } from "lucide-react"
-import { useEditorStore, type Verbosity } from "@/stores/editorStore"
+import { useEditorStore } from "@/stores/editorStore"
 import { usePresentationStore } from "@/stores/presentationStore"
 
 const generatePresentation = usePresentationStore.getState().generatePresentation
@@ -28,12 +29,6 @@ const STYLES = [
   }
 ]
 
-const VERBOSITY_OPTIONS: { id: Verbosity; label: string; desc: string }[] = [
-  { id: "detailed", label: "详细", desc: "每页包含完整的段落与数据说明" },
-  { id: "moderate", label: "适中", desc: "每页保留关键要点与简要说明" },
-  { id: "brief", label: "少量", desc: "每页仅保留核心关键词与短句" },
-]
-
 function clampPageCount(value: number, min: number): number {
   return Math.max(min, Math.min(50, value))
 }
@@ -44,15 +39,14 @@ export default function Outline() {
   const sections = useEditorStore((s) => s.sections)
   const style = useEditorStore((s) => s.style)
   const pageCount = useEditorStore((s) => s.pageCount)
-  const verbosity = useEditorStore((s) => s.verbosity)
   const setTitle = useEditorStore((s) => s.setTitle)
   const updateSection = useEditorStore((s) => s.updateSection)
   const addSection = useEditorStore((s) => s.addSection)
   const removeSection = useEditorStore((s) => s.removeSection)
   const setStyle = useEditorStore((s) => s.setStyle)
   const setPageCount = useEditorStore((s) => s.setPageCount)
-  const setVerbosity = useEditorStore((s) => s.setVerbosity)
   const isGeneratingOutline = useEditorStore((s) => s.isGeneratingOutline)
+  const outlineError = useEditorStore((s) => s.outlineError)
 
   const minPages = sections.length
 
@@ -90,40 +84,53 @@ export default function Outline() {
 
       <div className="mx-auto flex max-w-[1280px] gap-10 px-5 py-10 sm:px-8 lg:gap-14">
         {isGeneratingOutline ? (
-          <div className="flex w-full gap-10 lg:gap-14">
-            {/* Left: Outline Skeleton */}
-            <section className="flex-1 space-y-8">
-              <div className="mb-10">
-                <div className="h-4 w-24 rounded bg-stone-gray/10 animate-pulse mb-4"></div>
-                <div className="h-12 w-3/4 rounded-xl bg-stone-gray/10 animate-pulse"></div>
-              </div>
-              <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-40 w-full rounded-2xl border border-border bg-stone-gray/5 animate-pulse"></div>
+          <div className="flex w-full animate-pulse gap-10 lg:gap-14">
+            <section className="min-w-0 flex-1">
+              <p className="mb-6 font-sans text-[0.8125rem] text-stone-gray">正在生成大纲...</p>
+              <div className="mb-10 h-12 w-3/4 rounded-xl bg-stone-gray/10" />
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="rounded-2xl border border-border bg-ivory px-5 py-7 shadow-[0_0_0_1px_rgba(209,207,197,0.2)]">
+                    <div className="flex items-start gap-3">
+                      <div className="size-7 shrink-0 rounded-lg bg-stone-gray/10" />
+                      <div className="min-w-0 flex-1 space-y-3">
+                        <div className="h-4 w-1/3 rounded-full bg-stone-gray/15" />
+                        <div className="h-3 w-full rounded-full bg-stone-gray/10" />
+                        <div className="h-3 w-4/5 rounded-full bg-stone-gray/10" />
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </section>
-            
-            {/* Right: Settings Skeleton */}
+
             <aside className="hidden w-[288px] shrink-0 md:block">
-              <div className="sticky top-[88px] space-y-8">
-                <div className="space-y-4">
-                  <div className="h-3 w-16 rounded bg-stone-gray/10 animate-pulse"></div>
-                  <div className="h-16 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
-                </div>
+              <div className="sticky top-[88px] space-y-6">
+                <div className="h-16 rounded-xl bg-stone-gray/10" />
                 <div className="h-px bg-border-warm" />
-                <div className="space-y-4">
-                  <div className="h-3 w-16 rounded bg-stone-gray/10 animate-pulse"></div>
-                  <div className="h-12 w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
-                </div>
+                <div className="h-12 rounded-xl bg-stone-gray/10" />
                 <div className="h-px bg-border-warm" />
-                <div className="space-y-4">
-                  <div className="h-3 w-16 rounded bg-stone-gray/10 animate-pulse"></div>
-                  <div className="h-[200px] w-full rounded-xl bg-stone-gray/10 animate-pulse"></div>
-                </div>
+                <div className="h-11 rounded-full bg-stone-gray/10" />
               </div>
             </aside>
           </div>
+        ) : outlineError ? (
+          <section className="flex min-h-[calc(100vh-9rem)] w-full items-center justify-center">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-ivory px-7 py-8 text-center shadow-[0px_0px_0px_1px_rgba(209,207,197,0.25),0px_16px_44px_rgba(20,20,19,0.06)]">
+              <div className="mx-auto mb-5 flex size-11 items-center justify-center rounded-xl bg-background text-destructive shadow-[0_0_0_1px_rgba(209,207,197,0.5)]">
+                <AlertCircle className="size-5" />
+              </div>
+              <h1 className="font-heading text-[1.5rem] font-medium text-foreground">生成失败</h1>
+              <p className="mt-3 font-sans text-[0.875rem] leading-relaxed text-stone-gray">{outlineError}</p>
+              <button
+                type="button"
+                className="mt-7 rounded-full bg-neutral-900 px-6 py-3 font-sans text-[0.875rem] font-medium text-[#F5F0E8] transition-all hover:bg-neutral-800"
+                onClick={() => navigate("/")}
+              >
+                返回首页
+              </button>
+            </div>
+          </section>
         ) : (
           <>
             {/* Left: Outline */}
@@ -344,55 +351,6 @@ export default function Outline() {
               </p>
             </fieldset>
 
-            {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-transparent via-border-warm to-transparent" />
-
-            {/* Verbosity */}
-            <fieldset>
-              <legend className="mb-4 font-sans text-[0.625rem] font-medium uppercase tracking-[0.5px] text-stone-gray">
-                文字简略
-              </legend>
-              <div className="space-y-1.5">
-                {VERBOSITY_OPTIONS.map((v) => {
-                  const selected = verbosity === v.id
-                  return (
-                    <label
-                      key={v.id}
-                      className={`flex cursor-pointer flex-col rounded-xl px-3.5 py-3 transition-all duration-200 ${
-                        selected
-                          ? "bg-ivory shadow-[0_0_0_1.5px_var(--primary)]"
-                          : "bg-transparent hover:bg-ivory hover:shadow-[0_0_0_1px_rgba(209,207,197,0.45)]"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="verbosity"
-                        className="sr-only"
-                        value={v.id}
-                        checked={selected}
-                        onChange={() => setVerbosity(v.id)}
-                      />
-                      <span className="flex items-center justify-between">
-                        <span className={`font-sans text-[0.8125rem] font-medium transition-colors duration-200 ${selected ? 'text-foreground' : 'text-charcoal-warm'}`}>
-                          {v.label}
-                        </span>
-                        {selected && (
-                          <span className="flex size-4 items-center justify-center rounded-full bg-primary">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
-                              <path d="M1 3L3 5L7 1" stroke="#faf9f5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </span>
-                        )}
-                      </span>
-                      <span className="mt-0.5 font-sans text-[0.75rem] leading-relaxed text-stone-gray">
-                        {v.desc}
-                      </span>
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
-
             {/* Generate button */}
             <button
               type="button"
@@ -408,6 +366,7 @@ export default function Outline() {
       </div>
 
       {/* Mobile bottom bar for generate */}
+      {!isGeneratingOutline && !outlineError && (
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 backdrop-blur-md md:hidden">
         <button
           type="button"
@@ -417,6 +376,7 @@ export default function Outline() {
           生成 PPT
         </button>
       </div>
+      )}
     </main>
   )
 }

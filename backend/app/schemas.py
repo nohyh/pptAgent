@@ -73,7 +73,3 @@ class PptRequest(BaseModel):
     theme: str 
     sections: List[OutlineSection]
     pageCount: int
-    verbosity: str
-
-class PptResponse(BaseModel):
-    presentation: Presentation
