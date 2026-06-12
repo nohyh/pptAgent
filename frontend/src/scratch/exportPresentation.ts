@@ -53,11 +53,11 @@ export function exportPresentation() {
         })
       } 
       else if (item.type === "image") {
-        // PptxGenJS needs raw base64 data without the 'data:image/...;base64,' prefix for the data field.
+        // PptxGenJS 需要原始 base64 数据，数据字段不能带 'data:image/...;base64,' 前缀。
         const isBase64 = item.src.startsWith("data:");
         let imgData = item.src;
         if (isBase64) {
-          // PptxGenJS expects "image/png;base64,iVBORw..." (without the "data:" prefix)
+          // PptxGenJS 期望 "image/png;base64,iVBORw..." 格式的数据（即去掉 "data:" 前缀）
           imgData = item.src.replace(/^data:/, "");
         }
 

@@ -9,7 +9,7 @@ export const mockPresentation: Presentation = {
     // 幻灯片 1：高级杂志风封面
     {
       id: "slide-01",
-      background: "#faf9f6", // ivory background
+      background: "#faf9f6", // 象牙白背景
       elements: [
         {
           id: "elem-sidebar",
@@ -186,7 +186,7 @@ export const mockPresentation: Presentation = {
     // 幻灯片 6：深色流程页
     {
       id: "slide-06",
-      background: "#2c2a25", // Dark background
+      background: "#2c2a25", // 深色背景
       elements: [
         { id: "s6-t", type: "text", content: "The Process", x: 10, y: 15, width: 80, height: 15, fontSize: 40, color: "#faf9f6", bold: true, font: "Georgia, serif" },
         { id: "s6-num1", type: "text", content: "01", x: 10, y: 40, width: 10, height: 10, fontSize: 32, color: "#c85a47", font: "Georgia, serif" },

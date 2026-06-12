@@ -22,6 +22,28 @@ The app should not let AI directly generate final HTML, PPTX, SVG, or arbitrary 
 
 Current target: V1
 
+Current backend structure:
+
+```text
+backend/main.py
+-> app/api/routes/           FastAPI route declarations only
+-> app/services/             generation orchestration and application flow
+-> app/ai/                   LLM client, AI prompts, and AI response parsing
+-> app/template_engine/      template loading, slot filtering, and hydration
+-> app/images/               image planning, fulfillment, providers, and image helpers
+-> app/schemas.py            Pydantic request/response and Presentation JSON models
+-> app/templates/            template JSON files
+```
+
+Backend organization rules for V1:
+
+- Keep route files thin. They should validate HTTP inputs and call services.
+- Keep generation flow in `app/services/`; do not put orchestration back into `app/ai/`.
+- Keep model-provider calls in `app/ai/client.py` or `app/images/providers.py`.
+- Keep template slot rules in `app/template_engine/`; when editing templates, update nearby template documentation if needed.
+- Keep image planning metadata out of saved Presentation JSON. Planning may guide fulfillment, but final slides should contain normal image `src` values only.
+- `app/ai/__init__.py` is a compatibility entrypoint; new code should import from the focused modules directly.
+
 ## Docs Reading Rules
 
 Before coding, read only the docs relevant to the task.
