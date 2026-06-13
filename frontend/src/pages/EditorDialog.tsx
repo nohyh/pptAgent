@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import { usePresentationStore } from "@/stores/presentationStore"
-import type { SlideElement, TextElement, ImageElement, BlockElement } from "@/types/presentation"
+import type { SlideElement, TextElement, ImageElement, BlockElement, TableElement } from "@/types/presentation"
 import {
   Type,
   Image,
@@ -20,6 +20,14 @@ interface EditorDialogProps {
   slideId: string
 }
 
+type ElementUpdate =
+  | Partial<TextElement>
+  | Partial<ImageElement>
+  | Partial<BlockElement>
+  | Partial<TableElement>
+
+type UpdateElement = (slideId: string, elementId: string, updates: ElementUpdate) => void
+
 // ─── 通用：位置 & 尺寸面板 ──────────────────────────
 const PositionSection = ({
   element,
@@ -28,7 +36,7 @@ const PositionSection = ({
 }: {
   element: SlideElement
   slideId: string
-  updateElement: (slideId: string, elementId: string, updates: any) => void
+  updateElement: UpdateElement
 }) => (
   <div className="space-y-3">
     <div className="flex items-center gap-2 text-stone-gray">
@@ -69,7 +77,7 @@ const TextPanel = ({
 }: {
   element: TextElement
   slideId: string
-  updateElement: (slideId: string, elementId: string, updates: any) => void
+  updateElement: UpdateElement
 }) => (
   <div className="space-y-5">
     {/* 内容 */}
@@ -205,7 +213,7 @@ const ImagePanel = ({
 }: {
   element: ImageElement
   slideId: string
-  updateElement: (slideId: string, elementId: string, updates: any) => void
+  updateElement: UpdateElement
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -270,7 +278,7 @@ const BlockPanel = ({
 }: {
   element: BlockElement
   slideId: string
-  updateElement: (slideId: string, elementId: string, updates: any) => void
+  updateElement: UpdateElement
 }) => (
   <div className="space-y-5">
     <div className="flex items-center gap-2 text-stone-gray">

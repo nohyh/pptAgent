@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react"
 import { Rnd } from "react-rnd"
+import type { DraggableData, RndDragEvent, RndResizeCallback } from "react-rnd"
 import type { SlideCanvasProps } from "@/types/editor"
 import { usePresentationStore } from "@/stores/presentationStore"
 import {
@@ -9,8 +10,8 @@ import {
   htmlToPlainText,
   plainTextToHtml,
 } from "@/lib/presentationLayout"
-import ContentEditableModule from "react-contenteditable"
-const ContentEditable = (ContentEditableModule as any).default || ContentEditableModule;
+import ContentEditable from "react-contenteditable"
+import type { ContentEditableEvent } from "react-contenteditable"
 
 const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: SlideCanvasProps) => {
   const updateElement = usePresentationStore(state => state.updateElement);
@@ -78,7 +79,7 @@ const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: Slid
           disableDragging: isSelected && element.type === 'text',
           resizeHandleStyles,
           onDragStart: () => setInteractingId(element.id),
-          onDragStop: (_e: any, d: { x: number; y: number }) => {
+          onDragStop: (_e: RndDragEvent, d: DraggableData) => {
             setInteractingId(null);
             updateElement(slide.id, element.id, {
               x: toPercent(d.x, 'x'),
@@ -86,7 +87,7 @@ const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: Slid
             });
           },
           onResizeStart: () => setInteractingId(element.id),
-          onResizeStop: (_e: any, _dir: any, ref: HTMLElement, _delta: any, pos: { x: number; y: number }) => {
+          onResizeStop: ((_e, _dir, ref, _delta, pos) => {
             setInteractingId(null);
             updateElement(slide.id, element.id, {
               x: toPercent(pos.x, 'x'),
@@ -94,7 +95,7 @@ const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: Slid
               width: toPercent(parseFloat(ref.style.width), 'x'),
               height: toPercent(parseFloat(ref.style.height), 'y'),
             });
-          },
+          }) satisfies RndResizeCallback,
           onClick: (e: React.MouseEvent) => { e.stopPropagation(); setSelectedId?.(element.id); },
           className: `${selectedClass} ${isInteracting ? '' : 'transition-all duration-200'}`,
           style: { zIndex: idx, cursor: isSelected && element.type === 'text' ? 'text' : undefined },
@@ -149,7 +150,7 @@ const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: Slid
                 <ContentEditable
                   html={plainTextToHtml(element.content)}
                   disabled={!isSelected}
-                  onChange={(e: any) => updateElement(slide.id, element.id, { content: htmlToPlainText(e.target.value) })}
+                  onChange={(e: ContentEditableEvent) => updateElement(slide.id, element.id, { content: htmlToPlainText(e.target.value) })}
                   style={{
                     width: '100%', height: '100%',
                     outline: 'none', font: 'inherit', color: 'inherit',
@@ -160,12 +161,7 @@ const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: Slid
             </Rnd>
           );
         }
-
-        return (
-          <Rnd key={(element as any).id} {...rndProps}>
-            <div style={{ width: '100%', height: '100%' }}>other</div>
-          </Rnd>
-        );
+        return null;
       })}
     </div>
   );

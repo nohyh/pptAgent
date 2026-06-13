@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import{useEffect, useState}from 'react'
+import{useState}from 'react'
 import {
   ArrowLeft,
   ChevronLeft,
@@ -26,10 +26,12 @@ export default function Editor() {
   const currentSlide = slides[slidesIndex];
   const selectedElement = currentSlide?.elements?.find(e=>e.id===selectedId);
   const slideAspectRatio = getSlideAspectRatio(presentation?.layout || "16x9");
-  
-  useEffect(()=>{
+
+  const selectSlide = (index: number) => {
+    setSlideIndex(index);
     setSelectedId(null);
-  },[slidesIndex])//在切换幻灯片时取消选定
+  };
+
   return (
     <main className="flex h-screen flex-col bg-background text-foreground">
       {/* Top bar */}
@@ -158,7 +160,7 @@ export default function Editor() {
                   <button
                     key={slide.id}
                     type="button"
-                    onClick={() => setSlideIndex(index)}
+                    onClick={() => selectSlide(index)}
                     className={`group relative w-full overflow-hidden rounded-lg transition-all duration-200 ${
                       slidesIndex === index
                         ? "shadow-[0_0_0_2px_var(--primary)]"
@@ -189,7 +191,7 @@ export default function Editor() {
                 <button
                   type="button"
                   className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
-                  onClick={()=>setSlideIndex((pre)=>pre-1)}
+                  onClick={()=>selectSlide(slidesIndex-1)}
                   disabled = {slidesIndex===0}
                 >
                   <ChevronLeft className="size-4" />
@@ -204,7 +206,7 @@ export default function Editor() {
                 <button
                   type="button"
                   className="flex size-7 items-center justify-center rounded-lg text-warm-silver transition-all duration-200 hover:bg-border-warm hover:text-charcoal-warm"
-                  onClick={()=>setSlideIndex((pre)=>pre+1)}
+                  onClick={()=>selectSlide(slidesIndex+1)}
                   disabled ={slidesIndex ===slides.length-1}
                 >
                   <ChevronRight className="size-4" />

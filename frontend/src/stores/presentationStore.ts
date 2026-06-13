@@ -1,8 +1,15 @@
-import type { Presentation } from "@/types/presentation";
+import type { BlockElement, ImageElement, Presentation, SlideElement, TableElement, TextElement } from "@/types/presentation";
 import { create } from "zustand";
 import { useEditorStore } from "./editorStore";
 import apiClient from "@/api/apiClient";
 import { getApiErrorMessage } from "@/lib/apiError";
+
+type ElementUpdate =
+    | Partial<TextElement>
+    | Partial<ImageElement>
+    | Partial<BlockElement>
+    | Partial<TableElement>;
+
 interface PresentationState {
   presentation: Presentation | null;
 
@@ -10,7 +17,7 @@ interface PresentationState {
 
   setTitle: (newTitle: string) => void;
 
-  updateElement :(slideId:string,elementId:string,updates:any)=>void;
+  updateElement :(slideId:string,elementId:string,updates:ElementUpdate)=>void;
   deleteElement: (slideId: string, elementId: string) => void;
 
   generatePresentation: () => Promise<void>
@@ -47,7 +54,7 @@ const usePresentationStore =  create<PresentationState>((set)=>({
                     ...slide,
                     elements:slide.elements.map((el)=>{
                         if(el.id!==elementId) return el;
-                        return{...el,...updates};
+                        return{...el,...updates} as SlideElement;
                     })
                 }})
             }
