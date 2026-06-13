@@ -69,11 +69,41 @@ def test_collect_pending_image_slots_handles_empty_template_src():
                 "y": 20,
                 "width": 38,
                 "height": 40,
-                "aspectRatio": "1:1",
+                "aspectRatio": None,
                 "alt": "main visual",
             },
         }
     ]
+
+
+def test_collect_pending_image_slots_uses_allowed_provider_aspect_ratio():
+    presentation = Presentation.model_validate(
+        {
+            "id": "deck-1",
+            "title": "Demo",
+            "layout": "16x9",
+            "theme": "minimalist",
+            "slides": [
+                {
+                    "id": "slide-1",
+                    "elements": [
+                        {
+                            "id": "img-1",
+                            "type": "image",
+                            "x": 10,
+                            "y": 10,
+                            "width": 40,
+                            "height": 30,
+                            "src": "",
+                            "alt": "main visual",
+                        }
+                    ],
+                }
+            ],
+        }
+    )
+
+    assert collect_pending_image_slots(presentation)[0]["slot"]["aspectRatio"] == "4:3"
 
 
 def test_collect_pending_image_slots_handles_pending_sentinel():

@@ -1,5 +1,6 @@
 from typing import Any
 
+from app.images.providers import resolve_aspect_ratio
 from app.schemas import Presentation
 
 
@@ -15,28 +16,6 @@ def is_pending_image_src(src: str | None) -> bool:
     判断图片的源地址（src）是否为待处理的占位值。
     """
     return src is None or src == "" or src == PENDING_IMAGE_SRC
-
-
-# 根据长宽返回不同的比例描述
-def _aspect_ratio_label(width: float, height: float) -> str:
-    """
-    计算并返回图片元素宽高比的标签（例如 '16:9', '4:3', '1:1', 'wide' 等），
-    用以辅助大模型判断选择何种画幅的图片。
-    """
-    if height == 0:
-        return "unknown"
-    ratio = width / height
-    if abs(ratio - 16 / 9) < 0.2:
-        return "16:9"
-    if abs(ratio - 4 / 3) < 0.2:
-        return "4:3"
-    if abs(ratio - 1) < 0.2:
-        return "1:1"
-    if ratio > 2:
-        return "wide"
-    if ratio < 0.75:
-        return "portrait"
-    return f"{round(ratio, 2)}:1"
 
 
 # 提取幻灯片中的文本
@@ -79,7 +58,7 @@ def collect_pending_image_slots(presentation: Presentation) -> list[dict[str, An
                         "y": element.y,
                         "width": element.width,
                         "height": element.height,
-                        "aspectRatio": _aspect_ratio_label(element.width, element.height),
+                        "aspectRatio": resolve_aspect_ratio(element.width, element.height),
                         "alt": element.alt or "",
                     },
                 }

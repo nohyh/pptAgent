@@ -25,7 +25,7 @@ ASPECT_RATIO_TOLERANCE = 0.02
 DEFAULT_IMAGE_SIZE = "1K"
 
 #返回合适的比例
-def _resolve_aspect_ratio(width: float, height: float) -> str | None:
+def resolve_aspect_ratio(width: float, height: float) -> str | None:
     if width <= 0 or height <= 0:
         return None
     ratio = width / height
@@ -39,7 +39,7 @@ async def generate_ai_image_src(prompt: str, width: float = 100, height: float =
     """通过配置的 OpenAI 兼容图像端点生成一个图像资产。"""
     if not BASE_URL or not API_KEY or not MODEL_PHOTO:
         return None
-    aspect_ratio = _resolve_aspect_ratio(width, height)
+    aspect_ratio = resolve_aspect_ratio(width, height)
     if aspect_ratio is None:
         return None
     try:
