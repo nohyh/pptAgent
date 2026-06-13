@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from app.ai import router as ai_router
+from app.api.routes.generation import router as generation_router
 from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 
-app.include_router(ai_router)
+app.include_router(generation_router)
 
 app.add_middleware(
     CORSMiddleware,

@@ -1,7 +1,7 @@
-from app.template_slots import clean_presentation, filter_templates_for_ai, hydrate_presentation
+from app.template_engine.slots import clean_presentation, filter_templates_for_ai, hydrate_presentation
 
-from app.ai import handlePptRes
-from app.schemas import OutlineSection, PptRequest
+from app.services.presentation_generation import handlePptRes
+from app.schemas import OutlineSection, PptRequest, TextElement
 
 
 def test_filter_templates_for_ai_only_exposes_documented_empty_fields():
@@ -82,13 +82,6 @@ def test_filter_templates_for_ai_only_exposes_documented_empty_fields():
                     "content": "",
                 },
                 {
-                    "id": "hero",
-                    "type": "image",
-                    "description": "Hero image",
-                    "recommendlength": "80",
-                    "src": "",
-                },
-                {
                     "id": "bar-height",
                     "type": "block",
                     "description": "Chart bar height, integer 0-32.",
@@ -134,6 +127,53 @@ def test_filter_templates_for_ai_excludes_fixed_thanks_template():
     filtered = filter_templates_for_ai(templates)
 
     assert [template["role"] for template in filtered] == ["cover"]
+
+
+def test_filter_templates_does_not_expose_image_src_to_content_llm():
+    templates = [
+        {
+            "id": "tpl-1",
+            "role": "content",
+            "elements": [
+                {
+                    "id": "img-1",
+                    "type": "image",
+                    "x": 50,
+                    "y": 20,
+                    "width": 40,
+                    "height": 30,
+                    "src": "",
+                    "alt": "main visual",
+                    "description": "Main visual",
+                    "recommendlength": "image",
+                },
+                {
+                    "id": "txt-1",
+                    "type": "text",
+                    "x": 10,
+                    "y": 10,
+                    "width": 40,
+                    "height": 10,
+                    "content": "",
+                    "fontSize": 24,
+                    "description": "Title",
+                    "recommendlength": "5-15",
+                },
+            ],
+        }
+    ]
+
+    filtered = filter_templates_for_ai(templates)
+
+    assert filtered[0]["elements"] == [
+        {
+            "id": "txt-1",
+            "type": "text",
+            "description": "Title",
+            "recommendlength": "5-15",
+            "content": "",
+        }
+    ]
 
 
 def test_hydrate_presentation_fills_content_without_changing_template_shape():
@@ -186,7 +226,6 @@ def test_hydrate_presentation_fills_content_without_changing_template_shape():
                 "templateId": "cover",
                 "contents": [
                     {"id": "title", "content": "New Title"},
-                    {"id": "hero", "src": "https://example.com/hero.png"},
                     {"id": "bar-height", "height": 24},
                 ],
             }
@@ -207,7 +246,7 @@ def test_hydrate_presentation_fills_content_without_changing_template_shape():
     assert slide["elements"][0]["content"] == "New Title"
     assert slide["elements"][0]["x"] == 1
     assert slide["elements"][0]["fontSize"] == 20
-    assert slide["elements"][1]["src"] == "https://example.com/hero.png"
+    assert slide["elements"][1]["src"] == ""
     assert slide["elements"][2]["y"] == 36
     assert slide["elements"][2]["height"] == 24
 
@@ -614,4 +653,6 @@ def test_handle_ppt_res_hydrates_ai_slot_content_into_presentation():
     presentation = handlePptRes(ai_res, request, templates)
 
     assert presentation.title == "AI Slot Deck"
-    assert presentation.slides[0].elements[0].content == "AI Slot Deck"
+    element = presentation.slides[0].elements[0]
+    assert isinstance(element, TextElement)
+    assert element.content == "AI Slot Deck"
