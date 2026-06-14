@@ -29,6 +29,7 @@ playwright-report/
 test-results/
 
 # Local generated files
+.debug/
 output/
 exports/
 generated/
