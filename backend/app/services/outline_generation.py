@@ -25,4 +25,5 @@ def handleOutlineRes(ai_res: dict[str, Any]):
 
 async def generateOutline(prompt: str):
     ai_res = await call_llm(outlinePrompt, prompt)
+    print(f"[OUTLINE_AI] {ai_res['choices'][0]['message']['content']}")
     return handleOutlineRes(ai_res)

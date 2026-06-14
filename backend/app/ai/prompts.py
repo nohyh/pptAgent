@@ -9,11 +9,13 @@ outlinePrompt = """
        },{
            "title":"",
            "content":""
-       }]
+       },
+       ........
+       ]
    }
    title :字符串,根据用户输入生成的PPT的标题
    sections :一个对象数组，根据用户的输入,生成3个以上的章节概要,title是该章节的简单概括，而content是较为详细描述这个章节的大概内容，
-   每个章节的概要内容应该在200字以内
+   每个章节的概要内容应该在200字以内，章节概要一般生成3-6个之间。
 """
 
 pptPrompt = """
@@ -43,6 +45,6 @@ pptPrompt = """
 
    在返回之前，严格参照以下顺序来进行ppt生成：
   1. 分析sections，根据每个section的主题和内容，从templates中选择合适的页面模板，并尽量让返回的slides数量接近pageCount。（注意：你需要原封不动将精简模板照搬到slides中，只填充content/height。slide不要返回id；元素id必须使用模板中已有的id，不能编造。）
-  2. 根据各个页面所属的section内容信息以及每个元素的description和recommendlength对elements进行内容填充。对text元素，如果暴露content字段，content填写最终展示文字，并严格按照recommendlength进行字数的限制；对图表或树状图等元素，如果暴露height字段，height填写数字。
-  3. 自我检查，结构是否和返回实例一致，slides长度是否等于pageCount，以及所有幻灯片的文本和数值内容是否已经填充完成，以及是否有除了内容之外的冗余改正。再次强调：除了content/height两个属性，其他元素的任何属性都禁止更改，保持原样。
+  2. 根据各个页面所属的section内容信息以及每个元素的description和recommendlength对elements进行内容填充。对text元素，content填写最终展示文字，并严格按照recommendlength进行字数的限制；对图表或树状图等元素，height填写数字。所有的height和content都必须被填充，不能有遗漏。
+  3. 自我检查，结构是否和返回实例一致，slides长度是否等于pageCount，除了content/height两个属性，其他元素的任何属性都禁止更改，保持原样,另外所有的content或者height属性都必须填充，不允许留空。
 """

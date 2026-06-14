@@ -7,6 +7,7 @@ from app.ai import client as ai_client
 from app.images import providers as image_providers
 from app.images.prompts import imagePlanningPrompt
 from app.schemas import OutlineSection, PptRequest
+from app.services import outline_generation
 from app.services import presentation_generation
 from app.template_engine import loader as template_loader
 
@@ -97,6 +98,67 @@ def test_call_llm_wraps_transport_errors(monkeypatch):
 
     assert exc_info.value.status_code == 502
     assert "LLM API 请求失败" in exc_info.value.detail
+
+
+def test_generate_outline_prints_raw_ai_content_on_invalid_format(monkeypatch, capsys):
+    async def fake_call_llm(_system_prompt, _user_prompt):
+        return {"choices": [{"message": {"content": "{bad outline json"}}]}
+
+    monkeypatch.setattr(outline_generation, "call_llm", fake_call_llm)
+
+    with pytest.raises(HTTPException):
+        anyio.run(outline_generation.generateOutline, "make outline")
+
+    output = capsys.readouterr().out
+    assert "[OUTLINE_AI]" in output
+    assert "{bad outline json" in output
+
+
+def test_generate_ppt_prints_raw_ai_content_on_invalid_format(monkeypatch, capsys):
+    async def fake_call_llm(_system_prompt, _user_prompt):
+        return {"choices": [{"message": {"content": "{bad ppt json"}}]}
+
+    monkeypatch.setattr(
+        template_loader,
+        "load_template",
+        lambda _theme: [
+            {
+                "id": "cover",
+                "role": "cover",
+                "description": "Cover slide",
+                "elements": [
+                    {
+                        "id": "title",
+                        "type": "text",
+                        "x": 0,
+                        "y": 0,
+                        "width": 10,
+                        "height": 10,
+                        "fontSize": 20,
+                        "content": "",
+                        "description": "Main title",
+                        "recommendlength": "5-15",
+                    }
+                ],
+            }
+        ],
+    )
+    monkeypatch.setattr(presentation_generation, "call_llm", fake_call_llm)
+    request = PptRequest(
+        prompt="Make a deck",
+        title="Bad Deck",
+        layout="16x9",
+        theme="minimalist",
+        sections=[OutlineSection(id="s1", title="Intro", content="Intro content")],
+        pageCount=1,
+    )
+
+    with pytest.raises(HTTPException):
+        anyio.run(presentation_generation.generatePpt, request)
+
+    output = capsys.readouterr().out
+    assert "[PPT_AI]" in output
+    assert "{bad ppt json" in output
 
 
 def test_generate_ppt_rejects_templates_without_slots(monkeypatch):

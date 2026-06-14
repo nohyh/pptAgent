@@ -92,6 +92,7 @@ async def generatePpt(request: PptRequest):
         user_prompt
     )
     #填充模板，返回presentation对象
+    print(f"[PPT_AI] {ai_res['choices'][0]['message']['content']}")
     presentation = handlePptRes(ai_res, request, templates)
     #生成图片规划
     #大模型交互，进行图片规划

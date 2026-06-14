@@ -62,7 +62,7 @@ class OutlineSection(BaseModel):
 
 
 class OutlineResponse(BaseModel):
-    title: str = Field(min_length=1,max_length=20)
+    title: str = Field(min_length=1,max_length=30)
     sections: List[OutlineSection] = Field(min_length=1,max_length=50)
 
 
