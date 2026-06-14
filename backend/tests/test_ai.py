@@ -309,7 +309,7 @@ async def test_generate_ppt_runs_image_planning_and_fulfillment_without_schema_m
 
 
 @pytest.mark.anyio
-async def test_generate_image_plan_accepts_top_level_list_response(monkeypatch):
+async def test_generate_image_plan_accepts_top_level_list_response(monkeypatch, capsys):
     presentation = ai.Presentation.model_validate(
         {
             "id": "deck-1",
@@ -366,6 +366,12 @@ async def test_generate_image_plan_accepts_top_level_list_response(monkeypatch):
             "imagePrompt": "office workflow",
         }
     ]
+    output = capsys.readouterr().out
+    assert "[IMAGE_PLAN]" in output
+    assert "slideId=slide-1" in output
+    assert "elementId=img-1" in output
+    assert "generateBy=stock" in output
+    assert "imagePrompt=office workflow" in output
 
 
 @pytest.mark.anyio

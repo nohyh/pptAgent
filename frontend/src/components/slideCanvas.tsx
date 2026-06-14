@@ -10,8 +10,14 @@ import {
   htmlToPlainText,
   plainTextToHtml,
 } from "@/lib/presentationLayout"
-import ContentEditable from "react-contenteditable"
-import type { ContentEditableEvent } from "react-contenteditable"
+import ContentEditableModule from "react-contenteditable"
+import type { ContentEditableEvent, Props as ContentEditableProps } from "react-contenteditable"
+
+const ContentEditable = (
+  typeof ContentEditableModule === "function"
+    ? ContentEditableModule
+    : (ContentEditableModule as unknown as { default: React.ComponentType<ContentEditableProps> }).default
+) as React.ComponentType<ContentEditableProps>
 
 const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: SlideCanvasProps) => {
   const updateElement = usePresentationStore(state => state.updateElement);

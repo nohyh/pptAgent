@@ -58,6 +58,14 @@ async def generate_image_plan(presentation: Presentation) -> list[dict[str, Any]
         images = None
     if not isinstance(images, list):
         raise HTTPException(status_code=422, detail="AI 图片规划返回格式不合规")
+    for image in images:
+        print(
+            "[IMAGE_PLAN] "
+            f"slideId={image.get('slideId')} "
+            f"elementId={image.get('elementId')} "
+            f"generateBy={image.get('generateBy')} "
+            f"imagePrompt={image.get('imagePrompt')}"
+        )
     return images
 
 
