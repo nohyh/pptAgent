@@ -61,9 +61,9 @@ def test_call_llm_does_not_retry_transient_gateway_errors(monkeypatch):
     client = FakeAsyncClient([FakeResponse(502, {"error": {"message": "Bad Gateway"}})])
 
     monkeypatch.setattr(ai_client.httpx, "AsyncClient", lambda: client)
-    monkeypatch.setattr(ai_client, "BASE_URL_2", "https://example.test")
-    monkeypatch.setattr(ai_client, "API_KEY_2", "test-key")
-    monkeypatch.setattr(ai_client, "MODEL_FLASH_2", "flash-model")
+    monkeypatch.setattr(ai_client, "BASE_URL", "https://example.test")
+    monkeypatch.setattr(ai_client, "API_KEY", "test-key")
+    monkeypatch.setattr(ai_client, "MODEL_FLASH", "flash-model")
 
     with pytest.raises(HTTPException) as exc_info:
         anyio.run(ai_client.call_llm, "system", "user")
@@ -76,9 +76,9 @@ def test_call_llm_uses_flash_model_for_text_generation(monkeypatch):
     client = FakeAsyncClient([FakeResponse(200, {"choices": [{"message": {"content": "{}"}}]})])
 
     monkeypatch.setattr(ai_client.httpx, "AsyncClient", lambda: client)
-    monkeypatch.setattr(ai_client, "BASE_URL_2", "https://example.test")
-    monkeypatch.setattr(ai_client, "API_KEY_2", "test-key")
-    monkeypatch.setattr(ai_client, "MODEL_FLASH_2", "flash-model")
+    monkeypatch.setattr(ai_client, "BASE_URL", "https://example.test")
+    monkeypatch.setattr(ai_client, "API_KEY", "test-key")
+    monkeypatch.setattr(ai_client, "MODEL_FLASH", "flash-model")
 
     anyio.run(ai_client.call_llm, "system", "user")
 
@@ -88,9 +88,9 @@ def test_call_llm_uses_flash_model_for_text_generation(monkeypatch):
 
 def test_call_llm_wraps_transport_errors(monkeypatch):
     monkeypatch.setattr(ai_client.httpx, "AsyncClient", lambda: FailingAsyncClient())
-    monkeypatch.setattr(ai_client, "BASE_URL_2", "https://example.test")
-    monkeypatch.setattr(ai_client, "API_KEY_2", "test-key")
-    monkeypatch.setattr(ai_client, "MODEL_FLASH_2", "flash-model")
+    monkeypatch.setattr(ai_client, "BASE_URL", "https://example.test")
+    monkeypatch.setattr(ai_client, "API_KEY", "test-key")
+    monkeypatch.setattr(ai_client, "MODEL_FLASH", "flash-model")
 
     with pytest.raises(HTTPException) as exc_info:
         anyio.run(ai_client.call_llm, "system", "user")
@@ -398,7 +398,8 @@ async def test_search_stock_image_src_uses_pexels_key(monkeypatch):
                     "photos": [
                         {
                             "src": {
-                                "large2x": "https://images.example.test/photo.png",
+                                "original": "https://images.example.test/photo.png",
+                                "large2x": "https://images.example.test/photo-large.png",
                             }
                         }
                     ]
@@ -410,12 +411,44 @@ async def test_search_stock_image_src_uses_pexels_key(monkeypatch):
     monkeypatch.setattr(image_providers.httpx, "AsyncClient", lambda: client)
     monkeypatch.setattr(image_providers, "PEXELS_KEY", "pexels-key")
 
-    result = await image_providers.search_stock_image_src("office workflow")
+    result = await image_providers.search_stock_image_src("office workflow", 16, 9)
 
-    assert result == "https://images.example.test/photo.png"
+    assert result == "https://images.example.test/photo.png?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop&crop=entropy"
     assert client.posts[0]["headers"]["Authorization"] == "pexels-key"
     assert client.posts[0]["params"] == {
         "query": "office workflow",
         "per_page": 1,
         "orientation": "landscape",
+    }
+
+
+@pytest.mark.anyio
+async def test_search_stock_image_src_uses_portrait_orientation_and_crop_size(monkeypatch):
+    client = FakeAsyncClient(
+        [
+            FakeResponse(
+                200,
+                {
+                    "photos": [
+                        {
+                            "src": {
+                                "original": "https://images.example.test/photo.png",
+                            }
+                        }
+                    ]
+                },
+            )
+        ]
+    )
+
+    monkeypatch.setattr(image_providers.httpx, "AsyncClient", lambda: client)
+    monkeypatch.setattr(image_providers, "PEXELS_KEY", "pexels-key")
+
+    result = await image_providers.search_stock_image_src("portrait workflow", 9, 16)
+
+    assert result == "https://images.example.test/photo.png?auto=compress&cs=tinysrgb&w=1080&h=1920&fit=crop&crop=entropy"
+    assert client.posts[0]["params"] == {
+        "query": "portrait workflow",
+        "per_page": 1,
+        "orientation": "portrait",
     }

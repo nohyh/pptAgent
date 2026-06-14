@@ -7,11 +7,21 @@ from app.schemas import Presentation
 
 
 ImageProviderFunc = Callable[[str, float, float], Awaitable[str | None]]
+SLIDE_LAYOUT_SIZE = {
+    "16x9": (16, 9),
+    "4x3": (4, 3),
+}
+
+
+def _stock_slot_size(layout: str, element) -> tuple[float, float]:
+    slide_width, slide_height = SLIDE_LAYOUT_SIZE.get(layout, (16, 9))
+    return element.width * slide_width, element.height * slide_height
 
 #生成单张图片
 async def _fill_one_image(
     slide_id: str,
     element,
+    layout: str,
     image_plan_map: ImagePlanMap,
     generate_ai_image: ImageProviderFunc | None,
     search_stock_image: ImageProviderFunc | None,
@@ -28,7 +38,8 @@ async def _fill_one_image(
         src = None
         if generate_by == "stock" and search_stock_image is not None:
             #搜图的情况
-            src = normalize_image_src(await search_stock_image(prompt, element.width, element.height))
+            stock_width, stock_height = _stock_slot_size(layout, element)
+            src = normalize_image_src(await search_stock_image(prompt, stock_width, stock_height))
             if src:
                 element.src = src
                 return
@@ -63,6 +74,7 @@ async def fill_presentation_images(
                 _fill_one_image(
                     slide.id,
                     element,
+                    presentation.layout,
                     image_plan_map,
                     generate_ai_image,
                     search_stock_image,

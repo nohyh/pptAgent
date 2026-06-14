@@ -3,18 +3,18 @@ from typing import Any
 import httpx
 from fastapi import HTTPException
 
-from app.config import API_KEY_2, BASE_URL_2, MODEL_FLASH_2
+from app.config import API_KEY, BASE_URL, MODEL_FLASH
 
 
 async def call_llm(systemPrompt: str, userPrompt: Any) -> dict[str, Any]:
-    if not BASE_URL_2 or not API_KEY_2 or not MODEL_FLASH_2:
+    if not BASE_URL or not API_KEY or not MODEL_FLASH:
         raise HTTPException(status_code=500, detail="LLM 配置缺失")
-    url = f"{BASE_URL_2}/chat/completions"
+    url = f"{BASE_URL}/chat/completions"
     headers = {
-        "Authorization": f"Bearer {API_KEY_2}"
+        "Authorization": f"Bearer {API_KEY}"
     }
     payload = {
-        "model": MODEL_FLASH_2,
+        "model": MODEL_FLASH,
         "messages": [{"role": "system", "content": systemPrompt}, {"role": "user", "content": userPrompt}],
     }
 
