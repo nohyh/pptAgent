@@ -107,6 +107,39 @@ async def test_fill_presentation_images_falls_back_from_stock_to_ai():
 
 
 @pytest.mark.anyio
+async def test_fill_presentation_images_falls_back_from_ai_to_stock():
+    async def fake_ai(prompt: str, width: float, height: float) -> None:
+        assert prompt == "clean business visual"
+        assert width == 40
+        assert height == 30
+        return None
+
+    async def fake_stock(prompt: str, width: float, height: float) -> str:
+        assert prompt == "clean business visual"
+        assert width == 640
+        assert height == 270
+        return "https://example.test/photo.png"
+
+    presentation = make_pending_presentation("")
+    plan_map = {
+        ("slide-1", "img-1"): {
+            "generateBy": "ai",
+            "imagePrompt": "clean business visual",
+        }
+    }
+
+    await fill_presentation_images(
+        presentation,
+        image_plan_map=plan_map,
+        generate_ai_image=fake_ai,
+        search_stock_image=fake_stock,
+    )
+
+    image = first_image(presentation)
+    assert image.src == "https://example.test/photo.png"
+
+
+@pytest.mark.anyio
 async def test_fill_presentation_images_passes_slide_adjusted_size_to_stock_provider():
     seen = {}
 

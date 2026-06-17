@@ -105,6 +105,7 @@ def test_generate_outline_prints_raw_ai_content_on_invalid_format(monkeypatch, c
         return {"choices": [{"message": {"content": "{bad outline json"}}]}
 
     monkeypatch.setattr(outline_generation, "call_llm", fake_call_llm)
+    monkeypatch.setattr(outline_generation, "DEBUG_RAW_AI_RESPONSE", True)
 
     with pytest.raises(HTTPException):
         anyio.run(outline_generation.generateOutline, "make outline")
@@ -112,6 +113,21 @@ def test_generate_outline_prints_raw_ai_content_on_invalid_format(monkeypatch, c
     output = capsys.readouterr().out
     assert "[OUTLINE_AI]" in output
     assert "{bad outline json" in output
+
+
+def test_generate_outline_skips_raw_ai_content_when_debug_disabled(monkeypatch, capsys):
+    async def fake_call_llm(_system_prompt, _user_prompt):
+        return {"choices": [{"message": {"content": "{bad outline json"}}]}
+
+    monkeypatch.setattr(outline_generation, "call_llm", fake_call_llm)
+    monkeypatch.setattr(outline_generation, "DEBUG_RAW_AI_RESPONSE", False)
+
+    with pytest.raises(HTTPException):
+        anyio.run(outline_generation.generateOutline, "make outline")
+
+    output = capsys.readouterr().out
+    assert "[OUTLINE_AI]" not in output
+    assert "{bad outline json" not in output
 
 
 def test_generate_ppt_prints_raw_ai_content_on_invalid_format(monkeypatch, capsys):
@@ -144,6 +160,7 @@ def test_generate_ppt_prints_raw_ai_content_on_invalid_format(monkeypatch, capsy
         ],
     )
     monkeypatch.setattr(presentation_generation, "call_llm", fake_call_llm)
+    monkeypatch.setattr(presentation_generation, "DEBUG_RAW_AI_RESPONSE", True)
     request = PptRequest(
         prompt="Make a deck",
         title="Bad Deck",
@@ -159,6 +176,54 @@ def test_generate_ppt_prints_raw_ai_content_on_invalid_format(monkeypatch, capsy
     output = capsys.readouterr().out
     assert "[PPT_AI]" in output
     assert "{bad ppt json" in output
+
+
+def test_generate_ppt_skips_raw_ai_content_when_debug_disabled(monkeypatch, capsys):
+    async def fake_call_llm(_system_prompt, _user_prompt):
+        return {"choices": [{"message": {"content": "{bad ppt json"}}]}
+
+    monkeypatch.setattr(
+        template_loader,
+        "load_template",
+        lambda _theme: [
+            {
+                "id": "cover",
+                "role": "cover",
+                "description": "Cover slide",
+                "elements": [
+                    {
+                        "id": "title",
+                        "type": "text",
+                        "x": 0,
+                        "y": 0,
+                        "width": 10,
+                        "height": 10,
+                        "fontSize": 20,
+                        "content": "",
+                        "description": "Main title",
+                        "recommendlength": "5-15",
+                    }
+                ],
+            }
+        ],
+    )
+    monkeypatch.setattr(presentation_generation, "call_llm", fake_call_llm)
+    monkeypatch.setattr(presentation_generation, "DEBUG_RAW_AI_RESPONSE", False)
+    request = PptRequest(
+        prompt="Make a deck",
+        title="Bad Deck",
+        layout="16x9",
+        theme="minimalist",
+        sections=[OutlineSection(id="s1", title="Intro", content="Intro content")],
+        pageCount=1,
+    )
+
+    with pytest.raises(HTTPException):
+        anyio.run(presentation_generation.generatePpt, request)
+
+    output = capsys.readouterr().out
+    assert "[PPT_AI]" not in output
+    assert "{bad ppt json" not in output
 
 
 def test_generate_ppt_rejects_templates_without_slots(monkeypatch):
@@ -437,6 +502,46 @@ async def test_generate_image_plan_accepts_top_level_list_response(monkeypatch, 
 
 
 @pytest.mark.anyio
+async def test_generate_image_plan_rejects_invalid_json(monkeypatch):
+    presentation = ai.Presentation.model_validate(
+        {
+            "id": "deck-1",
+            "title": "Deck",
+            "layout": "16x9",
+            "theme": "minimalist",
+            "slides": [
+                {
+                    "id": "slide-1",
+                    "elements": [
+                        {
+                            "id": "img-1",
+                            "type": "image",
+                            "x": 10,
+                            "y": 10,
+                            "width": 40,
+                            "height": 30,
+                            "src": "",
+                            "alt": "main visual",
+                        }
+                    ],
+                }
+            ],
+        }
+    )
+
+    async def fake_call_llm(_system_prompt, _user_prompt):
+        return {"choices": [{"message": {"content": "{bad image plan json"}}]}
+
+    monkeypatch.setattr(presentation_generation, "call_llm", fake_call_llm)
+
+    with pytest.raises(HTTPException) as exc_info:
+        await presentation_generation.generate_image_plan(presentation)
+
+    assert exc_info.value.status_code == 422
+    assert "AI 图片规划返回格式不合规" in exc_info.value.detail
+
+
+@pytest.mark.anyio
 async def test_generate_ai_image_src_uses_photo_model(monkeypatch):
     client = FakeAsyncClient([FakeResponse(200, {"data": [{"b64_json": "abc"}]})])
 
@@ -454,6 +559,25 @@ async def test_generate_ai_image_src_uses_photo_model(monkeypatch):
     assert "size" not in client.posts[0]["json"]
     assert "response_format" not in client.posts[0]["json"]
     assert client.posts[0]["headers"]["Authorization"] == "Bearer image-key"
+
+
+@pytest.mark.anyio
+async def test_generate_ai_image_src_logs_debug_failure_reason(monkeypatch, capsys):
+    client = FakeAsyncClient([FakeResponse(500, {"error": "boom"})])
+
+    monkeypatch.setattr(image_providers.httpx, "AsyncClient", lambda: client)
+    monkeypatch.setattr(image_providers, "BASE_URL", "https://images.example.test")
+    monkeypatch.setattr(image_providers, "API_KEY", "image-key")
+    monkeypatch.setattr(image_providers, "MODEL_PHOTO", "photo-model")
+    monkeypatch.setattr(image_providers, "DEBUG_RAW_AI_RESPONSE", True)
+
+    result = await image_providers.generate_ai_image_src("visual prompt", 40, 30)
+
+    assert result is None
+    output = capsys.readouterr().out
+    assert "[IMAGE_PROVIDER]" in output
+    assert "provider=ai" in output
+    assert "status=500" in output
 
 
 @pytest.mark.anyio

@@ -176,6 +176,42 @@ def test_filter_templates_does_not_expose_image_src_to_content_llm():
     ]
 
 
+def test_filter_templates_for_ai_exposes_table_rows():
+    templates = [
+        {
+            "id": "table-slide",
+            "role": "kpi-dashboard",
+            "description": "KPI table slide",
+            "elements": [
+                {
+                    "id": "table-1",
+                    "type": "table",
+                    "x": 10,
+                    "y": 20,
+                    "width": 80,
+                    "height": 40,
+                    "rows": [],
+                    "fontSize": 10,
+                    "description": "A 7-row, 4-column KPI table.",
+                    "recommendlength": "7 rows x 4 columns, each cell 2-12 chars",
+                }
+            ],
+        }
+    ]
+
+    filtered = filter_templates_for_ai(templates)
+
+    assert filtered[0]["elements"] == [
+        {
+            "id": "table-1",
+            "type": "table",
+            "description": "A 7-row, 4-column KPI table.",
+            "recommendlength": "7 rows x 4 columns, each cell 2-12 chars",
+            "rows": [],
+        }
+    ]
+
+
 def test_hydrate_presentation_fills_content_without_changing_template_shape():
     templates = [
         {
@@ -249,6 +285,64 @@ def test_hydrate_presentation_fills_content_without_changing_template_shape():
     assert slide["elements"][1]["src"] == ""
     assert slide["elements"][2]["y"] == 36
     assert slide["elements"][2]["height"] == 24
+
+
+def test_hydrate_presentation_fills_table_rows_without_markdown():
+    templates = [
+        {
+            "id": "table-slide",
+            "role": "kpi-dashboard",
+            "background": "#ffffff",
+            "elements": [
+                {
+                    "id": "table-1",
+                    "type": "table",
+                    "x": 10,
+                    "y": 20,
+                    "width": 80,
+                    "height": 40,
+                    "rows": [],
+                    "fontSize": 10,
+                    "description": "A KPI table.",
+                    "recommendlength": "3 rows x 2 columns",
+                }
+            ],
+        }
+    ]
+    plan = {
+        "slides": [
+            {
+                "templateId": "table-slide",
+                "elements": [
+                    {
+                        "id": "table-1",
+                        "rows": [
+                            ["Metric", "Value"],
+                            ["Revenue", "$4M"],
+                            ["Profit", "$3.9M"],
+                        ],
+                    }
+                ],
+            }
+        ]
+    }
+
+    presentation = hydrate_presentation(
+        plan,
+        templates,
+        title="Table Deck",
+        layout="16x9",
+        theme="minimalist",
+    )
+    table = presentation["slides"][0]["elements"][0]
+
+    assert table["type"] == "table"
+    assert table["rows"] == [
+        ["Metric", "Value"],
+        ["Revenue", "$4M"],
+        ["Profit", "$3.9M"],
+    ]
+    assert "markdown" not in table
 
 
 def test_hydrate_presentation_appends_fixed_thanks_template():
