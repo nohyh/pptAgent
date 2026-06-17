@@ -16,11 +16,34 @@ The most important architectural rule:
 Presentation JSON is the single source of truth. C:\CODE\web_code\pptAgent\src\types\presentation.ts 
 ```
 
-The app should not let AI directly generate final HTML, PPTX, SVG, or arbitrary page code as the primary product data. In the current V1 direction, AI generates structured Presentation JSON from user input; post-generation AI chat editing is intentionally out of scope.
+The app should not let AI directly generate final HTML, PPTX, SVG, or arbitrary page code as the primary product data. In the current V1/V1.5 direction, AI generates structured Presentation JSON from user input; post-generation AI chat editing is intentionally out of scope.
 
 ## Current Phase
 
-Current target: V1
+Current target: V2 persistence.
+
+The main generation loop has run end to end:
+
+```text
+outline -> PPT content JSON -> template hydration -> image planning -> image fulfillment -> React preview -> PPTX export
+```
+
+V1.5 and the first V3 pass are considered sufficiently complete for moving into V2:
+
+- make AI output failures easy to trace in development logs;
+- keep template slot filling controlled by prompt length limits and template contracts;
+- support stock-to-AI and AI-to-stock image fallback before placeholder fallback;
+- keep generated Presentation JSON clean and free of planning/debug metadata;
+- keep only currently usable template families exposed in the frontend.
+
+Deferred unless explicitly requested:
+
+- V6 Redis/RQ async task progress;
+- post-generation AI chat editing;
+- element-level AI editing or JSON Patch editing flows.
+- template linter/checker work;
+- text overflow or layout safety checks;
+- export quality changes.
 
 Current backend structure:
 
@@ -35,13 +58,16 @@ backend/main.py
 -> app/templates/            template JSON files
 ```
 
-Backend organization rules for V1:
+Backend organization rules for the current phase:
 
 - Keep route files thin. They should validate HTTP inputs and call services.
 - Keep generation flow in `app/services/`; do not put orchestration back into `app/ai/`.
 - Keep model-provider calls in `app/ai/client.py` or `app/images/providers.py`.
 - Keep template slot rules in `app/template_engine/`; when editing templates, update nearby template documentation if needed.
 - Keep image planning metadata out of saved Presentation JSON. Planning may guide fulfillment, but final slides should contain normal image `src` values only.
+- Keep debug and tracing output out of saved Presentation JSON. Development logs may print raw AI output, image plan decisions, and provider failure reasons, but production logging must avoid full private prompts/documents.
+- Treat `minimalist` as the currently proven template family. Do not expose another template family in the frontend unless it is ready for real generation.
+- Do not add template linters, text overflow checks, layout safety checks, or export rewrites unless explicitly requested.
 - `app/ai/__init__.py` is a compatibility entrypoint; new code should import from the focused modules directly.
 
 ## Docs Reading Rules
@@ -50,6 +76,7 @@ Before coding, read only the docs relevant to the task.
 
 - Product roadmap or phase planning: read `docs/roadmap.md`.
 - Overall architecture decisions: read `docs/architecture.md`.
+- Current quality blockers: read `docs/problem.MD`.
 - UI or styling work: read `design` if it exists; otherwise follow the Design Direction below.
 Always follow this `AGENTS.md` first. Detailed docs provide context, but current phase boundaries still apply.
 
@@ -61,7 +88,7 @@ Always follow this `AGENTS.md` first. Detailed docs provide context, but current
   - Do not add or revive AI chat-based slide editing unless explicitly requested.
   - If this capability is reintroduced later, AI edits must modify structured Presentation JSON only, preferably through validated JSON Patch or another schema-checked operation.
 - Use templates and template slots to control visual output.
-- Add checks for schema correctness and basic layout safety before saving or exporting.
+- Add checks for schema correctness before saving or exporting.
 - Template rules should live with the template files. When working on templates or layouts, inspect the template directory README/metadata once that directory exists.
 - Validation rules should live with the validation code. When validation utilities or scripts exist, use them instead of inventing a parallel validation system.
 
