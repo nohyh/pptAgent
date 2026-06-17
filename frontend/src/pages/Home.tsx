@@ -1,29 +1,21 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { ArrowUp, Presentation, BarChart3, BookOpen, Lightbulb } from "lucide-react"
+import { ArrowUp } from "lucide-react"
 import { useEditorStore } from "@/stores/editorStore"
-
-const SUGGESTIONS = [
-  { icon: Presentation, label: "季度业务汇报", prompt: "制作一份Q2季度业务汇报PPT，包含业绩数据、关键成就、市场分析和下季度规划" },
-  { icon: BarChart3, label: "产品发布方案", prompt: "制作一份新产品发布方案PPT，涵盖产品介绍、市场定位、竞品分析和推广策略" },
-  { icon: BookOpen, label: "培训课件", prompt: "制作一份团队培训课件PPT，包含课程目标、知识要点、案例分析和互动练习" },
-  { icon: Lightbulb, label: "创业融资路演", prompt: "制作一份创业融资路演PPT，包含项目背景、商业模式、市场分析和融资需求" },
-]
 
 export default function Home() {
   const [prompt, setPrompt] = useState("")
   const generateOutline = useEditorStore((s) => s.generateOutline)
+  const isGeneratingOutline = useEditorStore((s) => s.isGeneratingOutline)
   const navigate = useNavigate()
   const hasPrompt = prompt.trim().length > 0
 
-  const handleSubmit = () => {
-    if (!hasPrompt) return
-    generateOutline(prompt)
+  const handleSubmit = async () => {
+    //防止连点
+    if (!hasPrompt || isGeneratingOutline) return
+    const generatePromise = generateOutline(prompt)
     navigate("/outline")
-  }
-
-  const handleSuggestion = (text: string) => {
-    setPrompt(text)
+    await generatePromise
   }
 
   return (
@@ -174,30 +166,12 @@ export default function Home() {
               }`}
               aria-hidden={!hasPrompt}
               aria-label="提交提示词"
-              disabled={!hasPrompt}
+              disabled={!hasPrompt || isGeneratingOutline}
               title="提交提示词"
               onClick={handleSubmit}
             >
               <ArrowUp className="size-5" strokeWidth={2.2} />
             </button>
-          </div>
-
-          {/* 推荐词标签 */}
-          <div className="mt-6 flex flex-wrap gap-2">
-            {SUGGESTIONS.map((s) => {
-              const Icon = s.icon
-              return (
-                <button
-                  key={s.label}
-                  type="button"
-                  className="animate-fade-up-delay-3 shadow-ring group flex items-center gap-2 rounded-xl border border-border bg-ivory px-3.5 py-2 font-sans text-[0.8125rem] text-olive-gray transition-all duration-200 hover:border-border-warm hover:bg-white hover:text-foreground hover:shadow-card"
-                  onClick={() => handleSuggestion(s.prompt)}
-                >
-                  <Icon className="size-3.5 text-warm-silver transition-colors duration-200 group-hover:text-primary" />
-                  {s.label}
-                </button>
-              )
-            })}
           </div>
         </div>
       </section>

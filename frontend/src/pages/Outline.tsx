@@ -1,25 +1,20 @@
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   ArrowLeft,
   Plus,
   Trash2,
-  Minus,
   GripVertical,
   AlertCircle,
+  ChevronDown,
+  Check,
 } from "lucide-react"
-import { useEditorStore } from "@/stores/editorStore"
+import { MAX_OUTLINE_SECTIONS, MAX_PAGE_COUNT, useEditorStore } from "@/stores/editorStore"
 import { usePresentationStore } from "@/stores/presentationStore"
 
 const generatePresentation = usePresentationStore.getState().generatePresentation
 const STYLES = [
   {
-    id: "warm-editorial",
-    name: "Anthropic",
-    description: "温和的颜色 简单的界面 清晰的排版",
-    preview: "#f5f4ed",
-    accent: "#c96442",
-    icon: "/anthropic.png"
-  }, {
     id: "minimalist",
     name: "Minimalist",
     description: "极简 现代 ",
@@ -29,8 +24,67 @@ const STYLES = [
   }
 ]
 
-function clampPageCount(value: number, min: number): number {
-  return Math.max(min, Math.min(50, value))
+function getMinPageCount(sectionCount: number): number {
+  return Math.min(MAX_PAGE_COUNT, sectionCount * 2 + 2)
+}
+
+function PageCountSelect({
+  value,
+  options,
+  onChange,
+}: {
+  value: number
+  options: number[]
+  onChange: (value: number) => void
+}) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div
+      className="relative"
+      onBlur={(event) => {
+        const nextTarget = event.relatedTarget as Node | null
+        if (!event.currentTarget.contains(nextTarget)) setOpen(false)
+      }}
+    >
+      <button
+        type="button"
+        className="flex h-9 w-full items-center justify-between rounded-lg border border-border-warm bg-ivory px-3 font-sans text-[0.8125rem] font-medium text-charcoal-warm shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-blue"
+        aria-expanded={open}
+        aria-label="选择页数"
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span>{value} 页</span>
+        <ChevronDown className={`size-3.5 text-stone-gray transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 right-0 top-[calc(100%+6px)] z-20 max-h-52 overflow-auto rounded-lg border border-border-warm bg-ivory p-1 shadow-[0_12px_30px_rgba(20,20,19,0.1),0_0_0_1px_rgba(209,207,197,0.35)]">
+          {options.map((option) => {
+            const selected = option === value
+            return (
+              <button
+                key={option}
+                type="button"
+                className={`flex h-8 w-full items-center justify-between rounded-md px-2.5 font-sans text-[0.8125rem] transition-colors ${
+                  selected
+                    ? "bg-warm-sand text-foreground"
+                    : "text-olive-gray hover:bg-background hover:text-foreground"
+                }`}
+                onClick={() => {
+                  onChange(option)
+                  setOpen(false)
+                }}
+              >
+                <span>{option} 页</span>
+                {selected && <Check className="size-3.5 text-primary" />}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function Outline() {
@@ -47,14 +101,23 @@ export default function Outline() {
   const setPageCount = useEditorStore((s) => s.setPageCount)
   const isGeneratingOutline = useEditorStore((s) => s.isGeneratingOutline)
   const outlineError = useEditorStore((s) => s.outlineError)
+  const isGeneratingPresentation = usePresentationStore((s) => s.isLoading)
 
-  const minPages = sections.length
+  const minPages = getMinPageCount(sections.length)
+  const pageOptions = Array.from(
+    { length: Math.max(0, MAX_PAGE_COUNT - minPages + 1) },
+    (_, index) => minPages + index,
+  )
+  const canAddSection = sections.length < MAX_OUTLINE_SECTIONS
 
-  const handlePageChange = (delta: number) => {
-    setPageCount(clampPageCount(pageCount + delta, minPages))
-  }
+  useEffect(() => {
+    if (pageCount < minPages) {
+      setPageCount(minPages)
+    }
+  }, [minPages, pageCount, setPageCount])
 
   const handleGenerate = async () => {
+    if (isGeneratingPresentation) return
     // 先触发生成，这会同步把 isLoading 设为 true
     const generatePromise = generatePresentation();
     // 然后再跳转，这样跳过去瞬间 isLoading 就已经是 true，完美无缝衔接骨架屏
@@ -84,33 +147,62 @@ export default function Outline() {
 
       <div className="mx-auto flex max-w-[1280px] gap-10 px-5 py-10 sm:px-8 lg:gap-14">
         {isGeneratingOutline ? (
-          <div className="flex w-full animate-pulse gap-10 lg:gap-14">
+          <div className="flex w-full gap-10 lg:gap-14">
             <section className="min-w-0 flex-1">
-              <p className="mb-6 font-sans text-[0.8125rem] text-stone-gray">正在生成大纲...</p>
-              <div className="mb-10 h-12 w-3/4 rounded-xl bg-stone-gray/10" />
+              <div className="mb-10">
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="flex size-2.5 rounded-full bg-primary loading-dot" />
+                  <span className="font-sans text-[0.75rem] font-medium text-primary">
+                    正在生成大纲
+                  </span>
+                </div>
+                <div className="mb-3 h-3 w-20 rounded-full skeleton-shimmer" />
+                <div className="h-[52px] w-3/4 rounded-xl skeleton-shimmer" />
+              </div>
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="rounded-2xl border border-border bg-ivory px-5 py-7 shadow-[0_0_0_1px_rgba(209,207,197,0.2)]">
                     <div className="flex items-start gap-3">
-                      <div className="size-7 shrink-0 rounded-lg bg-stone-gray/10" />
+                      <div className="size-7 shrink-0 rounded-lg skeleton-shimmer" />
                       <div className="min-w-0 flex-1 space-y-3">
-                        <div className="h-4 w-1/3 rounded-full bg-stone-gray/15" />
-                        <div className="h-3 w-full rounded-full bg-stone-gray/10" />
-                        <div className="h-3 w-4/5 rounded-full bg-stone-gray/10" />
+                        <div className="h-4 w-1/3 rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-full rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-4/5 rounded-full skeleton-shimmer" />
+                        <div className="h-3 w-2/3 rounded-full skeleton-shimmer" />
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
+              <div className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-ring py-3">
+                <div className="size-4 rounded-full skeleton-shimmer" />
+                <div className="h-3 w-16 rounded-full skeleton-shimmer" />
+              </div>
             </section>
 
             <aside className="hidden w-[288px] shrink-0 md:block">
-              <div className="sticky top-[88px] space-y-6">
-                <div className="h-16 rounded-xl bg-stone-gray/10" />
+              <div className="sticky top-[88px] space-y-8">
+                <fieldset>
+                  <div className="mb-4 h-3 w-16 rounded-full skeleton-shimmer" />
+                  <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 shadow-[0_0_0_1px_rgba(209,207,197,0.45)]">
+                    <div className="size-9 shrink-0 rounded-lg skeleton-shimmer" />
+                    <div className="min-w-0 flex-1 space-y-2">
+                      <div className="h-3 w-20 rounded-full skeleton-shimmer" />
+                      <div className="h-2.5 w-24 rounded-full skeleton-shimmer" />
+                    </div>
+                    <div className="size-4 rounded-full skeleton-shimmer" />
+                  </div>
+                </fieldset>
                 <div className="h-px bg-border-warm" />
-                <div className="h-12 rounded-xl bg-stone-gray/10" />
+                <fieldset>
+                  <div className="mb-4 h-3 w-10 rounded-full skeleton-shimmer" />
+                  <div className="h-9 rounded-lg skeleton-shimmer" />
+                  <div className="mx-auto mt-2 h-2.5 w-28 rounded-full skeleton-shimmer" />
+                </fieldset>
                 <div className="h-px bg-border-warm" />
-                <div className="h-11 rounded-full bg-stone-gray/10" />
+                <div className="h-11 rounded-full bg-neutral-900/80 shadow-lg">
+                  <div className="mx-auto h-full w-20 rounded-full skeleton-shimmer opacity-30" />
+                </div>
               </div>
             </aside>
           </div>
@@ -209,8 +301,9 @@ export default function Outline() {
                   <div className="absolute -bottom-2.5 left-1/2 z-10 -translate-x-1/2">
                     <button
                       type="button"
-                      className="flex size-5 items-center justify-center rounded-full border border-border-warm bg-ivory text-ring-deep opacity-0 shadow-[0px_2px_8px_rgba(20,20,19,0.06)] transition-all duration-200 hover:border-primary hover:text-primary hover:shadow-[0px_0px_0px_2px_rgba(201,100,66,0.12)] group-hover:opacity-100"
+                      className="flex size-5 items-center justify-center rounded-full border border-border-warm bg-ivory text-ring-deep opacity-0 shadow-[0px_2px_8px_rgba(20,20,19,0.06)] transition-all duration-200 hover:border-primary hover:text-primary hover:shadow-[0px_0px_0px_2px_rgba(201,100,66,0.12)] disabled:cursor-not-allowed disabled:opacity-20 group-hover:opacity-100"
                       onClick={() => addSection(i)}
+                      disabled={!canAddSection}
                       title="在此处插入章节"
                     >
                       <Plus className="size-2.5" strokeWidth={2.5} />
@@ -224,11 +317,12 @@ export default function Outline() {
           {/* Add section button */}
           <button
             type="button"
-            className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-ring py-3 font-sans text-[0.875rem] text-stone-gray transition-all duration-300 hover:border-primary hover:bg-ivory hover:text-primary hover:shadow-[0px_0px_0px_1px_rgba(201,100,66,0.15)]"
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-ring py-3 font-sans text-[0.875rem] text-stone-gray transition-all duration-300 hover:border-primary hover:bg-ivory hover:text-primary hover:shadow-[0px_0px_0px_1px_rgba(201,100,66,0.15)] disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:border-ring disabled:hover:bg-transparent disabled:hover:text-stone-gray disabled:hover:shadow-none"
             onClick={() => addSection(sections.length - 1)}
+            disabled={!canAddSection}
           >
             <Plus className="size-4" />
-            添加章节
+            {canAddSection ? "添加章节" : "最多 10 个章节"}
           </button>
         </section>
 
@@ -313,41 +407,13 @@ export default function Outline() {
               <legend className="mb-4 font-sans text-[0.625rem] font-medium uppercase tracking-[0.5px] text-stone-gray">
                 页数
               </legend>
-              <div className="flex items-stretch gap-0 overflow-hidden rounded-xl border border-border-warm bg-ivory shadow-[0px_0px_0px_1px_rgba(209,207,197,0.25)]">
-                <button
-                  type="button"
-                  className="flex shrink-0 items-center justify-center rounded-l-xl px-3.5 py-2.5 text-olive-gray transition-all duration-200 hover:bg-border hover:text-foreground active:bg-border-warm disabled:cursor-not-allowed disabled:text-ring disabled:hover:bg-transparent"
-                  onClick={() => handlePageChange(-1)}
-                  disabled={pageCount <= minPages}
-                >
-                  <Minus className="size-4" />
-                </button>
-                <div className="flex flex-1 items-center justify-center border-x border-border">
-                  <input
-                    type="number"
-                    className="w-full min-w-0 bg-transparent text-center font-heading text-[1.5rem] font-medium tabular-nums text-foreground outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                    value={pageCount}
-                    min={minPages}
-                    max={50}
-                    onChange={(e) => {
-                      const val = parseInt(e.target.value, 10)
-                      if (!isNaN(val)) {
-                        setPageCount(clampPageCount(val, minPages))
-                      }
-                    }}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="flex shrink-0 items-center justify-center rounded-r-xl px-3.5 py-2.5 text-olive-gray transition-all duration-200 hover:bg-border hover:text-foreground active:bg-border-warm disabled:cursor-not-allowed disabled:text-ring disabled:hover:bg-transparent"
-                  onClick={() => handlePageChange(1)}
-                  disabled={pageCount >= 50}
-                >
-                  <Plus className="size-4" />
-                </button>
-              </div>
+              <PageCountSelect
+                value={Math.max(pageCount, minPages)}
+                options={pageOptions}
+                onChange={setPageCount}
+              />
               <p className="mt-2 text-center font-sans text-[0.6875rem] text-ring-deep">
-                {minPages}–50 页
+                {sections.length} 个章节，范围 {minPages}–{MAX_PAGE_COUNT} 页
               </p>
             </fieldset>
 
@@ -356,6 +422,7 @@ export default function Outline() {
               type="button"
               className="group flex w-full items-center justify-center gap-2.5 rounded-full bg-neutral-900 px-6 py-3.5 font-sans text-[0.9375rem] font-medium text-[#F5F0E8] shadow-lg transition-all duration-300 hover:bg-neutral-800 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 active:translate-y-px"
               onClick={handleGenerate}
+              disabled={isGeneratingPresentation}
             >
               生成 PPT
             </button>
@@ -372,6 +439,7 @@ export default function Outline() {
           type="button"
           className="flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 font-sans text-[0.9375rem] font-medium text-[#F5F0E8] shadow-lg transition-all hover:bg-neutral-800"
           onClick={handleGenerate}
+          disabled={isGeneratingPresentation}
         >
           生成 PPT
         </button>

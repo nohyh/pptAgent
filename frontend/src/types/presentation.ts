@@ -35,8 +35,16 @@ export interface BlockElement extends BaseElement {
 
 export interface TableElement extends BaseElement {
   type: "table"
-  markdown: string      
-} //  这一部分和想象不符，暂时废弃
+  rows: string[][]
+  font?: string
+  fontSize?: number
+  lineHeight?: number
+  color?: string
+  align?: "left" | "center" | "right"
+  borderColor?: string
+  borderWidth?: number
+  cellBackgroundColor?: string
+}
 
 // 3. 把所有元素联合起来
 export type SlideElement = TextElement | ImageElement | BlockElement | TableElement

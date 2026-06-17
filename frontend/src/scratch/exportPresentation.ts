@@ -7,10 +7,14 @@ import {
 } from "@/lib/presentationLayout"
 import pptxgen from "pptxgenjs"
 
-export function exportPresentation() {
+function pptColor(color: string | undefined, fallback = "000000") {
+  return color ? color.replace("#", "") : fallback
+}
+
+export async function exportPresentation() {
   const presentation = usePresentationStore.getState().presentation
   if (!presentation) {
-    return
+    return null
   }
   const pptx = new pptxgen()
   // 1. 设置整体布局比例
@@ -71,6 +75,38 @@ export function exportPresentation() {
           sizing: { type: "cover", w, h } // 对应我们在网页里写的 objectFit: "cover"
         })
       } 
+      else if (item.type === "table") {
+        if (item.rows.length === 0) continue
+
+        const tableRows = item.rows.map((row) =>
+          row.map((cell) => ({
+            text: cell,
+            options: {
+              fill: item.cellBackgroundColor
+                ? { color: pptColor(item.cellBackgroundColor) }
+                : undefined,
+            },
+          })),
+        )
+
+        newSlide.addTable(tableRows, {
+          x,
+          y,
+          w,
+          h,
+          fontFace: getPptFontFace(item.font),
+          fontSize: (item.fontSize || 8) * 0.75,
+          color: pptColor(item.color),
+          align: item.align || "center",
+          valign: "middle",
+          margin: 0.02,
+          border: {
+            type: "solid",
+            color: pptColor(item.borderColor, "B8B8B0"),
+            pt: item.borderWidth || 0.5,
+          },
+        })
+      }
       else if (item.type === "block") {
         // 映射形状类型
         let shapeType = pptx.ShapeType.rect
@@ -94,7 +130,6 @@ export function exportPresentation() {
 
   // 4. 触发下载
   const fileName = `${presentation.title || "未命名演示文稿"}.pptx`
-  pptx.writeFile({ fileName })
-    .then(() => console.log(`✅ ${fileName} 导出成功！`))
-    .catch((err) => console.error("❌ 导出失败：", err))
+  await pptx.writeFile({ fileName })
+  return fileName
 }

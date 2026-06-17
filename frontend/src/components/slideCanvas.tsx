@@ -134,9 +134,47 @@ const SlideCanvas = ({ slide, layout = "16x9", setSelectedId, selectedId }: Slid
         }
 
         if (element.type === 'table') {
+          const borderColor = element.borderColor || '#b8b8b0';
           return (
             <Rnd key={element.id} {...rndProps}>
-              <div style={{ width: '100%', height: '100%' }}>i am a table</div>
+              <table
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderCollapse: 'collapse',
+                  tableLayout: 'fixed',
+                  fontSize: getCssFontSize(element.fontSize || 8, layout),
+                  color: element.color || '#111111',
+                  fontFamily: getCssFontFamily(element.font),
+                  lineHeight: getLineHeight(element.lineHeight),
+                  textAlign: element.align || 'center',
+                  backgroundColor: element.cellBackgroundColor || 'transparent',
+                }}
+              >
+                <tbody>
+                  {element.rows.map((row, rowIndex) => (
+                    <tr key={`${element.id}-row-${rowIndex}`}>
+                      {row.map((cell, cellIndex) => (
+                        <td
+                          key={`${element.id}-cell-${rowIndex}-${cellIndex}`}
+                          style={{
+                            borderTop: `${element.borderWidth || 1}px solid ${borderColor}`,
+                            borderBottom: `${element.borderWidth || 1}px solid ${borderColor}`,
+                            padding: '0.08em 0.12em',
+                            fontWeight: 'normal',
+                            backgroundColor: element.cellBackgroundColor || 'transparent',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </Rnd>
           );
         }

@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { usePresentationStore } from "@/stores/presentationStore"
 import type { SlideElement, TextElement, ImageElement, BlockElement, TableElement } from "@/types/presentation"
 import {
@@ -27,6 +27,7 @@ type ElementUpdate =
   | Partial<TableElement>
 
 type UpdateElement = (slideId: string, elementId: string, updates: ElementUpdate) => void
+const MAX_LOCAL_IMAGE_BYTES = 5 * 1024 * 1024
 
 // ─── 通用：位置 & 尺寸面板 ──────────────────────────
 const PositionSection = ({
@@ -153,12 +154,6 @@ const TextPanel = ({
           onChange={(e) => updateElement(slideId, element.id, { color: e.target.value })}
           className="size-8 cursor-pointer rounded-lg border border-border bg-background p-0.5"
         />
-        <input
-          type="text"
-          value={element.color || "#000000"}
-          onChange={(e) => updateElement(slideId, element.id, { color: e.target.value })}
-          className="flex-1 rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
-        />
       </div>
     </label>
 
@@ -216,13 +211,20 @@ const ImagePanel = ({
   updateElement: UpdateElement
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [imageError, setImageError] = useState<string | null>(null)
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    if (file.size > MAX_LOCAL_IMAGE_BYTES) {
+      setImageError("图片不能超过 5MB");
+      e.target.value = ''
+      return
+    }
     const reader = new FileReader()
     reader.onload = () => {
       if (typeof reader.result === 'string') {
+        setImageError(null)
         updateElement(slideId, element.id, { src: reader.result })
       }
     }
@@ -251,6 +253,9 @@ const ImagePanel = ({
           <Upload className="size-3.5" />
           从本地选择图片
         </button>
+        {imageError && (
+          <p className="font-sans text-[0.75rem] text-destructive">{imageError}</p>
+        )}
       </div>
 
       {/* Alt 文本 */}
@@ -323,13 +328,6 @@ const BlockPanel = ({
           onChange={(e) => updateElement(slideId, element.id, { backgroundColor: e.target.value })}
           className="size-8 cursor-pointer rounded-lg border border-border bg-background p-0.5"
         />
-        <input
-          type="text"
-          value={element.backgroundColor || ""}
-          onChange={(e) => updateElement(slideId, element.id, { backgroundColor: e.target.value })}
-          className="flex-1 rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
-          placeholder="#ffffff"
-        />
       </div>
     </label>
 
@@ -343,13 +341,6 @@ const BlockPanel = ({
             value={element.borderColor || "#000000"}
             onChange={(e) => updateElement(slideId, element.id, { borderColor: e.target.value })}
             className="size-7 cursor-pointer rounded border border-border bg-background p-0.5"
-          />
-          <input
-            type="text"
-            value={element.borderColor || ""}
-            onChange={(e) => updateElement(slideId, element.id, { borderColor: e.target.value })}
-            className="min-w-0 flex-1 rounded-lg border border-border bg-background px-2 py-1.5 font-sans text-[0.75rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm"
-            placeholder="#000"
           />
         </div>
       </label>
@@ -369,6 +360,98 @@ const BlockPanel = ({
     </div>
   </div>
 )
+
+function normalizeTableRows(rows: string[][]): string[][] {
+  const columnCount = Math.max(1, ...rows.map((row) => row.length))
+  const sourceRows = rows.length > 0 ? rows : [[""]]
+  return sourceRows.map((row) =>
+    Array.from({ length: columnCount }, (_, index) => row[index] ?? ""),
+  )
+}
+
+const TablePanel = ({
+  element,
+  slideId,
+  updateElement,
+}: {
+  element: TableElement
+  slideId: string
+  updateElement: UpdateElement
+}) => {
+  const rows = normalizeTableRows(element.rows)
+  const columnCount = rows[0]?.length || 1
+  const gridTemplateColumns = `repeat(${columnCount}, minmax(74px, 1fr))`
+  const updateRows = (nextRows: string[][]) => {
+    updateElement(slideId, element.id, { rows: nextRows })
+  }
+
+  const updateCell = (rowIndex: number, cellIndex: number, value: string) => {
+    updateRows(rows.map((row, currentRowIndex) =>
+      currentRowIndex === rowIndex
+        ? row.map((cell, currentCellIndex) => currentCellIndex === cellIndex ? value : cell)
+        : row,
+    ))
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-stone-gray">
+          <Square className="size-3.5" />
+          <span className="font-sans text-[0.6875rem] font-medium uppercase tracking-wide">
+            表格内容
+          </span>
+        </div>
+        <div className="overflow-x-auto rounded-lg border border-border bg-border">
+          <div className="min-w-max">
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${element.id}-editor-row-${rowIndex}`}
+                className="grid gap-px"
+                style={{ gridTemplateColumns }}
+              >
+                {row.map((cell, cellIndex) => (
+                  <input
+                    key={`${element.id}-editor-cell-${rowIndex}-${cellIndex}`}
+                    value={cell}
+                    onChange={(event) => updateCell(rowIndex, cellIndex, event.target.value)}
+                    className="min-w-0 bg-background px-1.5 py-1 font-sans text-[0.6875rem] text-foreground outline-none focus:bg-white"
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-3">
+        <label className="flex flex-col gap-1">
+          <span className="font-sans text-[0.6875rem] text-warm-silver">字号</span>
+          <input
+            type="number"
+            min={5}
+            max={80}
+            value={element.fontSize || 8}
+            onChange={(e) => updateElement(slideId, element.id, { fontSize: parseInt(e.target.value) || 8 })}
+            className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 font-sans text-[0.8125rem] text-foreground outline-none transition-all duration-200 focus:border-border-warm focus:shadow-[0_0_0_1px_rgba(209,207,197,0.5)]"
+          />
+        </label>
+      </div>
+
+      <label className="flex flex-col gap-1">
+        <span className="font-sans text-[0.6875rem] text-warm-silver">边框颜色</span>
+        <div className="flex items-center gap-2">
+          <input
+            type="color"
+            value={element.borderColor || "#b8b8b0"}
+            onChange={(e) => updateElement(slideId, element.id, { borderColor: e.target.value })}
+            className="size-8 cursor-pointer rounded-lg border border-border bg-background p-0.5"
+          />
+        </div>
+      </label>
+    </div>
+  )
+}
 
 // ─── 主组件 ─────────────────────────────────────────
 const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
@@ -430,6 +513,9 @@ const EditorDialog = ({ selectedElement, slideId }: EditorDialogProps) => {
       )}
       {selectedElement.type === "block" && (
         <BlockPanel element={selectedElement} slideId={slideId} updateElement={updateElement} />
+      )}
+      {selectedElement.type === "table" && (
+        <TablePanel element={selectedElement} slideId={slideId} updateElement={updateElement} />
       )}
 
       {/* 分隔线 */}
