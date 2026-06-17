@@ -51,6 +51,14 @@ async def _fill_one_image(
                 element.src = src
                 return
 
+        if generate_by == "ai" and search_stock_image is not None:
+            #ai失败的话，回退到搜图
+            stock_width, stock_height = _stock_slot_size(layout, element)
+            src = normalize_image_src(await search_stock_image(prompt, stock_width, stock_height))
+            if src:
+                element.src = src
+                return
+
         element.src = placeholder_data_url()
     except Exception:
         element.src = placeholder_data_url()

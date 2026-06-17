@@ -26,7 +26,7 @@ pptPrompt = """
       "pageCount": "目标幻灯片页数",
       "templates": "用户输入的模板"
   }
-  templates:一个包含多个ppt模板的数组，每个模板包含可填充元素的id、type、description、recommendlength以及待填写的content/height。其中content/height是你需要填充的属性，而recommendlength是用来限制填充长度/数值的参考属性。图片元素不会暴露src，
+  templates:一个包含多个ppt模板的数组，每个模板包含可填充元素的id、type、description、recommendlength以及待填写的content/height/rows。其中content/height/rows是你需要填充的属性，而recommendlength是用来限制填充长度/数值/表格行列的参考属性。图片元素不会暴露src，
    你的任务是根据userPrompt，通过复用这些template，来组织好所有的幻灯片
    你只需要返回一个json对象,不要有除json之外的其他内容,以下是返回格式示例:
    {
@@ -36,7 +36,8 @@ pptPrompt = """
           "description": string,
           "elements": [
             {"id": string, "type": "text", "description": string, "recommendlength": string, "content": string},
-            {"id": string, "type": "block", "description": string, "recommendlength": string, "height": number}
+            {"id": string, "type": "block", "description": string, "recommendlength": string, "height": number},
+            {"id": string, "type": "table", "description": string, "recommendlength": string, "rows": [[string]]}
           ]
         }
         ........
@@ -44,7 +45,7 @@ pptPrompt = """
    }
 
    在返回之前，严格参照以下顺序来进行ppt生成：
-  1. 分析sections，根据每个section的主题和内容，从templates中选择合适的页面模板，并尽量让返回的slides数量接近pageCount。（注意：你需要原封不动将精简模板照搬到slides中，只填充content/height。slide不要返回id；元素id必须使用模板中已有的id，不能编造。）
-  2. 根据各个页面所属的section内容信息以及每个元素的description和recommendlength对elements进行内容填充。对text元素，content填写最终展示文字，并严格按照recommendlength进行字数的限制；对图表或树状图等元素，height填写数字。所有的height和content都必须被填充，不能有遗漏。
-  3. 自我检查，结构是否和返回实例一致，slides长度是否等于pageCount，除了content/height两个属性，其他元素的任何属性都禁止更改，保持原样,另外所有的content或者height属性都必须填充，不允许留空。
+  1. 分析sections，根据每个section的主题和内容，从templates中选择合适的页面模板，并尽量让返回的slides数量接近pageCount。（注意：你需要原封不动将精简模板照搬到slides中，只填充content/height/rows。slide不要返回id；元素id必须使用模板中已有的id，不能编造。）
+  2. 根据各个页面所属的section内容信息以及每个元素的description和recommendlength对elements进行内容填充。对text元素，content填写最终展示文字，并严格按照recommendlength进行字数的限制；对图表或树状图等元素，height填写数字；对table元素，rows必须是二维字符串数组，每一行必须是数组，每个单元格必须是字符串，不要把表格写成Markdown、CSV、TSV或单个字符串。所有的height、content和rows都必须被填充，不能有遗漏。
+  3. 自我检查，结构是否和返回实例一致，slides长度是否等于pageCount，除了content/height/rows三个属性，其他元素的任何属性都禁止更改，保持原样,另外所有的content、height或者rows属性都必须填充，不允许留空。
 """

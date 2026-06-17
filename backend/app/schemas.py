@@ -33,7 +33,15 @@ class BlockElement(BaseElement):
 
 class TableElement(BaseElement):
     type: Literal["table"]
-    markdown: str
+    rows: List[List[str]]
+    font: Optional[str] = None
+    fontSize: Optional[float] = None
+    lineHeight: Optional[float] = None
+    color: Optional[str] = None
+    align: Optional[Literal["left", "center", "right"]] = "center"
+    borderColor: Optional[str] = None
+    borderWidth: Optional[float] = None
+    cellBackgroundColor: Optional[str] = None
 
 
 SlideElement = Annotated[

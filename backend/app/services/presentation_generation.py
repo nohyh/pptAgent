@@ -7,6 +7,7 @@ from pydantic import ValidationError
 from app.ai.client import call_llm
 from app.ai.parsing import strip_markdown_json
 from app.ai.prompts import pptPrompt
+from app.config import DEBUG_RAW_AI_RESPONSE
 from app.images.fulfillment import assert_no_pending_images, fill_presentation_images
 from app.images.planner import build_image_plan_map, collect_pending_image_slots
 from app.images.prompts import imagePlanningPrompt
@@ -49,7 +50,10 @@ async def generate_image_plan(presentation: Presentation) -> list[dict[str, Any]
     )
     ai_res = await call_llm(imagePlanningPrompt, user_prompt)
     content = ai_res["choices"][0]["message"]["content"]
-    data = json.loads(strip_markdown_json(content))
+    try:
+        data = json.loads(strip_markdown_json(content))
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=422, detail="AI 图片规划返回格式不合规")
     if isinstance(data, list):
         images = data
     elif isinstance(data, dict):
@@ -82,6 +86,7 @@ async def generatePpt(request: PptRequest):
         "prompt": request.prompt,
         "title": request.title,
         "sections": [section.model_dump() for section in request.sections],
+        # 前端页数包含自动追加的 thanks 页，这里让内容页生成数量预留 1 页。
         "pageCount": request.pageCount-1,
         "templates": filtered_templates,
     }
@@ -92,7 +97,8 @@ async def generatePpt(request: PptRequest):
         user_prompt
     )
     #填充模板，返回presentation对象
-    print(f"[PPT_AI] {ai_res['choices'][0]['message']['content']}")
+    if DEBUG_RAW_AI_RESPONSE:
+        print(f"[PPT_AI] {ai_res['choices'][0]['message']['content']}")
     presentation = handlePptRes(ai_res, request, templates)
     #生成图片规划
     #大模型交互，进行图片规划

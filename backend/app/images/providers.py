@@ -1,7 +1,7 @@
 import httpx
 from urllib.parse import urlencode, urlsplit, urlunsplit
 
-from app.config import API_KEY, BASE_URL, MODEL_PHOTO, PEXELS_KEY
+from app.config import API_KEY, BASE_URL, DEBUG_RAW_AI_RESPONSE, MODEL_PHOTO, PEXELS_KEY
 from app.images.assets import extract_image_src_from_openai_payload
 
 
@@ -28,6 +28,12 @@ DEFAULT_IMAGE_SIZE = "1K"
 STOCK_IMAGE_LONG_EDGE = 1920
 STOCK_ORIENTATION_SQUARE_TOLERANCE = 0.05
 
+
+def _debug_provider_failure(provider: str, reason: str) -> None:
+    if DEBUG_RAW_AI_RESPONSE:
+        print(f"[IMAGE_PROVIDER] provider={provider} reason={reason}")
+
+
 #返回合适的比例
 def resolve_aspect_ratio(width: float, height: float) -> str | None:
     if width <= 0 or height <= 0:
@@ -42,9 +48,11 @@ def resolve_aspect_ratio(width: float, height: float) -> str | None:
 async def generate_ai_image_src(prompt: str, width: float = 100, height: float = 100) -> str | None:
     """通过配置的 OpenAI 兼容图像端点生成一个图像资产。"""
     if not BASE_URL or not API_KEY or not MODEL_PHOTO:
+        _debug_provider_failure("ai", "missing_config")
         return None
     aspect_ratio = resolve_aspect_ratio(width, height)
     if aspect_ratio is None:
+        _debug_provider_failure("ai", f"unsupported_aspect width={width} height={height}")
         return None
     try:
         payload = {
@@ -63,9 +71,14 @@ async def generate_ai_image_src(prompt: str, width: float = 100, height: float =
                 timeout=60,
             )
         if response.status_code != 200:
+            _debug_provider_failure("ai", f"status={response.status_code}")
             return None
-        return extract_image_src_from_openai_payload(response.json())
-    except Exception:
+        src = extract_image_src_from_openai_payload(response.json())
+        if not src:
+            _debug_provider_failure("ai", "missing_image_src")
+        return src
+    except Exception as e:
+        _debug_provider_failure("ai", f"exception={type(e).__name__}")
         return None
 
 #搜索图片的方式
@@ -113,6 +126,7 @@ def _build_stock_crop_url(src: str, width: float, height: float) -> str:
 
 async def _search_pexels_image(prompt: str, width: float, height: float) -> str | None:
     if not PEXELS_KEY:
+        _debug_provider_failure("stock", "missing_config")
         return None
     async with httpx.AsyncClient() as client:
         response = await client.get(
@@ -126,14 +140,17 @@ async def _search_pexels_image(prompt: str, width: float, height: float) -> str 
             timeout=30,
         )
     if response.status_code != 200:
+        _debug_provider_failure("stock", f"status={response.status_code}")
         return None
     data = response.json()
     photos = data.get("photos")
     if not photos:
+        _debug_provider_failure("stock", "no_photos")
         return None
     src = photos[0].get("src", {})
     # 优先用 original，避免在 Pexels 已经缩放过的尺寸上二次裁剪。
     image_src = src.get("original") or src.get("large2x") or src.get("large")
     if not image_src:
+        _debug_provider_failure("stock", "missing_image_src")
         return None
     return _build_stock_crop_url(image_src, width, height)

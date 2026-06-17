@@ -13,6 +13,7 @@ def load_mock_presentation(filename: str) -> dict:
 # 加载完整静态 Mock 演示文稿
 warm_editorial_mock_presentation = load_mock_presentation("claude.json")
 minimalist_pitch_deck_mock_presentation = load_mock_presentation("minimalist.json")
+elegant_bachelor_thesis_mock_presentation = load_mock_presentation("elegant_bachelor_thesis.json")
 
 mock_presentation = minimalist_pitch_deck_mock_presentation
 

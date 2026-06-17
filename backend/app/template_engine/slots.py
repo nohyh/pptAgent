@@ -1,8 +1,8 @@
 from copy import deepcopy
 import uuid
 
-# 可由 AI 填充内容的可编辑占位符属性名（例如文本框内容和柱状图/列表的高度）
-EDITABLE_PLACEHOLDER_KEYS = {"content", "height"}
+# 可由 AI 填充内容的可编辑占位符属性名（例如文本、表格 rows 和柱状图/列表的高度）
+EDITABLE_PLACEHOLDER_KEYS = {"content", "height", "rows"}
 
 # 仅模板内部使用的元数据属性名（在生成最终演示文稿时需要从 JSON 中剔除）
 TEMPLATE_ONLY_KEYS = {
@@ -225,8 +225,10 @@ def _has_ai_contract(element: dict) -> bool:
 
 def _is_placeholder_value(value) -> bool:
     """
-    判断某个字段值是否是初始占位值（空字符串 "" 或数值 0）。
+    判断某个字段值是否是初始占位值（空字符串 ""、数值 0 或空表格 rows）。
     """
+    if isinstance(value, list):
+        return len(value) == 0
     return value == "" or value == 0
 
 
@@ -259,6 +261,8 @@ def _coerce_value(value, template_value):
     类型强制转换：将 AI 填充的数据转换为与模板定义相匹配的数据类型。
     如果模板原值是数值（int/float），则强制转换为 float，否则转为 str。
     """
+    if isinstance(template_value, list):
+        return _coerce_table_rows(value)
     if isinstance(template_value, (int, float)):
         if value is None or value == "":
             return 0
@@ -266,3 +270,17 @@ def _coerce_value(value, template_value):
     if value is None:
         return ""
     return str(value)
+
+
+def _coerce_table_rows(value) -> list[list[str]]:
+    """
+    将 AI 返回的表格 rows 规范成二维字符串数组，避免单元格里混入数字或 None。
+    """
+    if not isinstance(value, list):
+        return []
+    rows = []
+    for row in value:
+        if not isinstance(row, list):
+            continue
+        rows.append(["" if cell is None else str(cell) for cell in row])
+    return rows

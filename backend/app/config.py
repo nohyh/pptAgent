@@ -15,9 +15,13 @@ BASE_URL_2 = os.getenv("BASE_URL_2")
 MODEL_FLASH_2 = os.getenv("MODEL_FLASH_2")
 
 DEBUG_RAW_AI_RESPONSE = os.getenv("DEBUG_RAW_AI_RESPONSE", "").lower() == "true"
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+    if origin.strip()
+]
 
 PEXELS_KEY = os.getenv("PEXELS_KEY")
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 ASYNC_DATABASE_URL = os.getenv("ASYNC_DATABASE_URL")
-

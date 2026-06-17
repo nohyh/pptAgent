@@ -8,6 +8,7 @@ from pydantic import ValidationError
 from app.ai.client import call_llm
 from app.ai.parsing import strip_markdown_json
 from app.ai.prompts import outlinePrompt
+from app.config import DEBUG_RAW_AI_RESPONSE
 from app.schemas import OutlineResponse
 
 #规范化ai直接返回的大纲
@@ -25,5 +26,6 @@ def handleOutlineRes(ai_res: dict[str, Any]):
 
 async def generateOutline(prompt: str):
     ai_res = await call_llm(outlinePrompt, prompt)
-    print(f"[OUTLINE_AI] {ai_res['choices'][0]['message']['content']}")
+    if DEBUG_RAW_AI_RESPONSE:
+        print(f"[OUTLINE_AI] {ai_res['choices'][0]['message']['content']}")
     return handleOutlineRes(ai_res)
