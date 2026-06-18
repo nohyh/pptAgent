@@ -7,6 +7,7 @@ from pydantic import ValidationError
 from app.ai.client import call_llm
 from app.ai.parsing import strip_markdown_json
 from app.ai.prompts import pptPrompt
+from app.api.routes.project import create_project
 from app.config import DEBUG_RAW_AI_RESPONSE
 from app.images.fulfillment import assert_no_pending_images, fill_presentation_images
 from app.images.planner import build_image_plan_map, collect_pending_image_slots

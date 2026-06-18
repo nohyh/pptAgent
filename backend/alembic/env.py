@@ -18,6 +18,7 @@ load_dotenv(dotenv_path=backend_dir / ".env")
 
 # 从 app.database 导入目标元数据
 from app.database import Base
+from app.model import Project
 target_metadata = Base.metadata
 
 # 这是 Alembic 配置对象，它提供对当前使用的 .ini 文件中值的访问。

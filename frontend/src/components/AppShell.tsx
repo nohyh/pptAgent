@@ -1,14 +1,7 @@
-import { useState, type CSSProperties, type ReactNode } from "react"
-import { Link } from "react-router-dom"
-import { PanelLeftClose, UserRound } from "lucide-react"
-
-const HISTORY_ITEMS = [
-  "Minimalist Pitch Deck",
-  "Q2 Business Review",
-  "Product Launch Plan",
-  "Training Workshop",
-]
-
+import { useState, type CSSProperties, type ReactNode, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { PanelLeftClose, UserRound, Trash2 } from "lucide-react"
+import {usePresentationStore} from "@/stores/presentationStore"
 const USER_PROFILE = {
   name: "Ice",
   plan: "Pro Plan",
@@ -18,7 +11,15 @@ const USER_PROFILE = {
 export default function AppShell({ children }: { children: ReactNode }) {
   const [expanded, setExpanded] = useState(false)
   const sidebarWidth = expanded ? "clamp(220px, 14.285vw, 280px)" : "64px"
+  const projects = usePresentationStore((state) => state.projects);
+  const fetchProjects = usePresentationStore((state) => state.fetchProjects);
+  const loadProject = usePresentationStore((state) => state.loadProject);
+  const deleteProject = usePresentationStore((state) => state.deleteProject);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchProjects();
+  }, []);
   return (
     <div
       className="min-h-screen bg-background"
@@ -71,20 +72,36 @@ export default function AppShell({ children }: { children: ReactNode }) {
           )}
         </div>
 
-        <div className="min-h-0 flex-1 px-2 py-4">
+        <div className="min-h-0 flex-1 px-2 py-4 overflow-y-auto">
           {expanded && (
             <div className="space-y-2">
               <p className="px-2.5 pb-1 font-sans text-[0.625rem] font-medium uppercase tracking-[0.5px] text-sidebar-foreground/45">
                 Recent
               </p>
-              {HISTORY_ITEMS.map((title) => (
-                <button
-                  key={title}
-                  type="button"
-                  className="flex w-full rounded-xl px-3 py-2.5 text-left font-sans text-[0.8125rem] leading-snug text-sidebar-foreground/75 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
-                  <span className="truncate">{title}</span>
-                </button>
+              {projects.map((project) => (
+                <div key={project.id} className="group relative flex items-center justify-between rounded-xl hover:bg-sidebar-accent transition-colors duration-150">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await loadProject(project.id);
+                      navigate("/editor");
+                    }}
+                    className="flex-1 px-3 py-2.5 text-left font-sans text-[0.8125rem] leading-snug text-sidebar-foreground/75 hover:text-sidebar-accent-foreground truncate"
+                  >
+                    <span className="truncate block">{project.title || "未命名演示文稿"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={async (event) => {
+                      event.stopPropagation();
+                      await deleteProject(project.id);
+                    }}
+                    className="opacity-0 group-hover:opacity-100 p-1.5 mr-2 rounded-lg text-sidebar-foreground/45 hover:bg-black/5 hover:text-destructive transition-all duration-200"
+                    title="删除项目"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                </div>
               ))}
             </div>
           )}
