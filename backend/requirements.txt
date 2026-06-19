@@ -7,3 +7,4 @@ sqlalchemy>=2.0.0
 alembic
 asyncpg
 psycopg2-binary
+PyJWT[crypto]
