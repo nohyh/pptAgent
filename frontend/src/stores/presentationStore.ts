@@ -3,6 +3,14 @@ import { create } from "zustand";
 import { useEditorStore } from "./editorStore";
 import apiClient from "@/api/apiClient";
 import { getApiErrorMessage } from "@/lib/apiError";
+import {
+    fetchProjectApi,
+    fetchProjectsApi,
+    projectKeys,
+    queryClient,
+    type ProjectSummary,
+} from "@/lib/projectQueries";
+import { useAuthStore } from "@/stores/authStore";
 
 type ElementUpdate =
     | Partial<TextElement>
@@ -11,7 +19,7 @@ type ElementUpdate =
     | Partial<TableElement>;
 
 interface PresentationState {
- projects: {id:string,title:string}[];
+ projects: ProjectSummary[];
   presentation: Presentation | null;
   history: Slide[];
   future: Slide[];
@@ -19,6 +27,7 @@ interface PresentationState {
   loadProject: (projectId: string) => Promise<void>;
   deleteProject: (projectId: string) => Promise<void>;
   setPresentation: (data: Presentation) => void;
+  clearPresentation: () => void;
 
   setTitle: (newTitle: string) => void;
 
@@ -35,16 +44,56 @@ interface PresentationState {
 }
 
 const HISTORY_LIMIT = 30;
+const PENDING_PROJECT_ID = "__pending_generation__";
 const USE_MOCK_PRESENTATION = import.meta.env.VITE_USE_MOCK_PRESENTATION === "true";
 
 function pushHistory(history: Slide[], slide: Slide): Slide[] {
     return [...history, slide].slice(-HISTORY_LIMIT);
 }
-//全局防抖存储
+
+function moveProjectToTop(projects: ProjectSummary[], presentation: Presentation): ProjectSummary[] {
+    const summary = {
+        id: presentation.id,
+        title: presentation.title || "未命名演示文稿",
+    };
+    return [
+        summary,
+        ...projects.filter((project) => project.id !== presentation.id),
+    ];
+}
+
+function cacheProjectAtTop(presentation: Presentation) {
+    // 详情缓存和列表缓存同步更新，侧边栏点击最近项目时可以直接命中本地数据。
+    queryClient.setQueryData(projectKeys.detail(presentation.id), presentation);
+    queryClient.setQueryData<ProjectSummary[]>(projectKeys.list, (projects = []) =>
+        moveProjectToTop(projects, presentation),
+    );
+}
+
+// 编辑器的每次手动修改都会更新 Presentation JSON，这里做轻量防抖保存。
 let t :ReturnType<typeof setTimeout>|null = null
 function debounceSave(presentation:Presentation){
+    if (!useAuthStore.getState().user || !presentation.id) return;
+    cacheProjectAtTop(presentation);
+    usePresentationStore.setState((state) => ({
+        projects: moveProjectToTop(state.projects, presentation),
+    }));
     if(t) clearTimeout(t);
-    t=setTimeout(()=>apiClient.put("/project",presentation),1000);
+    t=setTimeout(()=>{
+        apiClient.put<Presentation>("/project",presentation)
+            .then((res) => {
+                cacheProjectAtTop(res.data);
+                usePresentationStore.setState((state) => ({
+                    projects: moveProjectToTop(state.projects, res.data),
+                }));
+                queryClient.invalidateQueries({ queryKey: projectKeys.list });
+            })
+            .catch((error) => {
+                usePresentationStore.setState({
+                    generateError: getApiErrorMessage(error, "自动保存失败，请确认登录状态后重试。")
+                })
+            })
+    },1000);
 }
 
 const usePresentationStore =  create<PresentationState>((set,get)=>({
@@ -56,9 +105,24 @@ const usePresentationStore =  create<PresentationState>((set,get)=>({
     generateError:null,
     //获取项目列表
     fetchProjects:async ()=>{
+        if (!useAuthStore.getState().user) {
+            set({ projects: [] });
+            queryClient.removeQueries({ queryKey: projectKeys.list });
+            return;
+        }
         try {
-            const res = await apiClient.get("/users/nohyh/projects");
-            set({ projects: res.data });
+            // 项目列表通过 TanStack Query 缓存，避免每次展开侧边栏都重新请求。
+            const projects = await queryClient.fetchQuery({
+                queryKey: projectKeys.list,
+                queryFn: fetchProjectsApi,
+            });
+            const pendingProjects = get().projects.filter((project) => project.isPending);
+            set({
+                projects: [
+                    ...pendingProjects,
+                    ...projects.filter((project) => !pendingProjects.some((pending) => pending.id === project.id)),
+                ],
+            });
         } catch (error) {
             set({
                 generateError: getApiErrorMessage(error, "项目列表获取失败，请稍后重试。")
@@ -66,11 +130,17 @@ const usePresentationStore =  create<PresentationState>((set,get)=>({
         }
     },
     loadProject: async (projectId: string) => {
+        if (projectId === PENDING_PROJECT_ID) return;
         set({ isLoading: true, generateError: null });
         try {
-            const res = await apiClient.get(`/projects/${projectId}`);
+            // 最近项目 hover 时会预取详情；命中缓存即可秒开编辑器。
+            const cached = queryClient.getQueryData<Presentation>(projectKeys.detail(projectId));
+            const presentation = cached ?? await queryClient.fetchQuery({
+                queryKey: projectKeys.detail(projectId),
+                queryFn: () => fetchProjectApi(projectId),
+            });
             set({
-                presentation: res.data,
+                presentation,
                 history: [],
                 future: [],
             });
@@ -83,27 +153,61 @@ const usePresentationStore =  create<PresentationState>((set,get)=>({
         }
     },
     deleteProject: async (projectId: string) => {
+        const previousProjects = get().projects;
+        const previousList = queryClient.getQueryData<ProjectSummary[]>(projectKeys.list);
+        const previousDetail = queryClient.getQueryData<Presentation>(projectKeys.detail(projectId));
+        const previousPresentation = get().presentation;
+
+        set((state) => ({
+            projects: state.projects.filter((project) => project.id !== projectId),
+            presentation: state.presentation?.id === projectId ? null : state.presentation,
+            generateError: null,
+        }));
+        queryClient.setQueryData<ProjectSummary[]>(projectKeys.list, (projects = []) =>
+            projects.filter((project) => project.id !== projectId),
+        );
+        queryClient.removeQueries({ queryKey: projectKeys.detail(projectId) });
+
         try {
             await apiClient.delete(`/project/${projectId}`);
-            const { fetchProjects } = get();
-            await fetchProjects();
+            queryClient.invalidateQueries({ queryKey: projectKeys.list });
         } catch (error) {
-            console.error("删除项目失败", error);
+            queryClient.setQueryData(projectKeys.list, previousList);
+            if (previousDetail) {
+                queryClient.setQueryData(projectKeys.detail(projectId), previousDetail);
+            }
+            set({
+                projects: previousProjects,
+                presentation: previousPresentation,
+                generateError: getApiErrorMessage(error, "删除项目失败，请稍后重试。")
+            });
         }
     },
-    setPresentation :(newPresentation)=>set({
-        presentation: newPresentation,
+    setPresentation :(newPresentation)=>{
+        cacheProjectAtTop(newPresentation);
+        set({
+            presentation: newPresentation,
+            projects: moveProjectToTop(get().projects, newPresentation),
+            history: [],
+            future: [],
+        })
+    },
+    clearPresentation: () => set({
+        presentation: null,
         history: [],
         future: [],
+        generateError: null,
     }),
 
     setTitle :(newTitle)=>set((state)=>{
         if(!state.presentation)return state;
+        const nextPresentation = {
+            ...state.presentation,
+            title:newTitle
+        };
+        debounceSave(nextPresentation);
         return {
-            presentation:{
-                ...state.presentation,
-                title:newTitle
-            }
+            presentation: nextPresentation
         }
     }),
 
@@ -211,10 +315,25 @@ const usePresentationStore =  create<PresentationState>((set,get)=>({
 
 
     generatePresentation: async()=>{
+        const auth = useAuthStore.getState();
+        if (!auth.user) {
+            auth.openAuthDialog();
+            set({ generateError: "请先登录后再生成 PPT。" });
+            return;
+        }
         const {prompt,title,sections,style,pageCount}=useEditorStore.getState()
-        set({isLoading:true, generateError:null})
+        const pendingTitle = title || "未命名演示文稿";
+        // 点击生成后先把 pending 项目放到 Recent 顶部，生成完成后再替换为真实项目。
+        set((state) => ({
+            isLoading:true,
+            generateError:null,
+            projects: [
+                { id: PENDING_PROJECT_ID, title: pendingTitle, isPending: true },
+                ...state.projects.filter((project) => project.id !== PENDING_PROJECT_ID),
+            ],
+        }))
         try {
-            const res = USE_MOCK_PRESENTATION
+            const res = USE_MOCK_PRESENTATION || useEditorStore.getState().useMockMode
                 ? await apiClient.get("/mockPresentation")
                 : await apiClient.post("/generatePpt",{
                     prompt,
@@ -225,20 +344,24 @@ const usePresentationStore =  create<PresentationState>((set,get)=>({
                     pageCount
                 })
                 //保存到数据库
-                await apiClient.post("/project",{
+                const saved = await apiClient.post<Presentation>("/project",{
                     presentation_data: res.data,
-                    owner_id:"nohyh",
                 })
+                cacheProjectAtTop(saved.data);
+                queryClient.invalidateQueries({ queryKey: projectKeys.list });
+                await useAuthStore.getState().refreshProfile();
                 //刷新项目列表
                 await get().fetchProjects();
             set({
-                presentation: res.data,
+                presentation: saved.data,
                 history: [],
                 future: [],
+                projects: get().projects.filter((project) => project.id !== PENDING_PROJECT_ID),
             })
         } catch (error) {
             set({
-                generateError: getApiErrorMessage(error, "PPT 生成失败，请稍后重试。")
+                generateError: getApiErrorMessage(error, "PPT 生成失败，请稍后重试。"),
+                projects: get().projects.filter((project) => project.id !== PENDING_PROJECT_ID),
             })
         } finally {
             set({isLoading:false})

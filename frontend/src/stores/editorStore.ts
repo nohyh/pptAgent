@@ -27,9 +27,11 @@ export interface EditorState {
   sections: OutlineSection[]
   style: string
   pageCount: number
+  useMockMode: boolean
   isGeneratingOutline: boolean
   outlineError: string | null
 
+  setUseMockMode: (enabled: boolean) => void
   setPrompt: (prompt: string) => void
   setTitle: (title: string) => void
   updateSection: (id: string, patch: Partial<OutlineSection>) => void
@@ -38,6 +40,7 @@ export interface EditorState {
   setStyle: (style: string) => void
   setPageCount: (count: number) => void
   generateOutline: (prompt: string) => Promise<void>
+  reset: () => void
 }
 
 let nextId = 0
@@ -48,15 +51,17 @@ function uid() {
   return `section-${++nextId}`
 }//为每个section创建一个id
 
-export const useEditorStore = create<EditorState>((set) => ({
+export const useEditorStore = create<EditorState>((set, get) => ({
   prompt: "",
   title: "",
   sections: [],
   style: "minimalist",
   pageCount: 12,
+  useMockMode: false,
   isGeneratingOutline: false,
   outlineError: null,
 
+  setUseMockMode: (enabled) => set({ useMockMode: enabled }),
   setPrompt: (prompt) => set({ prompt }),
   setTitle: (title) => set({ title }),
   updateSection: (id, patch) =>
@@ -91,11 +96,21 @@ export const useEditorStore = create<EditorState>((set) => ({
     }),
   setStyle: (style) => set({ style }),
   setPageCount: (count) => set((s) => ({ pageCount: clampPageCount(count, s.sections.length) })),
+  reset: () => set({
+    prompt: "",
+    title: "",
+    sections: [],
+    style: "minimalist",
+    pageCount: 12,
+    useMockMode: get().useMockMode,
+    isGeneratingOutline: false,
+    outlineError: null,
+  }),
 
   generateOutline: async (prompt) => {
     set({ isGeneratingOutline: true, outlineError: null, prompt })
     try {
-      const res = USE_MOCK_PRESENTATION
+      const res = USE_MOCK_PRESENTATION || get().useMockMode
         ? await apiClient.get("/mockOutline")
         : await apiClient.post("/generateOutline",{prompt})
       const sections = (res.data.sections || []).slice(0, MAX_OUTLINE_SECTIONS)

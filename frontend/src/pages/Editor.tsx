@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import {
-  ArrowLeft,
   ChevronLeft,
   ChevronRight,
   Download,
+  FileJson,
   AlertCircle,
   Undo2,
   Redo2,
@@ -50,6 +50,23 @@ export default function Editor() {
       console.error("导出失败", error);
       setExportStatus("导出失败");
     }
+  };
+
+  const handleExportJson = () => {
+    if (!presentation) {
+      setExportStatus("没有可导出的 JSON");
+      return;
+    }
+    const blob = new Blob([JSON.stringify(presentation, null, 2)], {
+      type: "application/json;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${presentation.title || "presentation"}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    setExportStatus("JSON 导出成功");
   };
 
   useEffect(() => {
@@ -99,16 +116,6 @@ export default function Editor() {
       {/* Top bar */}
       <header className="shrink-0 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="flex h-12 items-center gap-3 px-5 sm:px-6">
-          {/* Left: back */}
-          <button
-            type="button"
-            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 font-sans text-[0.8125rem] text-olive-gray transition-all duration-200 hover:bg-border-warm hover:text-foreground"
-            onClick={() => navigate("/outline")}
-          >
-            <ArrowLeft className="size-4" />
-            返回大纲
-          </button>
-          <span className="text-ring">/</span>
           <span className="truncate font-sans text-[0.8125rem] font-medium text-stone-gray">
             预览与编辑
           </span>
@@ -144,6 +151,15 @@ export default function Editor() {
             >
               <Download className="size-3" />
               导出 PPTX
+            </button>
+            <button
+              type="button"
+              onClick={handleExportJson}
+              disabled={!presentation}
+              className="flex items-center gap-1.5 rounded-lg border border-border bg-ivory px-3.5 py-1.5 font-sans text-[0.75rem] font-medium text-charcoal-warm shadow-[0_0_0_1px_rgba(209,207,197,0.2)] transition-all duration-200 hover:bg-white hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <FileJson className="size-3" />
+              导出 JSON
             </button>
           </div>
         </div>
@@ -270,9 +286,9 @@ export default function Editor() {
             <button
               type="button"
               className="mt-7 rounded-full bg-neutral-900 px-6 py-3 font-sans text-[0.875rem] font-medium text-[#F5F0E8] transition-all hover:bg-neutral-800"
-              onClick={() => navigate("/outline")}
+              onClick={() => navigate("/")}
             >
-              返回大纲
+              返回首页
             </button>
           </div>
         </section>

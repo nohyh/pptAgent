@@ -11,6 +11,7 @@ import {
 } from "lucide-react"
 import { MAX_OUTLINE_SECTIONS, MAX_PAGE_COUNT, useEditorStore } from "@/stores/editorStore"
 import { usePresentationStore } from "@/stores/presentationStore"
+import { useAuthStore } from "@/stores/authStore"
 
 const generatePresentation = usePresentationStore.getState().generatePresentation
 const STYLES = [
@@ -21,6 +22,14 @@ const STYLES = [
     preview: "#f5edefff",
     accent: "#6642c9ff",
     icon: "/minimalist.png"
+  },
+  {
+    id: "claude",
+    name: "Claude",
+    description: "暖色 编辑 ",
+    preview: "#f6efe4",
+    accent: "#b15f38",
+    icon: "/anthropic.png"
   }
 ]
 
@@ -102,6 +111,7 @@ export default function Outline() {
   const isGeneratingOutline = useEditorStore((s) => s.isGeneratingOutline)
   const outlineError = useEditorStore((s) => s.outlineError)
   const isGeneratingPresentation = usePresentationStore((s) => s.isLoading)
+  const profile = useAuthStore((s) => s.profile)
 
   const minPages = getMinPageCount(sections.length)
   const pageOptions = Array.from(
@@ -109,6 +119,7 @@ export default function Outline() {
     (_, index) => minPages + index,
   )
   const canAddSection = sections.length < MAX_OUTLINE_SECTIONS
+  const hasNoQuota = Boolean(profile && !profile.is_unlimited_quota && profile.generation_quota <= 0)
 
   useEffect(() => {
     if (pageCount < minPages) {
@@ -117,7 +128,7 @@ export default function Outline() {
   }, [minPages, pageCount, setPageCount])
 
   const handleGenerate = async () => {
-    if (isGeneratingPresentation) return
+    if (isGeneratingPresentation || hasNoQuota) return
     // 先触发生成，这会同步把 isLoading 设为 true
     const generatePromise = generatePresentation();
     // 然后再跳转，这样跳过去瞬间 isLoading 就已经是 true，完美无缝衔接骨架屏
@@ -422,10 +433,15 @@ export default function Outline() {
               type="button"
               className="group flex w-full items-center justify-center gap-2.5 rounded-full bg-neutral-900 px-6 py-3.5 font-sans text-[0.9375rem] font-medium text-[#F5F0E8] shadow-lg transition-all duration-300 hover:bg-neutral-800 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 active:translate-y-px"
               onClick={handleGenerate}
-              disabled={isGeneratingPresentation}
+              disabled={isGeneratingPresentation || hasNoQuota}
             >
-              生成 PPT
+              {hasNoQuota ? "生成额度不足" : "生成 PPT"}
             </button>
+            {hasNoQuota && (
+              <p className="mt-2 text-center font-sans text-[0.75rem] text-destructive">
+                额度已用完，可继续编辑大纲和历史项目。
+              </p>
+            )}
           </div>
         </aside>
           </>
@@ -439,9 +455,9 @@ export default function Outline() {
           type="button"
           className="flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 font-sans text-[0.9375rem] font-medium text-[#F5F0E8] shadow-lg transition-all hover:bg-neutral-800"
           onClick={handleGenerate}
-          disabled={isGeneratingPresentation}
+          disabled={isGeneratingPresentation || hasNoQuota}
         >
-          生成 PPT
+          {hasNoQuota ? "生成额度不足" : "生成 PPT"}
         </button>
       </div>
       )}

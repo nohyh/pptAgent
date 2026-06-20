@@ -2,17 +2,24 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ArrowUp } from "lucide-react"
 import { useEditorStore } from "@/stores/editorStore"
+import { useAuthStore } from "@/stores/authStore"
 
 export default function Home() {
   const [prompt, setPrompt] = useState("")
   const generateOutline = useEditorStore((s) => s.generateOutline)
   const isGeneratingOutline = useEditorStore((s) => s.isGeneratingOutline)
+  const user = useAuthStore((s) => s.user)
+  const openAuthDialog = useAuthStore((s) => s.openAuthDialog)
   const navigate = useNavigate()
   const hasPrompt = prompt.trim().length > 0
 
   const handleSubmit = async () => {
     //防止连点
     if (!hasPrompt || isGeneratingOutline) return
+    if (!user) {
+      openAuthDialog()
+      return
+    }
     const generatePromise = generateOutline(prompt)
     navigate("/outline")
     await generatePromise
@@ -33,7 +40,7 @@ export default function Home() {
         <div className="relative w-full max-w-[1030px]">
           {/* 问候语 */}
           <p className="animate-fade-up-delay-1 mb-3 font-sans text-[clamp(1.45rem,2.8vw,2rem)] leading-none text-olive-gray">
-            你好，Ice
+            你好，{user?.email || "访客"}
           </p>
 
           {/* 主标题 — Anthropic 衬线字体风格 */}
