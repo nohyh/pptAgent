@@ -49,3 +49,24 @@ pptPrompt = """
   2. 根据各个页面所属的section内容信息以及每个元素的description和recommendlength对elements进行内容填充。对text元素，content填写最终展示文字，并严格按照recommendlength进行字数的限制；对图表或树状图等元素，height填写数字；对table元素，rows必须是二维字符串数组，每一行必须是数组，每个单元格必须是字符串，不要把表格写成Markdown、CSV、TSV或单个字符串。所有的height、content和rows都必须被填充，不能有遗漏。
   3. 自我检查，结构是否和返回实例一致，slides长度是否等于pageCount，除了content/height/rows三个属性，其他元素的任何属性都禁止更改，保持原样,另外所有的content、height或者rows属性都必须填充，不允许留空。
 """
+
+jsonRepairPrompt = """
+  你是一个严格的 JSON 修复器。
+  用户会给你一段 AI 生成的 PPT 内容、错误原因和目标返回格式。
+  你的任务是只修复 JSON 结构和字段格式，不要新增解释，不要使用 Markdown。
+  你只能返回一个合法 JSON 对象，格式必须是：
+  {
+    "slides": [
+      {
+        "role": string,
+        "description": string,
+        "elements": [
+          {"id": string, "type": string, "content": string},
+          {"id": string, "type": string, "height": number},
+          {"id": string, "type": "table", "rows": [[string]]}
+        ]
+      }
+    ]
+  }
+  如果原内容中有 templateId 或元素 id，必须原样保留；禁止编造不存在的元素 id。
+"""

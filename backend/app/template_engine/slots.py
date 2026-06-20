@@ -15,9 +15,6 @@ TEMPLATE_ONLY_KEYS = {
     "imagePrompt",
 }
 
-# AI 在生成内容时可能会复制回显的元数据字段（用于解析变更时过滤掉非内容修改）
-AI_ECHO_KEYS = {"type", "description", "recommendlength", "recommendLength"}
-
 # 固定尾页（如“谢谢”页）的 role 标识符
 FIXED_TAIL_ROLE = "thanks"
 
@@ -36,8 +33,6 @@ def filter_templates_for_ai(templates: list[dict]) -> list[dict]:
             "description": template.get("description", ""),
             "elements": [],
         }
-        if "layoutType" in template:
-            filtered_template["layoutType"] = template.get("layoutType")
 
         # 遍历幻灯片的各个元素，进行过滤，只保留需要的属性
         for element in template.get("elements", []):
@@ -249,7 +244,7 @@ def _changes_by_id(planned_slide: dict) -> dict:
         item.get("id"): {
             key: value
             for key, value in item.items()
-            if key in EDITABLE_PLACEHOLDER_KEYS and key not in AI_ECHO_KEYS
+            if key in EDITABLE_PLACEHOLDER_KEYS
         }
         for item in contents
         if item.get("id")

@@ -1,13 +1,14 @@
 from typing import Any
 
+from contextlib import contextmanager
 import json
+from time import perf_counter
 from fastapi import HTTPException
 from pydantic import ValidationError
 
 from app.ai.client import call_llm
 from app.ai.parsing import strip_markdown_json
-from app.ai.prompts import pptPrompt
-from app.api.routes.project import create_project
+from app.ai.prompts import jsonRepairPrompt, pptPrompt
 from app.config import DEBUG_RAW_AI_RESPONSE
 from app.images.fulfillment import assert_no_pending_images, fill_presentation_images
 from app.images.planner import build_image_plan_map, collect_pending_image_slots
@@ -18,9 +19,32 @@ from app.template_engine import loader as template_loader
 from app.template_engine.slots import filter_templates_for_ai, hydrate_presentation
 
 
-def handlePptRes(ai_res: dict[str, Any], request: PptRequest, templates: list[dict]):
-    content = ai_res["choices"][0]["message"]["content"]
+@contextmanager
+def log_ppt_stage(stage: str):
+    start = perf_counter()
     try:
+        yield
+    except Exception as exc:
+        duration_ms = int((perf_counter() - start) * 1000)
+        print(
+            "[PPT_STAGE] "
+            f"stage={stage} status=failed duration_ms={duration_ms} "
+            f"error={type(exc).__name__}"
+        )
+        raise
+    else:
+        duration_ms = int((perf_counter() - start) * 1000)
+        print(f"[PPT_STAGE] stage={stage} status=success duration_ms={duration_ms}")
+
+
+def _ai_content(ai_res: dict[str, Any]) -> str:
+    return ai_res["choices"][0]["message"]["content"]
+
+
+def handlePptRes(ai_res: dict[str, Any], request: PptRequest, templates: list[dict]):
+    content = _ai_content(ai_res)
+    try:
+        # AI 只返回模板槽位数据；真正的布局和固定元素由后端模板引擎补齐。
         data = json.loads(strip_markdown_json(content))
         presentation = hydrate_presentation(
             data,
@@ -64,6 +88,7 @@ async def generate_image_plan(presentation: Presentation) -> list[dict[str, Any]
     if not isinstance(images, list):
         raise HTTPException(status_code=422, detail="AI 图片规划返回格式不合规")
     for image in images:
+        # 调试提示词时重点看 generateBy 和 imagePrompt，最终不会写进 Presentation JSON。
         print(
             "[IMAGE_PLAN] "
             f"slideId={image.get('slideId')} "
@@ -74,15 +99,37 @@ async def generate_image_plan(presentation: Presentation) -> list[dict[str, Any]
     return images
 
 
+async def repair_ppt_content_json(
+    *,
+    raw_content: str,
+    request: PptRequest,
+    filtered_templates: list[dict],
+    error_detail: str,
+) -> dict[str, Any]:
+    # 只在结构解析失败后做一次修复，避免把正常生成链路变成多轮对话。
+    repair_input = json.dumps(
+        {
+            "error": error_detail,
+            "title": request.title,
+            "pageCount": request.pageCount - 1,
+            "templates": filtered_templates,
+            "rawContent": raw_content,
+        },
+        ensure_ascii=False,
+    )
+    return await call_llm(jsonRepairPrompt, repair_input)
+
+
 async def generatePpt(request: PptRequest):
-    #加载模板
-    templates = template_loader.load_template(request.theme)
-    if templates is None:
-        raise HTTPException(status_code=404, detail="模板不存在")
-    # 过滤模板，只暴露必要部分
-    filtered_templates = filter_templates_for_ai(templates)
-    if not any(template.get("elements") for template in filtered_templates):
-        raise HTTPException(status_code=422, detail="当前模板没有可填充 slots")
+    # 加载完整模板；完整模板只给后端使用，避免让 AI 接触过多布局细节。
+    with log_ppt_stage("template_load"):
+        templates = template_loader.load_template(request.theme)
+        if templates is None:
+            raise HTTPException(status_code=404, detail="模板不存在")
+        # 过滤模板，只暴露 AI 必须填写的槽位，减少 token 和格式漂移。
+        filtered_templates = filter_templates_for_ai(templates)
+        if not any(template.get("elements") for template in filtered_templates):
+            raise HTTPException(status_code=422, detail="当前模板没有可填充 slots")
     req = {
         "prompt": request.prompt,
         "title": request.title,
@@ -91,27 +138,44 @@ async def generatePpt(request: PptRequest):
         "pageCount": request.pageCount-1,
         "templates": filtered_templates,
     }
-    #第一次调用大模型，填充ppt中的文本内容
+    # 第一阶段：生成每页要填入模板槽位的结构化文本。
     user_prompt = json.dumps(req, ensure_ascii=False)
-    ai_res = await call_llm(
-        pptPrompt,
-        user_prompt
-    )
-    #填充模板，返回presentation对象
+    with log_ppt_stage("ppt_content"):
+        ai_res = await call_llm(
+            pptPrompt,
+            user_prompt
+        )
     if DEBUG_RAW_AI_RESPONSE:
-        print(f"[PPT_AI] {ai_res['choices'][0]['message']['content']}")
-    presentation = handlePptRes(ai_res, request, templates)
-    #生成图片规划
-    #大模型交互，进行图片规划
-    image_plan = await generate_image_plan(presentation)
-    #数据校验和结构转化
-    image_plan_map = build_image_plan_map(image_plan)
-    #填充ppt中的图片
-    await fill_presentation_images(
-        presentation,
-        image_plan_map=image_plan_map,
-        generate_ai_image=generate_ai_image_src,
-        search_stock_image=search_stock_image_src,
-    )
-    assert_no_pending_images(presentation)
+        print(f"[PPT_AI] {_ai_content(ai_res)}")
+    # 第二阶段：后端模板水合并做 Pydantic 校验，失败时统一返回 422。
+    try:
+        with log_ppt_stage("template_hydration"):
+            presentation = handlePptRes(ai_res, request, templates)
+    except HTTPException as exc:
+        if exc.status_code != 422:
+            raise
+        with log_ppt_stage("ppt_content_repair"):
+            ai_res = await repair_ppt_content_json(
+                raw_content=_ai_content(ai_res),
+                request=request,
+                filtered_templates=filtered_templates,
+                error_detail=str(exc.detail),
+            )
+        if DEBUG_RAW_AI_RESPONSE:
+            print(f"[PPT_AI_REPAIR] {_ai_content(ai_res)}")
+        with log_ppt_stage("template_hydration_retry"):
+            presentation = handlePptRes(ai_res, request, templates)
+    # 第三阶段：只对 pending 图片槽做规划和填充，保持最终 JSON 干净。
+    with log_ppt_stage("image_planning"):
+        image_plan = await generate_image_plan(presentation)
+        image_plan_map = build_image_plan_map(image_plan)
+    with log_ppt_stage("image_fulfillment"):
+        # 生成图片
+        await fill_presentation_images(
+            presentation,
+            image_plan_map=image_plan_map,
+            generate_ai_image=generate_ai_image_src,
+            search_stock_image=search_stock_image_src,
+        )
+        assert_no_pending_images(presentation)
     return presentation

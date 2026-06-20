@@ -81,3 +81,14 @@ class PptRequest(BaseModel):
     theme: str 
     sections: List[OutlineSection]
     pageCount: int
+
+
+class ProjectCreateRequest(BaseModel):
+    presentation_data: dict
+
+
+class UserProfileResponse(BaseModel):
+    id: str
+    email: Optional[str] = None
+    generation_quota: int
+    is_unlimited_quota: bool = False
