@@ -14,17 +14,17 @@ def test_mock_outline_route_returns_static_outline():
     assert len(outline["sections"]) > 0
 
 
-def test_mock_presentation_route_returns_elegant_bachelor_thesis_mock():
+def test_mock_presentation_route_returns_minimalist_pitch_deck_mock():
     client = TestClient(app)
 
     response = client.get("/mockPresentation")
 
     assert response.status_code == 200
     presentation = response.json()
-    assert presentation["title"] == "Elegant Bachelor Thesis"
-    assert presentation["theme"] == "Elegant Bachelor Thesis"
-    assert presentation["slides"][0]["id"] == "elegant-slide-1"
+    assert presentation["title"] == "Minimalist Pitch Deck"
+    assert presentation["theme"] == "Minimalist Pitch Deck"
+    assert presentation["slides"][0]["id"] == "minimalist-cover"
     assert any(
-        element["type"] == "text" and "Elegant Bachelor Thesis" in element["content"]
+        element["type"] == "text" and "Minimalist" in element["content"]
         for element in presentation["slides"][0]["elements"]
     )

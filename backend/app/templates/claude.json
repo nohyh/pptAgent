@@ -1,12 +1,13 @@
 [
   {
     "id": "claude-text-01",
+    "role": "warm-editorial-two-column-narrative",
+    "description": "双栏叙事页，用于从两个互补的角度来解释某个计划、机制、策略或产品方向。",
     "background": "#faf9f5",
     "elements": [
       {
         "id": "claude-text-01-kicker",
         "type": "text",
-        "content": "",
         "x": 10,
         "y": 12,
         "width": 18,
@@ -14,12 +15,14 @@
         "fontSize": 12,
         "color": "#c96442",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "小主题标签，适用于编辑叙事页，如阶段、类别或主题等。",
+        "recommendlength": "2-12"
       },
       {
         "id": "claude-text-01-title",
         "type": "text",
-        "content": "",
         "x": 10,
         "y": 21,
         "width": 70,
@@ -27,46 +30,52 @@
         "font": "Georgia, serif",
         "fontSize": 46,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于总结双栏叙事的核心思想。",
+        "recommendlength": "4-14"
       },
       {
         "id": "claude-text-01-rule",
         "type": "block",
-        "shapeType": "rect",
         "x": 10,
         "y": 40,
         "width": 80,
         "height": 0.3,
+        "shapeType": "rect",
         "backgroundColor": "#d1cfc5"
       },
       {
         "id": "claude-text-01-body-left",
         "type": "text",
-        "content": "",
         "x": 10,
         "y": 49,
         "width": 35,
         "height": 30,
         "fontSize": 18,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "左侧正文段落，解释该想法的第一个角度、驱动因素或含义。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-text-01-body-right",
         "type": "text",
-        "content": "",
         "x": 55,
         "y": 49,
         "width": 35,
         "height": 30,
         "fontSize": 18,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "右侧正文段落，解释该想法的第二个角度、驱动因素或含义。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-text-01-number",
         "type": "text",
-        "content": "",
         "x": 81,
         "y": 12,
         "width": 9,
@@ -74,18 +83,22 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#c96442",
-        "align": "right"
+        "align": "right",
+        "content": "",
+        "description": "小页码、章节编号或强调的索引值。",
+        "recommendlength": "1-8"
       }
     ]
   },
   {
     "id": "claude-data-01",
+    "role": "warm-editorial-data-highlight",
+    "description": "数据洞察页，通过结论卡片辅助呈现单个研究主题、指标项目或市场观察。",
     "background": "#faf9f5",
     "elements": [
       {
         "id": "claude-data-01-title-left",
         "type": "text",
-        "content": "",
         "x": 6.1,
         "y": 7.8,
         "width": 39,
@@ -94,12 +107,14 @@
         "lineHeight": 1.5,
         "color": "#111111",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "左侧标题，用于命名数据主题、指数、研究计划或市场洞察。",
+        "recommendlength": "4-18"
       },
       {
         "id": "claude-data-01-desc-right",
         "type": "text",
-        "content": "",
         "x": 54.4,
         "y": 8.3,
         "width": 42,
@@ -107,32 +122,34 @@
         "fontSize": 14,
         "lineHeight": 1.5,
         "color": "#333333",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "右侧正文段落，解释数据主题的背景、目的或含义。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-data-01-rule",
         "type": "block",
-        "shapeType": "rect",
         "x": 6,
         "y": 32,
         "width": 88,
         "height": 0.1,
+        "shapeType": "rect",
         "backgroundColor": "#e0e0e0"
       },
       {
         "id": "claude-data-01-card",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 6,
         "y": 37,
         "width": 88,
         "height": 58,
+        "shapeType": "roundRect",
         "backgroundColor": "#f2f0e6"
       },
       {
         "id": "claude-data-01-kicker",
         "type": "text",
-        "content": "",
         "x": 7.6,
         "y": 39.5,
         "width": 30,
@@ -141,12 +158,14 @@
         "lineHeight": 1.5,
         "color": "#333333",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "数据短标签，通常位于洞察卡片上方，用于标明数据源、指数名称或类别。",
+        "recommendlength": "2-12"
       },
       {
         "id": "claude-data-01-card-title",
         "type": "text",
-        "content": "",
         "x": 7.5,
         "y": 43.9,
         "width": 31.2,
@@ -155,12 +174,14 @@
         "lineHeight": 1.2,
         "color": "#111111",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "洞察卡片大号陈述文本，用于总结最重要的数据发现。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-data-01-card-body",
         "type": "text",
-        "content": "",
         "x": 7.7,
         "y": 73.5,
         "width": 25.8,
@@ -168,103 +189,117 @@
         "fontSize": 10,
         "lineHeight": 1.5,
         "color": "#444444",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "支持性段落，用于进一步解释洞察卡片中陈述的含义。",
+        "recommendlength": "8-35"
       },
       {
         "id": "claude-data-01-map-placeholder",
         "type": "image",
-        "src": "",
         "x": 45.1,
         "y": 40,
         "width": 47.7,
-        "height": 51.3
+        "height": 51.3,
+        "src": "",
+        "alt": "Data visualization illustration",
+        "description": "数据可视化配图，用于辅助呈现分析结果。"
       }
     ]
   },
   {
     "id": "claude-grid-01",
+    "role": "warm-editorial-four-capability-grid",
+    "description": "四栏能力网格页，用于比较四种产品能力、用例、模块或竞争优势。",
     "background": "#faf9f5",
     "elements": [
       {
         "id": "claude-grid-01-main-icon",
         "type": "image",
-        "src": "",
         "x": 48.5,
         "y": 12,
         "width": 3,
-        "height": 4
+        "height": 4,
+        "src": "",
+        "alt": "Main concept icon",
+        "description": "主图标，用于强化该网格的核心主题。"
       },
       {
         "id": "claude-grid-01-main-title",
         "type": "text",
-        "content": "",
         "x": 10,
         "y": 23,
         "width": 80,
         "height": 15,
-        "fontSize": 48,
         "font": "Georgia",
+        "fontSize": 48,
         "color": "#111111",
         "bold": true,
-        "align": "center"
+        "align": "center",
+        "content": "",
+        "description": "主标题，用于展示四种能力、用例、模块或功能的网格。",
+        "recommendlength": "4-14"
       },
       {
         "id": "claude-grid-01-div-1",
         "type": "block",
-        "shapeType": "rect",
         "x": 28,
         "y": 45,
         "width": 0.1,
         "height": 45,
+        "shapeType": "rect",
         "backgroundColor": "#e0e0e0"
       },
       {
         "id": "claude-grid-01-div-2",
         "type": "block",
-        "shapeType": "rect",
         "x": 50,
         "y": 45,
         "width": 0.1,
         "height": 45,
+        "shapeType": "rect",
         "backgroundColor": "#e0e0e0"
       },
       {
         "id": "claude-grid-01-div-3",
         "type": "block",
-        "shapeType": "rect",
         "x": 72,
         "y": 45,
         "width": 0.1,
         "height": 45,
+        "shapeType": "rect",
         "backgroundColor": "#e0e0e0"
       },
       {
         "id": "claude-grid-01-col1-icon",
         "type": "image",
-        "src": "",
         "x": 8,
         "y": 45,
         "width": 2,
-        "height": 3
+        "height": 3,
+        "src": "",
+        "alt": "Feature icon 1",
+        "description": "模块图标，用于代表第一个功能或用例。"
       },
       {
         "id": "claude-grid-01-col1-title",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 52,
         "width": 18,
         "height": 8,
-        "fontSize": 20,
         "font": "Georgia",
+        "fontSize": 20,
         "color": "#111111",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "标题，用于能力或用例1。",
+        "recommendlength": "3-18"
       },
       {
         "id": "claude-grid-01-col1-body",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 62,
         "width": 18,
@@ -272,35 +307,41 @@
         "fontSize": 12,
         "lineHeight": 1.5,
         "color": "#555555",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明能力或用例1。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-grid-01-col2-icon",
         "type": "image",
-        "src": "",
         "x": 30,
         "y": 45,
         "width": 2,
-        "height": 3
+        "height": 3,
+        "src": "",
+        "alt": "Feature icon 2",
+        "description": "模块图标，用于代表第二个功能或用例。"
       },
       {
         "id": "claude-grid-01-col2-title",
         "type": "text",
-        "content": "",
         "x": 30,
         "y": 52,
         "width": 18,
         "height": 8,
-        "fontSize": 20,
         "font": "Georgia",
+        "fontSize": 20,
         "color": "#111111",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "标题，用于能力或用例2。",
+        "recommendlength": "3-18"
       },
       {
         "id": "claude-grid-01-col2-body",
         "type": "text",
-        "content": "",
         "x": 30,
         "y": 62,
         "width": 18,
@@ -308,35 +349,41 @@
         "fontSize": 12,
         "lineHeight": 1.5,
         "color": "#555555",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明能力或用例2。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-grid-01-col3-icon",
         "type": "image",
-        "src": "",
         "x": 52,
         "y": 45,
         "width": 2,
-        "height": 3
+        "height": 3,
+        "src": "",
+        "alt": "Feature icon 3",
+        "description": "模块图标，用于代表第三个功能或用例。"
       },
       {
         "id": "claude-grid-01-col3-title",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 52,
         "width": 18,
         "height": 8,
-        "fontSize": 20,
         "font": "Georgia",
+        "fontSize": 20,
         "color": "#111111",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "标题，用于能力或用例3。",
+        "recommendlength": "3-18"
       },
       {
         "id": "claude-grid-01-col3-body",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 62,
         "width": 18,
@@ -344,35 +391,41 @@
         "fontSize": 12,
         "lineHeight": 1.5,
         "color": "#555555",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明能力或用例3。",
+        "recommendlength": "15-60"
       },
       {
         "id": "claude-grid-01-col4-icon",
         "type": "image",
-        "src": "",
         "x": 74,
         "y": 45,
         "width": 2,
-        "height": 3
+        "height": 3,
+        "src": "",
+        "alt": "Feature icon 4",
+        "description": "模块图标，用于代表第四个功能或用例。"
       },
       {
         "id": "claude-grid-01-col4-title",
         "type": "text",
-        "content": "",
         "x": 74,
         "y": 52,
         "width": 18,
         "height": 8,
-        "fontSize": 20,
         "font": "Georgia",
+        "fontSize": 20,
         "color": "#111111",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "标题，用于能力或用例4。",
+        "recommendlength": "3-18"
       },
       {
         "id": "claude-grid-01-col4-body",
         "type": "text",
-        "content": "",
         "x": 74,
         "y": 62,
         "width": 18,
@@ -380,28 +433,32 @@
         "fontSize": 12,
         "lineHeight": 1.5,
         "color": "#555555",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明能力或用例4。",
+        "recommendlength": "15-60"
       }
     ]
   },
   {
     "id": "claude-thanks-01",
+    "role": "thanks",
+    "description": "Fixed closing slide appended automatically at the end of every Claude deck.",
     "background": "#faf9f5",
     "elements": [
       {
         "id": "claude-thanks-01-band",
         "type": "block",
-        "shapeType": "rect",
         "x": 48,
         "y": 30,
         "width": 4,
         "height": 6,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "claude-thanks-01-title",
         "type": "text",
-        "content": "",
         "x": 20,
         "y": 45,
         "width": 60,
@@ -410,64 +467,52 @@
         "fontSize": 56,
         "color": "#141413",
         "bold": true,
-        "align": "center"
+        "align": "center",
+        "content": "Thank You"
       },
       {
         "id": "claude-thanks-01-detail",
         "type": "text",
-        "content": "",
         "x": 20,
         "y": 65,
         "width": 60,
         "height": 10,
         "fontSize": 18,
         "color": "#c96442",
-        "align": "center"
+        "align": "center",
+        "content": "hello@example.com  |  www.example.com"
       }
     ]
   },
   {
     "id": "warm-cover-01",
-    "layoutType": "cover",
-    "role": "cover",
-    "useCases": [
-      "开场封面",
-      "主题介绍",
-      "发布会首页"
-    ],
-    "slotNames": [
-      "kicker",
-      "title",
-      "subtitle",
-      "image",
-      "footer"
-    ],
+    "role": "warm-editorial-cover",
+    "description": "温暖编辑风封面页，包含演示文稿主标题、副标题、主题标签、页脚元数据和主要视觉元素。",
     "background": "#f5f4ed",
     "elements": [
       {
         "id": "warm-cover-01-band",
         "type": "block",
-        "shapeType": "rect",
         "x": 0,
         "y": 0,
         "width": 31,
         "height": 100,
+        "shapeType": "rect",
         "backgroundColor": "#e8e6dc"
       },
       {
         "id": "warm-cover-01-mark",
         "type": "block",
-        "shapeType": "rect",
         "x": 8,
         "y": 15,
         "width": 3.8,
         "height": 1,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-cover-01-kicker",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 19,
         "width": 17,
@@ -475,12 +520,14 @@
         "fontSize": 12,
         "color": "#c96442",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "顶部封面标签，用于标明报告类型、产品阶段、版本或主题分类。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-cover-01-title",
         "type": "text",
-        "content": "",
         "x": 38,
         "y": 16,
         "width": 52,
@@ -489,12 +536,14 @@
         "fontSize": 58,
         "lineHeight": 1.08,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于整个演示文稿的封面。",
+        "recommendlength": "3-10"
       },
       {
         "id": "warm-cover-01-subtitle",
         "type": "text",
-        "content": "",
         "x": 39,
         "y": 43,
         "width": 42,
@@ -502,22 +551,25 @@
         "fontSize": 21,
         "lineHeight": 1.35,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "封面副标题，用于解释范围、受众、背景或价值主张。",
+        "recommendlength": "8-35"
       },
       {
         "id": "warm-cover-01-image",
         "type": "image",
-        "src": "",
-        "alt": "",
         "x": 38,
         "y": 63,
         "width": 48,
-        "height": 25
+        "height": 25,
+        "src": "",
+        "alt": "Editorial workspace",
+        "description": "封面主配图，用于渲染整体的主题氛围。"
       },
       {
         "id": "warm-cover-01-footer",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 82,
         "width": 17,
@@ -525,31 +577,22 @@
         "fontSize": 13,
         "lineHeight": 1.4,
         "color": "#87867f",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "封面页脚元数据，如作者、团队、日期、产品或演示背景等基本信息。",
+        "recommendlength": "3-18"
       }
     ]
   },
   {
     "id": "warm-section-01",
-    "layoutType": "section",
-    "role": "section",
-    "useCases": [
-      "章节页",
-      "幕间页",
-      "大段落分隔"
-    ],
-    "slotNames": [
-      "index",
-      "title",
-      "subtitle",
-      "number"
-    ],
+    "role": "warm-editorial-section-divider",
+    "description": "章节过渡页，包含章节号、标题和简短的过渡句，用于引入新章节。",
     "background": "#141413",
     "elements": [
       {
         "id": "warm-section-01-index",
         "type": "text",
-        "content": "",
         "x": 10,
         "y": 14,
         "width": 18,
@@ -557,22 +600,24 @@
         "font": "Georgia, serif",
         "fontSize": 30,
         "color": "#d97757",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "章节编号，显示在章节过渡页上。",
+        "recommendlength": "1-8"
       },
       {
         "id": "warm-section-01-line",
         "type": "block",
-        "shapeType": "rect",
         "x": 10,
         "y": 29,
         "width": 18,
         "height": 0.6,
+        "shapeType": "rect",
         "backgroundColor": "#d97757"
       },
       {
         "id": "warm-section-01-title",
         "type": "text",
-        "content": "",
         "x": 10,
         "y": 39,
         "width": 72,
@@ -581,12 +626,14 @@
         "fontSize": 52,
         "lineHeight": 1.1,
         "color": "#faf9f5",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于即将进入的章节过渡页。",
+        "recommendlength": "4-14"
       },
       {
         "id": "warm-section-01-subtitle",
         "type": "text",
-        "content": "",
         "x": 12,
         "y": 64,
         "width": 47,
@@ -594,16 +641,19 @@
         "fontSize": 18,
         "lineHeight": 1.45,
         "color": "#b0aea5",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短过渡句，用于解释本节将涵盖的内容。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-section-01-block",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 72,
         "y": 14,
         "width": 14,
         "height": 72,
+        "shapeType": "roundRect",
         "backgroundColor": "#30302e",
         "borderColor": "#3d3d3a",
         "borderWidth": 1
@@ -611,7 +661,6 @@
       {
         "id": "warm-section-01-number",
         "type": "text",
-        "content": "",
         "x": 74,
         "y": 39,
         "width": 10,
@@ -619,42 +668,32 @@
         "font": "Georgia, serif",
         "fontSize": 44,
         "color": "#d97757",
-        "align": "center"
+        "align": "center",
+        "content": "",
+        "description": "大型装饰性章节编号，需与整体章节索引保持一致。",
+        "recommendlength": "1-8"
       }
     ]
   },
   {
     "id": "warm-split-statement-01",
-    "layoutType": "split-statement",
-    "role": "body",
-    "useCases": [
-      "核心论点",
-      "大观点",
-      "观点解释"
-    ],
-    "slotNames": [
-      "kicker",
-      "statement",
-      "title",
-      "body",
-      "note"
-    ],
+    "role": "warm-editorial-split-statement",
+    "description": "拆分陈述页，用于在左侧强调核心原则、论点或结论，并在右侧进行详细解释。",
     "background": "#f5f4ed",
     "elements": [
       {
         "id": "warm-split-statement-01-left",
         "type": "block",
-        "shapeType": "rect",
         "x": 0,
         "y": 0,
         "width": 50,
         "height": 100,
+        "shapeType": "rect",
         "backgroundColor": "#141413"
       },
       {
         "id": "warm-split-statement-01-kicker",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 15,
         "width": 24,
@@ -662,12 +701,14 @@
         "fontSize": 12,
         "color": "#d97757",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短标签，用于指示陈述的类别、规则或主题。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-split-statement-01-statement",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 29,
         "width": 35,
@@ -676,22 +717,24 @@
         "fontSize": 48,
         "lineHeight": 1.06,
         "color": "#faf9f5",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "大型左侧陈述文本，包含关键原则、论点或结论。",
+        "recommendlength": "4-14"
       },
       {
         "id": "warm-split-statement-01-mark",
         "type": "block",
-        "shapeType": "rect",
         "x": 8,
         "y": 77,
         "width": 14,
         "height": 0.6,
+        "shapeType": "rect",
         "backgroundColor": "#d97757"
       },
       {
         "id": "warm-split-statement-01-title",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 18,
         "width": 32,
@@ -700,70 +743,37 @@
         "fontSize": 34,
         "lineHeight": 1.12,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "右侧解释标题，为下方的支持性正文提供框架。",
+        "recommendlength": "4-18"
       },
       {
         "id": "warm-split-statement-01-body",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 35,
-        "width": 31,
-        "height": 32,
+        "width": 36.6,
+        "height": 57.9,
         "fontSize": 18,
         "lineHeight": 1.5,
         "color": "#5e5d59",
-        "align": "left"
-      },
-      {
-        "id": "warm-split-statement-01-note-card",
-        "type": "block",
-        "shapeType": "roundRect",
-        "x": 57,
-        "y": 75,
-        "width": 28,
-        "height": 10,
-        "backgroundColor": "#faf9f5",
-        "borderColor": "#f0eee6",
-        "borderWidth": 1
-      },
-      {
-        "id": "warm-split-statement-01-note",
-        "type": "text",
+        "align": "left",
         "content": "",
-        "x": 59,
-        "y": 78,
-        "width": 24,
-        "height": 4,
-        "fontSize": 12,
-        "color": "#87867f",
-        "align": "left"
+        "description": "右侧正文段落，用于解释前面的陈述及其基本原理或实施边界。",
+        "recommendlength": "30-100"
       }
     ]
   },
   {
     "id": "warm-four-cards-01",
-    "layoutType": "four-cards",
-    "role": "body",
-    "useCases": [
-      "四个能力",
-      "四个模块",
-      "四个卖点"
-    ],
-    "slotNames": [
-      "title",
-      "lead",
-      "card1",
-      "card2",
-      "card3",
-      "card4"
-    ],
+    "role": "warm-editorial-four-cards",
+    "description": "四卡片模块页，用于展示四个相关的模块、步骤、功能、卖点或工作流。",
     "background": "#f5f4ed",
     "elements": [
       {
         "id": "warm-four-cards-01-title",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 10,
         "width": 56,
@@ -772,12 +782,14 @@
         "fontSize": 44,
         "lineHeight": 1.1,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于总结这四张卡片的核心主题。",
+        "recommendlength": "4-14"
       },
       {
         "id": "warm-four-cards-01-lead",
         "type": "text",
-        "content": "",
         "x": 9,
         "y": 27,
         "width": 52,
@@ -785,16 +797,19 @@
         "fontSize": 18,
         "lineHeight": 1.45,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "引导句，用于解释这四张卡片如何相互关联。",
+        "recommendlength": "8-35"
       },
       {
         "id": "warm-four-cards-01-card-1",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 8,
         "y": 45,
         "width": 39,
         "height": 18,
+        "shapeType": "roundRect",
         "backgroundColor": "#faf9f5",
         "borderColor": "#f0eee6",
         "borderWidth": 1
@@ -802,11 +817,11 @@
       {
         "id": "warm-four-cards-01-card-2",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 53,
         "y": 45,
         "width": 39,
         "height": 18,
+        "shapeType": "roundRect",
         "backgroundColor": "#faf9f5",
         "borderColor": "#f0eee6",
         "borderWidth": 1
@@ -814,11 +829,11 @@
       {
         "id": "warm-four-cards-01-card-3",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 8,
         "y": 70,
         "width": 39,
         "height": 18,
+        "shapeType": "roundRect",
         "backgroundColor": "#faf9f5",
         "borderColor": "#f0eee6",
         "borderWidth": 1
@@ -826,11 +841,11 @@
       {
         "id": "warm-four-cards-01-card-4",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 53,
         "y": 70,
         "width": 39,
         "height": 18,
+        "shapeType": "roundRect",
         "backgroundColor": "#faf9f5",
         "borderColor": "#f0eee6",
         "borderWidth": 1
@@ -838,17 +853,16 @@
       {
         "id": "warm-four-cards-01-mark-1",
         "type": "block",
-        "shapeType": "rect",
         "x": 11,
         "y": 49,
         "width": 3,
         "height": 0.8,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-four-cards-01-title-1",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 52,
         "width": 15,
@@ -856,12 +870,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "卡片1标题，命名单个模块、功能、步骤或优势。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-body-1",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 57,
         "width": 30,
@@ -869,22 +885,24 @@
         "fontSize": 13,
         "lineHeight": 1.4,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短解释，描述卡片1的作用或价值。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-mark-2",
         "type": "block",
-        "shapeType": "rect",
         "x": 56,
         "y": 49,
         "width": 3,
         "height": 0.8,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-four-cards-01-title-2",
         "type": "text",
-        "content": "",
         "x": 56,
         "y": 52,
         "width": 15,
@@ -892,12 +910,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "卡片2标题，命名单个模块、功能、步骤或优势。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-body-2",
         "type": "text",
-        "content": "",
         "x": 56,
         "y": 57,
         "width": 30,
@@ -905,22 +925,24 @@
         "fontSize": 13,
         "lineHeight": 1.4,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短解释，描述卡片2的作用或价值。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-mark-3",
         "type": "block",
-        "shapeType": "rect",
         "x": 11,
         "y": 74,
         "width": 3,
         "height": 0.8,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-four-cards-01-title-3",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 77,
         "width": 15,
@@ -928,12 +950,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "卡片3标题，命名单个模块、功能、步骤或优势。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-body-3",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 82,
         "width": 30,
@@ -941,22 +965,24 @@
         "fontSize": 13,
         "lineHeight": 1.4,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短解释，描述卡片3的作用或价值。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-mark-4",
         "type": "block",
-        "shapeType": "rect",
         "x": 56,
         "y": 74,
         "width": 3,
         "height": 0.8,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-four-cards-01-title-4",
         "type": "text",
-        "content": "",
         "x": 56,
         "y": 77,
         "width": 15,
@@ -964,12 +990,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "卡片4标题，命名单个模块、功能、步骤或优势。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-four-cards-01-body-4",
         "type": "text",
-        "content": "",
         "x": 56,
         "y": 82,
         "width": 30,
@@ -977,34 +1005,22 @@
         "fontSize": 13,
         "lineHeight": 1.4,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短解释，描述卡片4的作用或价值。",
+        "recommendlength": "3-18"
       }
     ]
   },
   {
     "id": "warm-duo-compare-01",
-    "layoutType": "duo-compare",
-    "role": "body",
-    "useCases": [
-      "Before After",
-      "双栏对比",
-      "人工 vs 系统"
-    ],
-    "slotNames": [
-      "title",
-      "leftLabel",
-      "leftTitle",
-      "leftBody",
-      "rightLabel",
-      "rightTitle",
-      "rightBody"
-    ],
+    "role": "warm-editorial-duo-compare",
+    "description": "双栏比较页，用于对比前后状态、两种策略、两类受众或两个解决方案选项。",
     "background": "#faf9f5",
     "elements": [
       {
         "id": "warm-duo-compare-01-kicker",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 10,
         "width": 24,
@@ -1012,12 +1028,14 @@
         "fontSize": 12,
         "color": "#c96442",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "小型对比标签，用于描述对比维度或前后状态框架。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-duo-compare-01-title",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 16,
         "width": 68,
@@ -1026,16 +1044,19 @@
         "fontSize": 40,
         "lineHeight": 1.12,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于总结两栏比较的核心内容。",
+        "recommendlength": "4-18"
       },
       {
         "id": "warm-duo-compare-01-left-card",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 8,
         "y": 36,
         "width": 39,
         "height": 48,
+        "shapeType": "roundRect",
         "backgroundColor": "#f5f4ed",
         "borderColor": "#e8e6dc",
         "borderWidth": 1
@@ -1043,11 +1064,11 @@
       {
         "id": "warm-duo-compare-01-right-card",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 53,
         "y": 36,
         "width": 39,
         "height": 48,
+        "shapeType": "roundRect",
         "backgroundColor": "#f5f4ed",
         "borderColor": "#e8e6dc",
         "borderWidth": 1
@@ -1055,17 +1076,16 @@
       {
         "id": "warm-duo-compare-01-center-rule",
         "type": "block",
-        "shapeType": "rect",
         "x": 49.5,
         "y": 39,
         "width": 1,
         "height": 42,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-duo-compare-01-left-label",
         "type": "text",
-        "content": "",
         "x": 12,
         "y": 42,
         "width": 16,
@@ -1073,12 +1093,14 @@
         "fontSize": 12,
         "color": "#87867f",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "小型标签，用于左侧比较栏。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-duo-compare-01-left-title",
         "type": "text",
-        "content": "",
         "x": 12,
         "y": 50,
         "width": 25,
@@ -1086,12 +1108,14 @@
         "font": "Georgia, serif",
         "fontSize": 26,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "左侧标题，用于说明比较对象、旧状态或第一个选项。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-duo-compare-01-left-body",
         "type": "text",
-        "content": "",
         "x": 12,
         "y": 63,
         "width": 28,
@@ -1099,12 +1123,14 @@
         "fontSize": 16,
         "lineHeight": 1.45,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "正文文本，解释左侧选项的局限性、特征或现状。",
+        "recommendlength": "8-35"
       },
       {
         "id": "warm-duo-compare-01-right-label",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 42,
         "width": 16,
@@ -1112,12 +1138,14 @@
         "fontSize": 12,
         "color": "#c96442",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "小型标签，用于右侧比较栏。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-duo-compare-01-right-title",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 50,
         "width": 25,
@@ -1125,12 +1153,14 @@
         "font": "Georgia, serif",
         "fontSize": 26,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "右侧标题，用于说明比较对象、新状态或第二个选项。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-duo-compare-01-right-body",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 63,
         "width": 28,
@@ -1138,33 +1168,22 @@
         "fontSize": 16,
         "lineHeight": 1.45,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "正文文本，用于解释右侧选项的优势、特征或目标状态。",
+        "recommendlength": "8-35"
       }
     ]
   },
   {
     "id": "warm-timeline-01",
-    "layoutType": "timeline",
-    "role": "body",
-    "useCases": [
-      "流程",
-      "时间线",
-      "阶段规划"
-    ],
-    "slotNames": [
-      "title",
-      "lead",
-      "step1",
-      "step2",
-      "step3",
-      "step4"
-    ],
+    "role": "warm-editorial-horizontal-timeline",
+    "description": "横向时间线页，用于展示四个阶段的工作流、路线图、项目计划或生成管道。",
     "background": "#f5f4ed",
     "elements": [
       {
         "id": "warm-timeline-01-title",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 10,
         "width": 68,
@@ -1173,12 +1192,14 @@
         "fontSize": 42,
         "lineHeight": 1.1,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于展示工作流、路线图、过程或时间线。",
+        "recommendlength": "4-14"
       },
       {
         "id": "warm-timeline-01-lead",
         "type": "text",
-        "content": "",
         "x": 9,
         "y": 25,
         "width": 50,
@@ -1186,62 +1207,64 @@
         "fontSize": 18,
         "lineHeight": 1.45,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短引导句，用于解释时间线的目的或逻辑。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-rule",
         "type": "block",
-        "shapeType": "rect",
         "x": 12,
         "y": 52,
         "width": 76,
         "height": 0.3,
+        "shapeType": "rect",
         "backgroundColor": "#d1cfc5"
       },
       {
         "id": "warm-timeline-01-dot-1",
         "type": "block",
-        "shapeType": "circle",
         "x": 12,
         "y": 49.7,
         "width": 2.6,
         "height": 4.6,
+        "shapeType": "circle",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-timeline-01-dot-2",
         "type": "block",
-        "shapeType": "circle",
         "x": 35,
         "y": 49.7,
         "width": 2.6,
         "height": 4.6,
+        "shapeType": "circle",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-timeline-01-dot-3",
         "type": "block",
-        "shapeType": "circle",
         "x": 58,
         "y": 49.7,
         "width": 2.6,
         "height": 4.6,
+        "shapeType": "circle",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-timeline-01-dot-4",
         "type": "block",
-        "shapeType": "circle",
         "x": 81,
         "y": 49.7,
         "width": 2.6,
         "height": 4.6,
+        "shapeType": "circle",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-timeline-01-step-1-index",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 58,
         "width": 8,
@@ -1249,12 +1272,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#c96442",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "索引编号，用于时间线步骤1。",
+        "recommendlength": "1-8"
       },
       {
         "id": "warm-timeline-01-step-1-title",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 64,
         "width": 15,
@@ -1262,12 +1287,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于时间线步骤1。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-1-body",
         "type": "text",
-        "content": "",
         "x": 11,
         "y": 71,
         "width": 15,
@@ -1275,12 +1302,14 @@
         "fontSize": 13,
         "lineHeight": 1.35,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简要描述，用于说明时间线步骤1中发生的事情。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-2-index",
         "type": "text",
-        "content": "",
         "x": 34,
         "y": 58,
         "width": 8,
@@ -1288,12 +1317,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#c96442",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "索引编号，用于时间线步骤2。",
+        "recommendlength": "1-8"
       },
       {
         "id": "warm-timeline-01-step-2-title",
         "type": "text",
-        "content": "",
         "x": 34,
         "y": 64,
         "width": 15,
@@ -1301,12 +1332,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于时间线步骤2。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-2-body",
         "type": "text",
-        "content": "",
         "x": 34,
         "y": 71,
         "width": 15,
@@ -1314,12 +1347,14 @@
         "fontSize": 13,
         "lineHeight": 1.35,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简要描述，用于说明时间线步骤2中发生的事情。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-3-index",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 58,
         "width": 8,
@@ -1327,12 +1362,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#c96442",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "索引编号，用于时间线步骤3。",
+        "recommendlength": "1-8"
       },
       {
         "id": "warm-timeline-01-step-3-title",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 64,
         "width": 15,
@@ -1340,12 +1377,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于时间线步骤3。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-3-body",
         "type": "text",
-        "content": "",
         "x": 57,
         "y": 71,
         "width": 15,
@@ -1353,12 +1392,14 @@
         "fontSize": 13,
         "lineHeight": 1.35,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简要描述，用于说明时间线步骤3中发生的事情。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-4-index",
         "type": "text",
-        "content": "",
         "x": 80,
         "y": 58,
         "width": 8,
@@ -1366,12 +1407,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#c96442",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "索引编号，用于时间线步骤4。",
+        "recommendlength": "1-8"
       },
       {
         "id": "warm-timeline-01-step-4-title",
         "type": "text",
-        "content": "",
         "x": 80,
         "y": 64,
         "width": 15,
@@ -1379,12 +1422,14 @@
         "font": "Georgia, serif",
         "fontSize": 20,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于时间线步骤4。",
+        "recommendlength": "3-18"
       },
       {
         "id": "warm-timeline-01-step-4-body",
         "type": "text",
-        "content": "",
         "x": 80,
         "y": 71,
         "width": 15,
@@ -1392,33 +1437,22 @@
         "fontSize": 13,
         "lineHeight": 1.35,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "简要描述，用于说明时间线步骤4中发生的事情。",
+        "recommendlength": "3-18"
       }
     ]
   },
   {
     "id": "warm-stacked-kpi-ledger-01",
-    "layoutType": "stacked-kpi-ledger",
-    "role": "body",
-    "useCases": [
-      "账单式 KPI",
-      "关键指标",
-      "进展汇总"
-    ],
-    "slotNames": [
-      "title",
-      "lead",
-      "row1",
-      "row2",
-      "row3",
-      "row4"
-    ],
+    "role": "warm-editorial-kpi-ledger",
+    "description": "分类账风格的KPI数据页，用于展示四个关键指标、数字结果或量化结论。",
     "background": "#faf9f5",
     "elements": [
       {
         "id": "warm-stacked-kpi-ledger-01-title",
         "type": "text",
-        "content": "",
         "x": 8,
         "y": 12,
         "width": 35,
@@ -1427,12 +1461,14 @@
         "fontSize": 44,
         "lineHeight": 1.1,
         "color": "#141413",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于命名KPI组所衡量的核心内容。",
+        "recommendlength": "4-14"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-lead",
         "type": "text",
-        "content": "",
         "x": 9,
         "y": 37,
         "width": 31,
@@ -1440,26 +1476,29 @@
         "fontSize": 18,
         "lineHeight": 1.5,
         "color": "#5e5d59",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "引导句，用于解释这些指标为何重要或如何阅读它们。",
+        "recommendlength": "15-60"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-accent",
         "type": "block",
-        "shapeType": "rect",
         "x": 9,
         "y": 68,
         "width": 6,
         "height": 1,
+        "shapeType": "rect",
         "backgroundColor": "#c96442"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-panel",
         "type": "block",
-        "shapeType": "roundRect",
         "x": 48,
         "y": 10,
         "width": 43,
         "height": 78,
+        "shapeType": "roundRect",
         "backgroundColor": "#141413",
         "borderColor": "#30302e",
         "borderWidth": 1
@@ -1467,47 +1506,46 @@
       {
         "id": "warm-stacked-kpi-ledger-01-row-line-1",
         "type": "block",
-        "shapeType": "rect",
         "x": 52,
         "y": 30,
         "width": 35,
         "height": 0.2,
+        "shapeType": "rect",
         "backgroundColor": "#30302e"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-row-line-2",
         "type": "block",
-        "shapeType": "rect",
         "x": 52,
         "y": 45,
         "width": 35,
         "height": 0.2,
+        "shapeType": "rect",
         "backgroundColor": "#30302e"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-row-line-3",
         "type": "block",
-        "shapeType": "rect",
         "x": 52,
         "y": 60,
         "width": 35,
         "height": 0.2,
+        "shapeType": "rect",
         "backgroundColor": "#30302e"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-row-line-4",
         "type": "block",
-        "shapeType": "rect",
         "x": 52,
         "y": 75,
         "width": 35,
         "height": 0.2,
+        "shapeType": "rect",
         "backgroundColor": "#30302e"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-label-1",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 19,
         "width": 16,
@@ -1515,12 +1553,14 @@
         "fontSize": 12,
         "color": "#b0aea5",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "名称或衡量范围，用于KPI项目1。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-value-1",
         "type": "text",
-        "content": "",
         "x": 73,
         "y": 17,
         "width": 14,
@@ -1528,12 +1568,14 @@
         "font": "Georgia, serif",
         "fontSize": 30,
         "color": "#faf9f5",
-        "align": "right"
+        "align": "right",
+        "content": "",
+        "description": "数值或简短结果，用于KPI项目1。",
+        "recommendlength": "4-18"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-label-2",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 34,
         "width": 16,
@@ -1541,12 +1583,14 @@
         "fontSize": 12,
         "color": "#b0aea5",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "名称或衡量范围，用于KPI项目2。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-value-2",
         "type": "text",
-        "content": "",
         "x": 73,
         "y": 32,
         "width": 14,
@@ -1554,12 +1598,14 @@
         "font": "Georgia, serif",
         "fontSize": 30,
         "color": "#faf9f5",
-        "align": "right"
+        "align": "right",
+        "content": "",
+        "description": "数值或简短结果，用于KPI项目2。",
+        "recommendlength": "4-18"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-label-3",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 49,
         "width": 16,
@@ -1567,12 +1613,14 @@
         "fontSize": 12,
         "color": "#b0aea5",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "名称或衡量范围，用于KPI项目3。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-value-3",
         "type": "text",
-        "content": "",
         "x": 73,
         "y": 47,
         "width": 14,
@@ -1580,12 +1628,14 @@
         "font": "Georgia, serif",
         "fontSize": 30,
         "color": "#faf9f5",
-        "align": "right"
+        "align": "right",
+        "content": "",
+        "description": "数值或简短结果，用于KPI项目3。",
+        "recommendlength": "4-18"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-label-4",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 64,
         "width": 16,
@@ -1593,12 +1643,14 @@
         "fontSize": 12,
         "color": "#b0aea5",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "名称或衡量范围，用于KPI项目4。",
+        "recommendlength": "2-12"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-value-4",
         "type": "text",
-        "content": "",
         "x": 73,
         "y": 62,
         "width": 14,
@@ -1606,226 +1658,1388 @@
         "font": "Georgia, serif",
         "fontSize": 30,
         "color": "#faf9f5",
-        "align": "right"
+        "align": "right",
+        "content": "",
+        "description": "数值或简短结果，用于KPI项目4。",
+        "recommendlength": "4-18"
       },
       {
         "id": "warm-stacked-kpi-ledger-01-foot",
         "type": "text",
-        "content": "",
         "x": 52,
         "y": 80,
         "width": 30,
         "height": 4,
         "fontSize": 12,
         "color": "#d97757",
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "页脚注释，用于说明数据来源、衡量范围、报告期或相关警告。",
+        "recommendlength": "3-18"
       }
     ]
   },
   {
-    "id": "warm-image-hero-01",
-    "layoutType": "image-hero",
-    "role": "body",
-    "useCases": [
-      "场景展示",
-      "案例展示",
-      "产品图"
-    ],
-    "slotNames": [
-      "image",
-      "overlayTitle",
-      "overlayBody",
-      "title",
-      "stat1",
-      "stat2",
-      "stat3"
-    ],
-    "background": "#f5f4ed",
+    "id": "claude-thesis-slide-2",
+    "role": "warm-thesis-template-overview",
+    "description": "论文式信息页，用于提供模板说明、资源链接、使用说明或支持性参考资料。",
+    "background": "#faf9f6",
     "elements": [
       {
-        "id": "warm-image-hero-01-image",
-        "type": "image",
-        "src": "",
-        "alt": "",
-        "x": 7,
-        "y": 8,
-        "width": 86,
-        "height": 49
-      },
-      {
-        "id": "warm-image-hero-01-overlay",
-        "type": "block",
-        "shapeType": "roundRect",
-        "x": 10,
-        "y": 14,
-        "width": 31,
-        "height": 18,
-        "backgroundColor": "#faf9f5",
-        "borderColor": "#f0eee6",
-        "borderWidth": 1
-      },
-      {
-        "id": "warm-image-hero-01-overlay-title",
+        "id": "claude-thesis-s2-title",
         "type": "text",
-        "content": "",
-        "x": 12,
-        "y": 18,
-        "width": 27,
-        "height": 6,
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
         "font": "Georgia, serif",
-        "fontSize": 26,
-        "color": "#141413",
-        "align": "left"
-      },
-      {
-        "id": "warm-image-hero-01-overlay-body",
-        "type": "text",
-        "content": "",
-        "x": 12,
-        "y": 27,
-        "width": 24,
-        "height": 4,
-        "fontSize": 12,
-        "color": "#5e5d59",
-        "align": "left"
-      },
-      {
-        "id": "warm-image-hero-01-kicker",
-        "type": "text",
-        "content": "",
-        "x": 8,
-        "y": 63,
-        "width": 24,
-        "height": 4,
-        "fontSize": 12,
-        "color": "#c96442",
+        "fontSize": 34,
+        "color": "#2c2a25",
         "bold": true,
-        "align": "left"
+        "align": "left",
+        "content": "",
+        "description": "标题，用于模板概述或说明页。",
+        "recommendlength": "4-18"
       },
       {
-        "id": "warm-image-hero-01-title",
+        "id": "claude-thesis-s2-body",
         "type": "text",
+        "x": 7.87,
+        "y": 23.64,
+        "width": 84.25,
+        "height": 52.86,
+        "fontSize": 16,
+        "color": "#5c5a52",
+        "align": "left",
         "content": "",
-        "x": 8,
-        "y": 69,
-        "width": 42,
-        "height": 11,
+        "description": "正文文本，提供关于此模板的使用说明、指示或背景信息。",
+        "recommendlength": "30-100"
+      },
+      {
+        "id": "claude-thesis-s2-footer-left",
+        "type": "text",
+        "x": 7.8,
+        "y": 78.89,
+        "width": 27.38,
+        "height": 8.98,
+        "fontSize": 12,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "左侧页脚链接，用于提供博客、FAQ或文档名称等资源。",
+        "recommendlength": "3-18"
+      },
+      {
+        "id": "claude-thesis-s2-footer-right",
+        "type": "text",
+        "x": 50.26,
+        "y": 78.89,
+        "width": 37.62,
+        "height": 8.98,
+        "fontSize": 12,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "右侧页脚链接，用于指向相关资源、姐妹项目或外部工具。",
+        "recommendlength": "3-18"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-3",
+    "role": "warm-thesis-table-of-contents",
+    "description": "论文式目录页，包含六个章节标题及对每个章节的简短解释。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s3-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于目录页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s3-01-num",
+        "type": "text",
+        "x": 7.8,
+        "y": 22.19,
+        "width": 7.18,
+        "height": 8.52,
+        "fontSize": 24,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "编号，用于目录第1章。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s3-01-label",
+        "type": "text",
+        "x": 7.8,
+        "y": 31,
+        "width": 26.5,
+        "height": 8.53,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于目录第1章。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s3-01-desc",
+        "type": "text",
+        "x": 7.8,
+        "y": 39.24,
+        "width": 26.53,
+        "height": 10.46,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "一句话描述，用于说明目录第1章的内容。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s3-02-num",
+        "type": "text",
+        "x": 36.74,
+        "y": 22.2,
+        "width": 7.18,
+        "height": 8.52,
+        "fontSize": 24,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "编号，用于目录第2章。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s3-02-label",
+        "type": "text",
+        "x": 36.74,
+        "y": 31,
+        "width": 26.5,
+        "height": 8.53,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于目录第2章。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s3-02-desc",
+        "type": "text",
+        "x": 36.74,
+        "y": 39.23,
+        "width": 26.53,
+        "height": 10.46,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "一句话描述，用于说明目录第2章的内容。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s3-03-num",
+        "type": "text",
+        "x": 65.59,
+        "y": 22.2,
+        "width": 7.18,
+        "height": 8.52,
+        "fontSize": 24,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "编号，用于目录第3章。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s3-03-label",
+        "type": "text",
+        "x": 65.59,
+        "y": 31,
+        "width": 26.5,
+        "height": 8.53,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于目录第3章。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s3-03-desc",
+        "type": "text",
+        "x": 65.59,
+        "y": 39.23,
+        "width": 26.53,
+        "height": 10.46,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "一句话描述，用于说明目录第3章的内容。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s3-04-num",
+        "type": "text",
+        "x": 7.8,
+        "y": 58.21,
+        "width": 7.18,
+        "height": 8.53,
+        "fontSize": 24,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "编号，用于目录第4章。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s3-04-label",
+        "type": "text",
+        "x": 7.8,
+        "y": 67.02,
+        "width": 26.5,
+        "height": 8.33,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于目录第4章。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s3-04-desc",
+        "type": "text",
+        "x": 7.8,
+        "y": 75.25,
+        "width": 26.53,
+        "height": 10.46,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "一句话描述，用于说明目录第4章的内容。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s3-05-num",
+        "type": "text",
+        "x": 36.74,
+        "y": 58.21,
+        "width": 7.18,
+        "height": 8.53,
+        "fontSize": 24,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "编号，用于目录第5章。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s3-05-label",
+        "type": "text",
+        "x": 36.74,
+        "y": 67.02,
+        "width": 26.5,
+        "height": 8.33,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于目录第5章。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s3-05-desc",
+        "type": "text",
+        "x": 36.74,
+        "y": 75.25,
+        "width": 26.53,
+        "height": 10.46,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "一句话描述，用于说明目录第5章的内容。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s3-06-num",
+        "type": "text",
+        "x": 65.59,
+        "y": 58.21,
+        "width": 7.18,
+        "height": 8.53,
+        "fontSize": 24,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "编号，用于目录第6章。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s3-06-label",
+        "type": "text",
+        "x": 65.59,
+        "y": 67.02,
+        "width": 26.5,
+        "height": 8.33,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于目录第6章。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s3-06-desc",
+        "type": "text",
+        "x": 65.59,
+        "y": 75.25,
+        "width": 26.53,
+        "height": 10.46,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "一句话描述，用于说明目录第6章的内容。",
+        "recommendlength": "8-35"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-5",
+    "role": "warm-thesis-purpose-statement",
+    "description": "目的陈述页，用于阐述三个研究问题、研究目标或问题陈述。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s5-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于目的陈述页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s5-h1",
+        "type": "text",
+        "x": 7.87,
+        "y": 24.13,
+        "width": 84.25,
+        "height": 7.65,
+        "fontSize": 18,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于研究目的或问题1。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s5-b1",
+        "type": "text",
+        "x": 7.87,
+        "y": 31.32,
+        "width": 84.25,
+        "height": 10.31,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "正文文本，用于解释研究目的或问题1。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s5-h2",
+        "type": "text",
+        "x": 7.87,
+        "y": 45.69,
+        "width": 84.25,
+        "height": 7.65,
+        "fontSize": 18,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于研究目的或问题2。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s5-b2",
+        "type": "text",
+        "x": 7.87,
+        "y": 53.1,
+        "width": 84.25,
+        "height": 10.26,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "正文文本，用于解释研究目的或问题2。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s5-h3",
+        "type": "text",
+        "x": 7.87,
+        "y": 67.48,
+        "width": 84.25,
+        "height": 7.65,
+        "fontSize": 18,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于研究目的或问题3。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s5-b3",
+        "type": "text",
+        "x": 7.87,
+        "y": 74.88,
+        "width": 84.25,
+        "height": 10.26,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "正文文本，用于解释研究目的或问题3。",
+        "recommendlength": "15-60"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-6",
+    "role": "warm-thesis-quote",
+    "description": "引言页，用于展示单个重要引用、论点陈述、专家意见或指导性研究主张。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s6-quote",
+        "type": "text",
+        "x": 10.61,
+        "y": 25.52,
+        "width": 78.79,
+        "height": 28.74,
+        "font": "Georgia, serif",
+        "fontSize": 28,
+        "color": "#2c2a25",
+        "align": "center",
+        "content": "",
+        "description": "主要引文，展示研究主张或指导性论点陈述。",
+        "recommendlength": "12-35"
+      },
+      {
+        "id": "claude-thesis-s6-author",
+        "type": "text",
+        "x": 10.6,
+        "y": 70.8,
+        "width": 78.79,
+        "height": 10.34,
+        "fontSize": 18,
+        "color": "#c85a47",
+        "align": "center",
+        "content": "",
+        "description": "作者及来源，用于标注引文出处。",
+        "recommendlength": "15-60"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-7",
+    "role": "warm-thesis-big-number",
+    "description": "大数字高亮页，用于突出显示单个样本量、市场数据、研究结果或头条指标。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s7-number",
+        "type": "text",
+        "x": 14.04,
+        "y": 27.8,
+        "width": 71.92,
+        "height": 27.39,
+        "font": "Georgia, serif",
+        "fontSize": 64,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "大型头条指标，如样本量、市场规模、增长率或研究结果。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s7-caption",
+        "type": "text",
+        "x": 14.04,
+        "y": 58.04,
+        "width": 71.92,
+        "height": 9.66,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "align": "center",
+        "content": "",
+        "description": "说明文字，用于解释头条指标的具体含义。",
+        "recommendlength": "15-60"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-8",
+    "role": "warm-thesis-three-metrics",
+    "description": "三指标页，用于展示三个重要的数字事实及各自的简短标签。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s8-num1",
+        "type": "text",
+        "x": 24.32,
+        "y": 10.73,
+        "width": 51.36,
+        "height": 14.95,
         "font": "Georgia, serif",
         "fontSize": 36,
-        "lineHeight": 1.1,
-        "color": "#141413",
-        "align": "left"
-      },
-      {
-        "id": "warm-image-hero-01-stat-card-1",
-        "type": "block",
-        "shapeType": "roundRect",
-        "x": 54,
-        "y": 67,
-        "width": 12,
-        "height": 18,
-        "backgroundColor": "#faf9f5",
-        "borderColor": "#f0eee6",
-        "borderWidth": 1
-      },
-      {
-        "id": "warm-image-hero-01-stat-card-2",
-        "type": "block",
-        "shapeType": "roundRect",
-        "x": 68,
-        "y": 67,
-        "width": 12,
-        "height": 18,
-        "backgroundColor": "#faf9f5",
-        "borderColor": "#f0eee6",
-        "borderWidth": 1
-      },
-      {
-        "id": "warm-image-hero-01-stat-card-3",
-        "type": "block",
-        "shapeType": "roundRect",
-        "x": 82,
-        "y": 67,
-        "width": 12,
-        "height": 18,
-        "backgroundColor": "#faf9f5",
-        "borderColor": "#f0eee6",
-        "borderWidth": 1
-      },
-      {
-        "id": "warm-image-hero-01-stat-1",
-        "type": "text",
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
         "content": "",
-        "x": 55,
-        "y": 71,
-        "width": 10,
-        "height": 5,
+        "description": "数值，用于指标1。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s8-label1",
+        "type": "text",
+        "x": 24.32,
+        "y": 26.52,
+        "width": 51.36,
+        "height": 8.33,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "center",
+        "content": "",
+        "description": "简短解释性标签，用于指标1。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s8-num2",
+        "type": "text",
+        "x": 24.32,
+        "y": 37.02,
+        "width": 51.36,
+        "height": 14.95,
         "font": "Georgia, serif",
-        "fontSize": 26,
-        "color": "#c96442",
-        "align": "center"
+        "fontSize": 36,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "数值，用于指标2。",
+        "recommendlength": "1-8"
       },
       {
-        "id": "warm-image-hero-01-stat-label-1",
+        "id": "claude-thesis-s8-label2",
         "type": "text",
+        "x": 24.32,
+        "y": 52.81,
+        "width": 51.36,
+        "height": 8.68,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "center",
         "content": "",
-        "x": 55,
-        "y": 79,
-        "width": 10,
-        "height": 3,
-        "fontSize": 11,
-        "color": "#87867f",
-        "align": "center"
+        "description": "简短解释性标签，用于指标2。",
+        "recommendlength": "2-12"
       },
       {
-        "id": "warm-image-hero-01-stat-2",
+        "id": "claude-thesis-s8-num3",
         "type": "text",
-        "content": "",
-        "x": 69,
-        "y": 71,
-        "width": 10,
-        "height": 5,
+        "x": 24.32,
+        "y": 63.32,
+        "width": 51.36,
+        "height": 14.95,
         "font": "Georgia, serif",
-        "fontSize": 26,
-        "color": "#c96442",
-        "align": "center"
+        "fontSize": 36,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "数值，用于指标3。",
+        "recommendlength": "1-8"
       },
       {
-        "id": "warm-image-hero-01-stat-label-2",
+        "id": "claude-thesis-s8-label3",
         "type": "text",
+        "x": 24.32,
+        "y": 79.11,
+        "width": 51.36,
+        "height": 8.68,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "center",
         "content": "",
-        "x": 69,
-        "y": 79,
-        "width": 10,
-        "height": 3,
-        "fontSize": 11,
-        "color": "#87867f",
-        "align": "center"
-      },
+        "description": "简短解释性标签，用于指标3。",
+        "recommendlength": "2-12"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-9",
+    "role": "warm-thesis-image-explainer",
+    "description": "图像说明页，通过视觉元素强化某个概念、案例、研究对象或产品理念。",
+    "background": "#faf9f6",
+    "elements": [
       {
-        "id": "warm-image-hero-01-stat-3",
+        "id": "claude-thesis-s9-title",
         "type": "text",
-        "content": "",
-        "x": 83,
-        "y": 71,
-        "width": 10,
-        "height": 5,
+        "x": 7.87,
+        "y": 22.33,
+        "width": 43.14,
+        "height": 31.25,
         "font": "Georgia, serif",
-        "fontSize": 26,
-        "color": "#c96442",
-        "align": "center"
+        "fontSize": 28,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于解释由图片所强化的概念。",
+        "recommendlength": "15-60"
       },
       {
-        "id": "warm-image-hero-01-stat-label-3",
+        "id": "claude-thesis-s9-body",
         "type": "text",
+        "x": 7.8,
+        "y": 56,
+        "width": 43.1,
+        "height": 33.9,
+        "fontSize": 15,
+        "color": "#5c5a52",
+        "align": "left",
         "content": "",
-        "x": 83,
-        "y": 79,
-        "width": 10,
-        "height": 3,
-        "fontSize": 11,
-        "color": "#87867f",
-        "align": "center"
+        "description": "正文文本，用于解释图片如何支持当前幻灯片的核心概念。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s9-image",
+        "type": "image",
+        "x": 56,
+        "y": 20,
+        "width": 36,
+        "height": 64.6,
+        "src": "",
+        "alt": "Concept reinforcement visual",
+        "description": "配合性插图，用于展示相关概念或流程。"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-13",
+    "role": "warm-thesis-three-hypotheses",
+    "description": "三假设页，展示三个研究假设、前提、主张或命题。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s13-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于假设阐述页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s13-h1-num",
+        "type": "text",
+        "x": 7.87,
+        "y": 26.06,
+        "width": 4.69,
+        "height": 8.34,
+        "fontSize": 21,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "编号，用于假设1。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s13-h1-title",
+        "type": "text",
+        "x": 14.8,
+        "y": 25.7,
+        "width": 77.02,
+        "height": 6.49,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于假设1。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s13-h1-body",
+        "type": "text",
+        "x": 15,
+        "y": 33.4,
+        "width": 77,
+        "height": 12.9,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，提供假设1的依据、基本原理或证据。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s13-h2-num",
+        "type": "text",
+        "x": 7.87,
+        "y": 48.19,
+        "width": 4.69,
+        "height": 8.34,
+        "fontSize": 21,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "编号，用于假设2。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s13-h2-title",
+        "type": "text",
+        "x": 14.8,
+        "y": 47.8,
+        "width": 77.02,
+        "height": 6.49,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于假设2。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s13-h2-body",
+        "type": "text",
+        "x": 15.1,
+        "y": 55.6,
+        "width": 77,
+        "height": 12.9,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，提供假设2的依据、基本原理或证据。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s13-h3-num",
+        "type": "text",
+        "x": 7.87,
+        "y": 70.33,
+        "width": 4.69,
+        "height": 8.34,
+        "fontSize": 21,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "编号，用于假设3。",
+        "recommendlength": "1-8"
+      },
+      {
+        "id": "claude-thesis-s13-h3-title",
+        "type": "text",
+        "x": 14.6,
+        "y": 70.4,
+        "width": 77.02,
+        "height": 6.49,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "简短标题，用于假设3。",
+        "recommendlength": "15-60"
+      },
+      {
+        "id": "claude-thesis-s13-h3-body",
+        "type": "text",
+        "x": 15.1,
+        "y": 77.9,
+        "width": 77.02,
+        "height": 10.26,
+        "fontSize": 14,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，提供假设3的依据、基本原理或证据。",
+        "recommendlength": "15-60"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-16",
+    "role": "warm-thesis-literature-review",
+    "description": "文献综述页，用于列出关键来源、作者、年份、出版物名称和简短发现。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s16-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于文献综述页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s16-body",
+        "type": "text",
+        "x": 7.9,
+        "y": 23.6,
+        "width": 84.25,
+        "height": 62.86,
+        "fontSize": 13,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "文献综述条目，包含作者、年份、出版物名称、来源及简短的相关性说明。",
+        "recommendlength": "30-100"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-19",
+    "role": "warm-thesis-methodology-radial",
+    "description": "方法论结构页，通过数据类型、动机、收集和采样来解释单个研究对象。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s19-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于方法论介绍页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s19-center-h",
+        "type": "text",
+        "x": 7.87,
+        "y": 50.28,
+        "width": 15.04,
+        "height": 9.3,
+        "fontSize": 20,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "核心要素，标明中心研究对象或方法重点。",
+        "recommendlength": "3-18"
+      },
+      {
+        "id": "claude-thesis-s19-r1-title",
+        "type": "text",
+        "x": 33.14,
+        "y": 23.41,
+        "width": 21.28,
+        "height": 10.87,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于方法论维度1。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r1-body",
+        "type": "text",
+        "x": 57.46,
+        "y": 21.88,
+        "width": 36.01,
+        "height": 13.92,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明方法论维度1。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r2-title",
+        "type": "text",
+        "x": 33.14,
+        "y": 41.37,
+        "width": 21.28,
+        "height": 10.87,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于方法论维度2。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r2-body",
+        "type": "text",
+        "x": 57.42,
+        "y": 39.93,
+        "width": 36.01,
+        "height": 13.74,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明方法论维度2。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r3-title",
+        "type": "text",
+        "x": 33.14,
+        "y": 59.17,
+        "width": 21.28,
+        "height": 10.87,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于方法论维度3。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r3-body",
+        "type": "text",
+        "x": 57.42,
+        "y": 57.8,
+        "width": 36.01,
+        "height": 13.61,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明方法论维度3。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r4-title",
+        "type": "text",
+        "x": 33.14,
+        "y": 77.06,
+        "width": 21.28,
+        "height": 10.87,
+        "fontSize": 18,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于方法论维度4。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s19-r4-body",
+        "type": "text",
+        "x": 57.46,
+        "y": 75.54,
+        "width": 36.01,
+        "height": 13.92,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明方法论维度4。",
+        "recommendlength": "8-35"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-20",
+    "role": "warm-thesis-two-phase-analysis",
+    "description": "双阶段分析页，用于描述两个研究阶段、实验阶段、项目阶段或分析轨迹。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s20-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于双阶段分析页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s20-p1-title",
+        "type": "text",
+        "x": 7.95,
+        "y": 25.53,
+        "width": 40.44,
+        "height": 8.21,
+        "fontSize": 18,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于分析阶段1。",
+        "recommendlength": "3-18"
+      },
+      {
+        "id": "claude-thesis-s20-p1-body",
+        "type": "text",
+        "x": 7.95,
+        "y": 36.4,
+        "width": 40.44,
+        "height": 53.2,
+        "fontSize": 13,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "正文文本，阐述分析阶段1的过程、发现或解释。",
+        "recommendlength": "30-100"
+      },
+      {
+        "id": "claude-thesis-s20-p2-title",
+        "type": "text",
+        "x": 51.92,
+        "y": 25.53,
+        "width": 40.44,
+        "height": 8.21,
+        "fontSize": 18,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "标题，用于分析阶段2。",
+        "recommendlength": "3-18"
+      },
+      {
+        "id": "claude-thesis-s20-p2-body",
+        "type": "text",
+        "x": 51.92,
+        "y": 36.4,
+        "width": 40.44,
+        "height": 53.2,
+        "fontSize": 13,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "正文文本，阐述分析阶段2的过程、发现或解释。",
+        "recommendlength": "30-100"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-21",
+    "role": "warm-thesis-image-comparison-notes",
+    "description": "图文分析页，左侧包含一段较长的正文解释及两个较小的注释标签。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s21-title",
+        "type": "text",
+        "x": 6.8,
+        "y": 5.9,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于图文分析页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s21-image",
+        "type": "image",
+        "x": 8,
+        "y": 19.4,
+        "width": 36.4,
+        "height": 40.02,
+        "src": "",
+        "alt": "Analysis graph",
+        "description": "配合性插图，用于展示相关概念或流程。"
+      },
+      {
+        "id": "claude-thesis-s21-body-r",
+        "type": "text",
+        "x": 54.3,
+        "y": 23.4,
+        "width": 37.9,
+        "height": 62.2,
+        "fontSize": 15,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "右侧分析段落，用于解释图片或案例的发现。",
+        "recommendlength": "30-100"
+      },
+      {
+        "id": "claude-thesis-s21-lbl-1",
+        "type": "text",
+        "x": 8.2,
+        "y": 61.5,
+        "width": 17.3,
+        "height": 6.4,
+        "fontSize": 20,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "标题，用于左侧注释1。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s21-desc-1",
+        "type": "text",
+        "x": 8.2,
+        "y": 71.3,
+        "width": 18.2,
+        "height": 17.3,
+        "fontSize": 12,
+        "color": "#7a776c",
+        "align": "left",
+        "content": "",
+        "description": "简短解释，用于说明左侧注释1。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s21-lbl-2",
+        "type": "text",
+        "x": 29.4,
+        "y": 61.5,
+        "width": 17.4,
+        "height": 5.1,
+        "fontSize": 20,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "center",
+        "content": "",
+        "description": "标题，用于左侧注释2。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s21-desc-2",
+        "type": "text",
+        "x": 29.5,
+        "y": 71.2,
+        "width": 18.7,
+        "height": 19.4,
+        "fontSize": 12,
+        "color": "#7a776c",
+        "align": "left",
+        "content": "",
+        "description": "简短解释，用于说明左侧注释2。",
+        "recommendlength": "8-35"
+      }
+    ]
+  },
+  {
+    "id": "claude-thesis-slide-22",
+    "role": "warm-thesis-results-breakdown",
+    "description": "结果分解页，展示三个百分比、类别或发现，外加简短的数据注释。",
+    "background": "#faf9f6",
+    "elements": [
+      {
+        "id": "claude-thesis-s22-title",
+        "type": "text",
+        "x": 7.87,
+        "y": 8.65,
+        "width": 84.25,
+        "height": 11.13,
+        "font": "Georgia, serif",
+        "fontSize": 34,
+        "color": "#2c2a25",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "主标题，用于结果分解页。",
+        "recommendlength": "4-18"
+      },
+      {
+        "id": "claude-thesis-s22-image",
+        "type": "image",
+        "x": 12.3,
+        "y": 22.3,
+        "width": 30.26,
+        "height": 53.8,
+        "src": "",
+        "alt": "Results chart",
+        "description": "配合性插图，用于展示相关概念或流程。"
+      },
+      {
+        "id": "claude-thesis-s22-lbl1",
+        "type": "text",
+        "x": 56.89,
+        "y": 24.21,
+        "width": 24.24,
+        "height": 7.65,
+        "fontSize": 20,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "百分比、类别名称或结果标签，用于第1项。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s22-body1",
+        "type": "text",
+        "x": 56.9,
+        "y": 30.8,
+        "width": 35.3,
+        "height": 11.1,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明结果项1。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s22-lbl2",
+        "type": "text",
+        "x": 56.89,
+        "y": 45.3,
+        "width": 24.24,
+        "height": 7.65,
+        "fontSize": 20,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "百分比、类别名称或结果标签，用于第2项。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s22-body2",
+        "type": "text",
+        "x": 56.9,
+        "y": 51.8,
+        "width": 36.9,
+        "height": 11.1,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明结果项2。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s22-lbl3",
+        "type": "text",
+        "x": 56.89,
+        "y": 66.38,
+        "width": 24.24,
+        "height": 7.65,
+        "fontSize": 20,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "百分比、类别名称或结果标签，用于第3项。",
+        "recommendlength": "2-12"
+      },
+      {
+        "id": "claude-thesis-s22-body3",
+        "type": "text",
+        "x": 56.9,
+        "y": 72.9,
+        "width": 40.2,
+        "height": 14.3,
+        "fontSize": 12,
+        "color": "#5c5a52",
+        "align": "left",
+        "content": "",
+        "description": "解释文本，用于说明结果项3。",
+        "recommendlength": "8-35"
+      },
+      {
+        "id": "claude-thesis-s22-note",
+        "type": "text",
+        "x": 8.3,
+        "y": 80,
+        "width": 41.54,
+        "height": 9.01,
+        "fontSize": 12,
+        "color": "#c85a47",
+        "bold": true,
+        "align": "left",
+        "content": "",
+        "description": "简短注释，解释图表数据、来源或编辑说明。",
+        "recommendlength": "3-18"
       }
     ]
   }

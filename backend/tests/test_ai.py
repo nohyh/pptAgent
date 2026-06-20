@@ -334,6 +334,121 @@ def test_generate_ppt_sends_only_content_inputs_and_templates_to_llm(monkeypatch
     assert presentation.title == "Compact Deck"
 
 
+def test_generate_ppt_repairs_invalid_content_json_once(monkeypatch):
+    calls = []
+
+    async def fake_call_llm(system_prompt, _user_prompt):
+        calls.append(system_prompt)
+        if len(calls) == 1:
+            return {"choices": [{"message": {"content": "{bad ppt json"}}]}
+        return {
+            "choices": [
+                {
+                    "message": {
+                        "content": '{"slides":[{"templateId":"cover","elements":[{"id":"title","content":"Repaired Deck"}]}]}'
+                    }
+                }
+            ]
+        }
+
+    monkeypatch.setattr(
+        template_loader,
+        "load_template",
+        lambda _theme: [
+            {
+                "id": "cover",
+                "role": "cover",
+                "description": "Cover slide",
+                "elements": [
+                    {
+                        "id": "title",
+                        "type": "text",
+                        "x": 0,
+                        "y": 0,
+                        "width": 10,
+                        "height": 10,
+                        "fontSize": 20,
+                        "content": "",
+                        "description": "Main title",
+                        "recommendlength": "5-15",
+                    }
+                ],
+            }
+        ],
+    )
+    monkeypatch.setattr(presentation_generation, "call_llm", fake_call_llm)
+    request = PptRequest(
+        prompt="Make a deck",
+        title="Repaired Deck",
+        layout="16x9",
+        theme="minimalist",
+        sections=[OutlineSection(id="s1", title="Intro", content="Intro content")],
+        pageCount=2,
+    )
+
+    presentation = anyio.run(presentation_generation.generatePpt, request)
+
+    assert len(calls) == 2
+    assert "修复" in calls[1]
+    assert presentation.slides[0].elements[0].content == "Repaired Deck"
+
+
+def test_generate_ppt_prints_stage_timing_logs(monkeypatch, capsys):
+    async def fake_call_llm(_system_prompt, _user_prompt):
+        return {
+            "choices": [
+                {
+                    "message": {
+                        "content": '{"slides":[{"templateId":"cover","elements":[{"id":"title","content":"Timed Deck"}]}]}'
+                    }
+                }
+            ]
+        }
+
+    monkeypatch.setattr(
+        template_loader,
+        "load_template",
+        lambda _theme: [
+            {
+                "id": "cover",
+                "role": "cover",
+                "description": "Cover slide",
+                "elements": [
+                    {
+                        "id": "title",
+                        "type": "text",
+                        "x": 0,
+                        "y": 0,
+                        "width": 10,
+                        "height": 10,
+                        "fontSize": 20,
+                        "content": "",
+                        "description": "Main title",
+                        "recommendlength": "5-15",
+                    }
+                ],
+            }
+        ],
+    )
+    monkeypatch.setattr(presentation_generation, "call_llm", fake_call_llm)
+    request = PptRequest(
+        prompt="Make a deck",
+        title="Timed Deck",
+        layout="16x9",
+        theme="minimalist",
+        sections=[OutlineSection(id="s1", title="Intro", content="Intro content")],
+        pageCount=2,
+    )
+
+    anyio.run(presentation_generation.generatePpt, request)
+
+    output = capsys.readouterr().out
+    assert "[PPT_STAGE]" in output
+    assert "stage=template_load" in output
+    assert "stage=ppt_content" in output
+    assert "stage=template_hydration" in output
+
+
 @pytest.fixture
 def anyio_backend():
     return "asyncio"

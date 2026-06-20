@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from app.mocks import mock_presentation, minimalist_pitch_deck_mock_presentation, elegant_bachelor_thesis_mock_presentation
+from app.mocks import mock_presentation, minimalist_pitch_deck_mock_presentation
 from app.schemas import Presentation
 
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "app" / "templates"
@@ -14,8 +14,7 @@ def test_minimalist_pitch_deck_template_and_mock_are_registered():
 
     assert len(minimalist_templates) == 14
 
-    assert mock_presentation is elegant_bachelor_thesis_mock_presentation
-    assert elegant_bachelor_thesis_mock_presentation["title"] == "Elegant Bachelor Thesis"
+    assert mock_presentation is minimalist_pitch_deck_mock_presentation
     Presentation.model_validate(mock_presentation)
 
     assert minimalist_pitch_deck_mock_presentation["title"] == "Minimalist Pitch Deck"
