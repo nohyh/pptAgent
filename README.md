@@ -152,10 +152,33 @@ Recommended next optimizations:
 ## Deployment Checklist
 
 - `frontend/.env.local` and `backend/.env` are configured.
+- Frontend production build sets `VITE_API_BASE_URL` to the deployed backend origin before running `npm run build`.
 - `alembic upgrade head` has run against the target database.
 - `DEBUG_RAW_AI_RESPONSE=false` in production.
 - CORS includes the deployed frontend origin.
 - Supabase Auth email/password is enabled.
+- The backend process starts from the `backend/` directory, or its environment variables are injected by the process manager.
+- `/health` returns `{"status":"ok"}` through the deployed backend domain.
 - `npm run lint`, `npm run build`, and backend `pytest` pass.
 - A full authenticated generation smoke test succeeds.
+
+Example deployment snippets live in:
+
+- `deploy/systemd/pptagent-backend.service.example`
+- `deploy/nginx/pptagent.conf.example`
+
+Typical production commands:
+
+```bash
+cd frontend
+npm ci
+VITE_API_BASE_URL=https://your-api-domain.com npm run build
+
+cd ../backend
+python -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+alembic upgrade head
+uvicorn main:app --host 127.0.0.1 --port 8000
+```
 

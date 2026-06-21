@@ -6,6 +6,11 @@ from app.api.routes.project import router as projects_router
 
 app = FastAPI()
 
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 app.include_router(generation_router)
 app.include_router(projects_router)
 app.add_middleware(

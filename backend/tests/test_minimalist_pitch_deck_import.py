@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from app.images.planner import PENDING_IMAGE_SRC
 from app.mocks import mock_presentation, minimalist_pitch_deck_mock_presentation
 from app.schemas import Presentation
 
@@ -56,3 +57,39 @@ def test_minimalist_pitch_deck_template_and_mock_are_registered():
     assert not minimalist_pitch_deck_mock_presentation["slides"][0]["id"].startswith("minimalist-pitch-deck-slide")
 
     Presentation.model_validate(minimalist_pitch_deck_mock_presentation)
+
+
+def test_minimalist_template_image_slots_are_pending_for_generation():
+    minimalist_path = TEMPLATES_DIR / "minimalist.json"
+    with open(minimalist_path, "r", encoding="utf-8") as f:
+        minimalist_templates = json.load(f)
+
+    image_src_by_id = {
+        element["id"]: element["src"]
+        for template in minimalist_templates
+        for element in template["elements"]
+        if element["type"] == "image"
+    }
+
+    assert image_src_by_id["definition-image"] == PENDING_IMAGE_SRC
+    assert image_src_by_id["core-idea-image"] == PENDING_IMAGE_SRC
+    assert image_src_by_id["center-image"] == PENDING_IMAGE_SRC
+
+
+def test_minimalist_kpi_chart_bars_share_zero_baseline():
+    minimalist_path = TEMPLATES_DIR / "minimalist.json"
+    with open(minimalist_path, "r", encoding="utf-8") as f:
+        minimalist_templates = json.load(f)
+
+    kpi_template = next(template for template in minimalist_templates if template["id"] == "minimalist-kpi-dashboard")
+    bar_y_by_id = {
+        element["id"]: element["y"]
+        for element in kpi_template["elements"]
+        if element["id"].startswith("kpi-chart-bar-")
+    }
+
+    assert bar_y_by_id == {
+        "kpi-chart-bar-1": 68,
+        "kpi-chart-bar-2": 68,
+        "kpi-chart-bar-3": 68,
+    }

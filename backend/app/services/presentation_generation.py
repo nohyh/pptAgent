@@ -59,7 +59,7 @@ def handlePptRes(ai_res: dict[str, Any], request: PptRequest, templates: list[di
     except ValidationError as e:
         raise HTTPException(status_code=422, detail="AI 返回的格式不合规")
     except ValueError as e:
-        raise HTTPException(status_code=422, detail="AI 返回的格式不合规")
+        raise HTTPException(status_code=422, detail=f"AI 返回的模板填充不合规: {e}")
 
 
 async def generate_image_plan(presentation: Presentation) -> list[dict[str, Any]]:

@@ -122,6 +122,10 @@ def hydrate_presentation(
                     element["y"] = element["y"] + element["height"] - coerced_value
                 element[field] = coerced_value
 
+        missing_required = _missing_required_fields(slide, allowed_fields_by_id)
+        if missing_required:
+            raise ValueError(f"Missing required content: {', '.join(missing_required)}")
+
         # 生成新的随机 ID，并将完成填充的幻灯片加入列表
         slides.append(_finalize_slide(slide))
 
@@ -232,6 +236,28 @@ def _is_zero_height_placeholder(element: dict) -> bool:
     判断是否是高度为 0 且具有有效 y 轴坐标的占位块元素。
     """
     return element.get("height") == 0 and isinstance(element.get("y"), (int, float))
+
+
+def _missing_required_fields(slide: dict, allowed_fields_by_id: dict) -> list[str]:
+    missing = []
+    for element in slide.get("elements", []):
+        element_id = element.get("id")
+        for field in allowed_fields_by_id.get(element_id, set()):
+            if field not in {"content", "rows"}:
+                continue
+            if not _is_placeholder_value(element.get(field)):
+                continue
+            if _allows_blank_field(element, field):
+                continue
+            missing.append(f"{element_id}.{field}")
+    return missing
+
+
+def _allows_blank_field(element: dict, field: str) -> bool:
+    if field != "content":
+        return False
+    description = str(element.get("description") or "")
+    return "请留空" in description
 
 
 def _changes_by_id(planned_slide: dict) -> dict:

@@ -1,0 +1,16 @@
+[Unit]
+Description=pptAgent FastAPI backend
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/pptAgent/backend
+EnvironmentFile=/opt/pptAgent/backend/.env
+ExecStart=/opt/pptAgent/backend/.venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

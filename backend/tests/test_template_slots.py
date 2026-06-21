@@ -1,3 +1,6 @@
+import pytest
+from fastapi import HTTPException
+
 from app.template_engine.slots import clean_presentation, filter_templates_for_ai, hydrate_presentation
 
 from app.services.presentation_generation import handlePptRes
@@ -285,6 +288,169 @@ def test_hydrate_presentation_fills_content_without_changing_template_shape():
     assert slide["elements"][1]["src"] == ""
     assert slide["elements"][2]["y"] == 36
     assert slide["elements"][2]["height"] == 24
+
+
+def test_hydrate_presentation_rejects_missing_required_text_content():
+    templates = [
+        {
+            "id": "three-columns",
+            "role": "three-columns",
+            "elements": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "x": 1,
+                    "y": 2,
+                    "width": 30,
+                    "height": 10,
+                    "fontSize": 20,
+                    "content": "",
+                    "description": "Main title",
+                    "recommendlength": "5-15",
+                },
+                {
+                    "id": "body",
+                    "type": "text",
+                    "x": 1,
+                    "y": 20,
+                    "width": 30,
+                    "height": 20,
+                    "fontSize": 10,
+                    "content": "",
+                    "description": "Required body text.",
+                    "recommendlength": "50-80",
+                },
+            ],
+        }
+    ]
+    plan = {
+        "slides": [
+            {
+                "templateId": "three-columns",
+                "contents": [{"id": "title", "content": "Only Title"}],
+            }
+        ]
+    }
+
+    with pytest.raises(ValueError, match="Missing required content"):
+        hydrate_presentation(
+            plan,
+            templates,
+            title="Demo",
+            layout="16x9",
+            theme="minimalist",
+        )
+
+
+def test_handle_ppt_res_reports_missing_required_content_detail():
+    templates = [
+        {
+            "id": "three-columns",
+            "role": "three-columns",
+            "elements": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "x": 1,
+                    "y": 2,
+                    "width": 30,
+                    "height": 10,
+                    "fontSize": 20,
+                    "content": "",
+                    "description": "Main title",
+                    "recommendlength": "5-15",
+                },
+                {
+                    "id": "body",
+                    "type": "text",
+                    "x": 1,
+                    "y": 20,
+                    "width": 30,
+                    "height": 20,
+                    "fontSize": 10,
+                    "content": "",
+                    "description": "Required body text.",
+                    "recommendlength": "50-80",
+                },
+            ],
+        }
+    ]
+    ai_res = {
+        "choices": [
+            {
+                "message": {
+                    "content": '{"slides":[{"templateId":"three-columns","contents":[{"id":"title","content":"Only Title"}]}]}'
+                }
+            }
+        ]
+    }
+    request = PptRequest(
+        prompt="Demo",
+        title="Demo",
+        layout="16x9",
+        theme="minimalist",
+        sections=[OutlineSection(id="s1", title="Intro", content="Intro content")],
+        pageCount=2,
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        handlePptRes(ai_res, request, templates)
+
+    assert exc_info.value.status_code == 422
+    assert "Missing required content: body.content" in exc_info.value.detail
+
+
+def test_hydrate_presentation_allows_documented_optional_blank_content():
+    templates = [
+        {
+            "id": "cover",
+            "role": "cover",
+            "elements": [
+                {
+                    "id": "cover-footer-date",
+                    "type": "text",
+                    "x": 1,
+                    "y": 90,
+                    "width": 20,
+                    "height": 5,
+                    "fontSize": 10,
+                    "content": "",
+                    "description": "制作/汇报日期，如果用户没有提供，请留空。",
+                    "recommendlength": "2-10",
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "x": 1,
+                    "y": 2,
+                    "width": 30,
+                    "height": 10,
+                    "fontSize": 20,
+                    "content": "",
+                    "description": "Main title",
+                    "recommendlength": "5-15",
+                },
+            ],
+        }
+    ]
+    plan = {
+        "slides": [
+            {
+                "templateId": "cover",
+                "contents": [{"id": "title", "content": "Filled Title"}],
+            }
+        ]
+    }
+
+    presentation = hydrate_presentation(
+        plan,
+        templates,
+        title="Demo",
+        layout="16x9",
+        theme="minimalist",
+    )
+
+    assert presentation["slides"][0]["elements"][0]["content"] == ""
 
 
 def test_hydrate_presentation_fills_table_rows_without_markdown():
