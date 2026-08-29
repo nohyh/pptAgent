@@ -1,5 +1,3 @@
-<p align="right"><a href="./README.en.md">English</a> | <strong>简体中文</strong></p>
-
 # PPT Agent · AI 演示文稿生成与编辑
 
 一个围绕 **Presentation JSON** 构建的 AI PPT 生成与编辑应用。用户输入主题后，系统依次完成大纲生成、模板槽位填充、图片规划、React 编辑预览、项目持久化，并最终从同一份结构化数据导出 PPTX。
