@@ -1,72 +1,71 @@
-# PPT Agent
+<p align="right"><a href="./README.en.md">English</a> | <strong>简体中文</strong></p>
 
-An AI-powered presentation generation and editing application built around a structured **Presentation JSON** workflow. A user prompt is transformed into an editable outline, hydrated into template slots, enriched with images, rendered in a React editor, persisted as a project, and exported to PPTX from the same source of truth.
+# PPT Agent · AI 演示文稿生成与编辑
 
-## Highlights
+一个围绕 **Presentation JSON** 构建的 AI PPT 生成与编辑应用。用户输入主题后，系统依次完成大纲生成、模板槽位填充、图片规划、React 编辑预览、项目持久化，并最终从同一份结构化数据导出 PPTX。
 
-- End-to-end flow: **prompt → outline → Presentation JSON → template hydration → image planning → React editing → PPTX export**.
-- Structured generation instead of asking the model to emit arbitrary HTML or slide code.
-- FastAPI backend with Pydantic validation and a template / image orchestration pipeline.
-- React editor with Zustand state, manual slide editing, project history and recent-project caching.
-- Supabase Auth + PostgreSQL persistence with SQLAlchemy and Alembic migrations.
-- Stock-image search and AI-image generation with fallback paths.
-- Mock demo flow for testing the product without consuming model tokens.
+## 核心亮点
 
-## Current Status
+- 完整链路：**Prompt → Outline → Presentation JSON → Template Hydration → Image Planning → React Editor → PPTX Export**
+- AI 不直接生成任意 HTML / SVG / PPTX，而是先产出受约束的结构化数据
+- FastAPI + Pydantic 对模型输出做结构校验
+- React + Zustand 编辑器支持手动修改与项目状态管理
+- Supabase Auth + PostgreSQL + SQLAlchemy + Alembic 完成用户与项目持久化
+- Pexels 图片搜索与 AI 图片生成支持互相回退
+- Mock Demo 模式可在不消耗模型 Token 的情况下演示完整流程
 
-- Main generation and editing loop is working.
-- Persistence is implemented with Supabase Auth, PostgreSQL, SQLAlchemy, and Alembic.
-- Project history, cached recent projects, quota display, delete confirmation, and a mock demo path are available.
+## 架构
 
-## Architecture
-
-Presentation JSON is the single source of truth. AI does not generate final HTML, PPTX, SVG, or arbitrary page code as primary product data.
+Presentation JSON 是整个系统的 single source of truth。
 
 ```mermaid
 flowchart TD
-  A["User prompt"] --> B["Outline generation"]
-  B --> C["Editable outline"]
-  C --> D["PPT content generation"]
-  D --> E["Template hydration"]
-  E --> F["Image planning"]
-  F --> G{"Image source"}
-  G -->|Stock| H["Pexels search + CDN crop"]
-  G -->|AI| I["Image model"]
-  H --> J["Clean Presentation JSON"]
+  A["用户输入"] --> B["大纲生成"]
+  B --> C["可编辑大纲"]
+  C --> D["PPT 内容生成"]
+  D --> E["模板槽位填充"]
+  E --> F["图片规划"]
+  F --> G{"图片来源"}
+  G -->|Stock| H["Pexels"]
+  G -->|AI| I["Image Model"]
+  H --> J["Presentation JSON"]
   I --> J
-  J --> K["React editor"]
-  K --> L["Manual edits"]
-  L --> J
-  J --> M["PostgreSQL project save"]
-  J --> N["PPTX export"]
+  J --> K["React Editor"]
+  K --> J
+  J --> L["PostgreSQL"]
+  J --> M["PPTX Export"]
 ```
 
-Backend layout:
+## 技术栈
+
+- **Frontend**: React, TypeScript, Zustand, TanStack Query
+- **Backend**: Python, FastAPI, Pydantic
+- **Database**: PostgreSQL, SQLAlchemy, Alembic
+- **Auth**: Supabase Auth
+- **AI**: OpenAI-compatible LLM / image APIs
+- **Images**: Pexels + AI image generation
+
+## 目录结构
 
 ```text
-backend/main.py
-backend/app/api/routes/        FastAPI routes
-backend/app/services/          generation and project orchestration
-backend/app/ai/                LLM client, prompts, response parsing
-backend/app/template_engine/   template loading and hydration
-backend/app/images/            image planning, providers, helpers
-backend/app/templates/         curated template JSON
-backend/app/schemas.py         request/response and Presentation JSON models
+backend/
+  app/api/routes/
+  app/services/
+  app/ai/
+  app/template_engine/
+  app/images/
+  app/templates/
+frontend/
+  src/pages/
+  src/components/
+  src/stores/
+  src/lib/
+  src/types/
 ```
 
-Frontend layout:
+## 本地运行
 
-```text
-frontend/src/pages/            app pages
-frontend/src/components/       editor and shell components
-frontend/src/stores/           Zustand state
-frontend/src/lib/              API cache, errors, Supabase client
-frontend/src/types/            Presentation JSON TypeScript types
-```
-
-## Setup
-
-Backend:
+### Backend
 
 ```bash
 cd backend
@@ -78,7 +77,7 @@ alembic upgrade head
 uvicorn main:app --reload
 ```
 
-Frontend:
+### Frontend
 
 ```bash
 cd frontend
@@ -87,106 +86,32 @@ copy .env.example .env.local
 npm run dev
 ```
 
-## Environment Variables
+## 稳定性设计
 
-Backend variables live in `backend/.env`. Frontend variables live in `frontend/.env.local`.
+- 模型输出必须先解析为 Presentation JSON 才能进入编辑器
+- Pydantic 校验结构，避免非法数据污染编辑态
+- 图片生成与图库搜索均有 fallback
+- 生成额度预扣，生成失败时退款
+- 最近项目缓存与预取减少重复请求
+- Mock chain 支持无 Token 演示
 
-Required for a real run:
-
-- `API_KEY`, `BASE_URL`, `MODEL_PRO`, `MODEL_FLASH`
-- `MODEL_PHOTO` if AI image generation is used
-- `PEXELS_KEY` if stock image fulfillment is used
-- `DATABASE_URL`, `ASYNC_DATABASE_URL`
-- `SUPABASE_URL`
-- `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`
-
-Use `.env.example` files as templates. Do not commit `.env` or `.env.local`.
-
-## Testing
-
-Frontend:
+## 测试
 
 ```bash
 cd frontend
 npm run lint
 npm run build
-```
 
-Backend:
-
-```bash
-cd backend
-.venv\Scripts\Activate.ps1
+cd ../backend
 pytest
 ```
 
-Integration smoke test:
+典型端到端流程：
 
 ```text
-login -> generate outline -> generate PPT -> edit slide -> auto save -> refresh -> open recent project -> export PPTX
+login → generate outline → generate PPT → edit slide → auto save → refresh → reopen → export PPTX
 ```
 
-## Stability Notes
+---
 
-The app reduces generation failures through structured prompts, Pydantic schema validation, controlled template slots, image fallback, and clean Presentation JSON normalization.
-
-Important constraints:
-
-- AI output must be parsed into Presentation JSON before entering the editor.
-- Raw AI output and image planning logs may be printed in development, but are not stored in Presentation JSON.
-- Stock images use orientation filtering plus provider-side crop parameters to avoid deformation.
-- AI image generation can fall back to stock search, and stock search can fall back to AI generation before placeholder fallback.
-- Generation quota is pre-reserved atomically and refunded if PPT generation fails.
-
-No AI workflow can fully eliminate malformed model output. The current strategy is to fail clearly, preserve saved projects, and make retry/demo paths simple.
-
-## Performance And Token Plan
-
-Low-risk improvements already used:
-
-- Recent projects are cached with TanStack Query.
-- Project detail is prefetched on sidebar hover.
-- Generated and recently edited projects are moved to the top of the sidebar immediately.
-- The frontend can run a mock chain for demos without spending tokens.
-
-Recommended next optimizations:
-
-- Send compact template manifests to the model instead of full template JSON.
-- Generate only slot values, not repeated layout metadata.
-- Cache static template summaries on the backend.
-- Keep stock image search first for generic photo needs, and use AI images only when the prompt requires specific synthetic visuals.
-- Add stage timing logs before introducing a real async progress queue.
-- Parallelize independent image fulfillment with bounded concurrency if provider limits allow.
-
-## Deployment Checklist
-
-- `frontend/.env.local` and `backend/.env` are configured.
-- Frontend production build sets `VITE_API_BASE_URL` to the deployed backend origin before running `npm run build`.
-- `alembic upgrade head` has run against the target database.
-- `DEBUG_RAW_AI_RESPONSE=false` in production.
-- CORS includes the deployed frontend origin.
-- Supabase Auth email/password is enabled.
-- The backend process starts from the `backend/` directory, or its environment variables are injected by the process manager.
-- `/health` returns `{"status":"ok"}` through the deployed backend domain.
-- `npm run lint`, `npm run build`, and backend `pytest` pass.
-- A full authenticated generation smoke test succeeds.
-
-Example deployment snippets live in:
-
-- `deploy/systemd/pptagent-backend.service.example`
-- `deploy/nginx/pptagent.conf.example`
-
-Typical production commands:
-
-```bash
-cd frontend
-npm ci
-VITE_API_BASE_URL=https://your-api-domain.com npm run build
-
-cd ../backend
-python -m venv .venv
-. .venv/bin/activate
-pip install -r requirements.txt
-alembic upgrade head
-uvicorn main:app --host 127.0.0.1 --port 8000
-```
+这个项目主要探索：**怎样把不稳定的生成式 AI 输出约束成一个可编辑、可持久化、可导出的真实产品工作流。**
