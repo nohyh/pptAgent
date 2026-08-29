@@ -1,13 +1,22 @@
 # PPT Agent
 
-AI-powered PPT editor and generator. The app turns a user prompt into structured Presentation JSON, renders it in a React editor, supports manual edits, saves projects, and exports PPTX from the same source of truth.
+An AI-powered presentation generation and editing application built around a structured **Presentation JSON** workflow. A user prompt is transformed into an editable outline, hydrated into template slots, enriched with images, rendered in a React editor, persisted as a project, and exported to PPTX from the same source of truth.
+
+## Highlights
+
+- End-to-end flow: **prompt → outline → Presentation JSON → template hydration → image planning → React editing → PPTX export**.
+- Structured generation instead of asking the model to emit arbitrary HTML or slide code.
+- FastAPI backend with Pydantic validation and a template / image orchestration pipeline.
+- React editor with Zustand state, manual slide editing, project history and recent-project caching.
+- Supabase Auth + PostgreSQL persistence with SQLAlchemy and Alembic migrations.
+- Stock-image search and AI-image generation with fallback paths.
+- Mock demo flow for testing the product without consuming model tokens.
 
 ## Current Status
 
-- Main loop is working: outline -> PPT JSON -> template hydration -> image planning -> image fulfillment -> React preview -> PPTX export.
+- Main generation and editing loop is working.
 - Persistence is implemented with Supabase Auth, PostgreSQL, SQLAlchemy, and Alembic.
 - Project history, cached recent projects, quota display, delete confirmation, and a mock demo path are available.
-- `jamesel398@gmail.com` is treated as a demo account with unlimited generation quota and a mock mode button in the sidebar user menu.
 
 ## Architecture
 
@@ -181,4 +190,3 @@ pip install -r requirements.txt
 alembic upgrade head
 uvicorn main:app --host 127.0.0.1 --port 8000
 ```
-
